@@ -1,0 +1,32 @@
+/* Tiptap.css */
+
+/* Cuando el formulario NO está seleccionado, ya parece una hoja */
+.form-modulo-visual {
+    background: white;
+    margin: 20px auto;
+    width: 95% !important;
+    max-width: 850px;
+    min-height: 1000px;
+    padding: 60px 80px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+/* ESTO QUITA EL BORDE AZUL QUE NO TE GUSTA Y LO HACE VER COMO WORD */
+.ProseMirror-selectednode.form-modulo-visual {
+    outline: none !important;
+    /* Quita el borde azul de tu imagen */
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+    /* Le da profundidad de hoja */
+    border: 1px solid #ddd;
+}
+
+/* El fondo detrás de la caja azul */
+.hoja-interior {
+    background-color: #525659;
+    /* Gris oscuro escritorio */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+}

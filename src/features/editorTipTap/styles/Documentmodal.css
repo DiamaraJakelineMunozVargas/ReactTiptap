@@ -1,0 +1,110 @@
+/* Fondo oscuro */
+.doc-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor modal */
+.doc-container {
+  width: 900px;
+  height: 90vh;
+  background: #f1f3f5;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.doc-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Body scroll */
+.doc-body {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Hoja tipo Word */
+.ProseMirror {
+  background: white;
+  width: 794px;
+  min-height: 1123px;
+  padding: 60px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+
+/* Campos */
+[data-field] {
+  border-bottom: 1px solid black;
+  min-width: 120px;
+  display: inline-block;
+}
+
+[data-field]:empty::before {
+  content: "Escribir...";
+  color: #aaa;
+}
+
+/* Documentmodal.css */
+
+.section-title {
+  background: #2b579a;
+  color: white;
+  padding: 5px 15px;
+  font-weight: bold;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+[data-field] {
+  background-color: #f0f7ff;
+  /* Un azul muy tenue */
+  border-bottom: 2px solid #2b579a;
+  padding: 0 4px;
+  transition: all 0.2s;
+}
+
+[data-field]:focus {
+  background-color: #e1eeff;
+  outline: none;
+  border-bottom-color: #0078d4;
+}
+
+.editable-area {
+  border: 1px solid #eee;
+  padding: 10px;
+  min-height: 100px;
+  border-radius: 4px;
+}
+
+.ProseMirror {
+  background: white;
+  width: 794px;
+  /* A4 */
+  min-height: 1123px;
+  /* A4 */
+  padding: 80px 60px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ddd;
+
+
+  white-space: pre-wrap;
+  word-break: break-word;
+}
