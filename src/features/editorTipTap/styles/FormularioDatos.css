@@ -1,0 +1,102 @@
+/* Contenedor Principal */
+.formulario-datos-container {
+    background: #ffffff;
+    padding: 5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin: 50px auto;
+    max-width: 900px;
+    border: 1px solid #eef2f6;
+}
+
+/* Encabezado del Formulario */
+.formulario-datos-container header {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #f0f4f8;
+    padding-bottom: 1rem;
+}
+
+.formulario-datos-container h3 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.formulario-datos-container p {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin: 5px 0 0 0;
+}
+
+/* Grid de Inputs */
+.grid-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Dos columnas */
+    gap: 1.5rem;
+}
+
+/* Grupos de Input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Ocupar toda la fila para textareas (Diagnóstico/Prescripción) */
+.full-width {
+    grid-column: span 2;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #34495e;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Estilo de los Inputs y Textareas */
+.input-group input,
+.input-group textarea {
+    padding: 12px 15px;
+    border: 1.5px solid #dcdde1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fcfcfc;
+    font-family: inherit;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+}
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Placeholders */
+::placeholder {
+    color: #bdc3c7;
+    font-size: 0.9rem;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 600px) {
+    .grid-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+}

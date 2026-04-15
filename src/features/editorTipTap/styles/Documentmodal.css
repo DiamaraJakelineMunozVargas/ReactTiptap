@@ -108,3 +108,42 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* Bloqueamos la selección y el cursor en toda la hoja */
+.tiptap {
+  cursor: default;
+}
+
+/* Solo permitimos cursor de texto y clics dentro de los campos */
+.tiptap .doc-field,
+.tiptap [data-field] {
+  cursor: text;
+  user-select: text;
+}
+
+/* Opcional: Si Tiptap crea párrafos vacíos automáticamente, los ocultamos */
+.tiptap>p:first-child:empty,
+.tiptap>p:last-child:empty {
+  display: none;
+  pointer-events: none;
+}
+
+.doc-field {
+  display: inline-block;
+  /* Para que acepte ancho y alto */
+  min-width: 150px;
+  /* Para que no desaparezca si está vacío */
+  min-height: 1.2em;
+  /* Altura de una línea de texto */
+  border-bottom: 1px dotted #2980b9;
+  padding: 0 5px;
+  outline: none;
+  /* Quita el borde azul feo al hacer clic */
+}
+
+/*Mostrar el placeholder*/
+.doc-field:empty::before {
+  content: attr(data-placeholder);
+  color: #aaa;
+  font-style: italic;
+}
