@@ -2,7 +2,7 @@
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import FormModuloExtension from '../extensions/ExtensionModulo';
-
+import React, { useEffect } from 'react';
 import Field from '../extensions/FieldExtension';
 import '../styles/DocumentModal.css';
 
@@ -68,6 +68,12 @@ export default function DocumentoModal({ onEditorInit, contenidoInicial }) {
       }
     }
   });
+  useEffect(() => {
+    if (editor && contenidoInicial) {
+
+      editor.commands.setContent(contenidoInicial);
+    }
+  }, [contenidoInicial, editor]);
   console.log(contenidoInicial)
   return (
     <div className="documento-wrapper">

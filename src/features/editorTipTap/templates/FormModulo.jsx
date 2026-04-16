@@ -3,7 +3,15 @@ import React from 'react';
 import { recetaSchema } from './plantilla';
 import '../styles/Receta.css';
 
-const FormModulo = () => {
+const FormModulo = (props) => {
+    const { paciente, edad, diagnostico, prescripcion, indicaciones } = props.node.attrs;
+    const valoresDeAtributos = {
+        paciente,
+        edad,
+        diagnostico,
+        prescripcion,
+        indicaciones
+    };
     return (
         <NodeViewWrapper className="form-modulo-visual">
             <div className="receta-container">
@@ -26,9 +34,9 @@ const FormModulo = () => {
                                 data-field
                                 className="doc-field"
                                 data-placeholder={seccion.placeholder}
-                                contentEditable={true}
+                            // contentEditable={true}
                             >
-
+                                {valoresDeAtributos[seccion.id] || ''}
                             </span>
                         </div>
                     ))}

@@ -4,16 +4,15 @@ import Toolbar from './editorTipTap/componentes/Toolbar';
 import ModalEditor from '../shared/Modal/ModalEditor';
 import FormularioDatos from './editorTipTap/componentes/FormularioDAtos';
 import { prepararContenidoReceta } from './editorTipTap/services/RecetaService';
+import BuscadorMedicamentos from './editorTipTap/componentes/Buscador';
+import { useReceta } from './editorTipTap/services/useReceta';
 
 const Tiptap = () => {
     const [modalAbierto, setModalAbierto] = useState(false);
     const [editorInstance, setEditorInstance] = useState(false);
-    const [datosReceta, setDatosReceta] = useState({
-        paciente: '', edad: '', diagnostico: '', prescripcion: ''
-    });
-
+    const { datosReceta, setDatosReceta, manejarSeleccionMedicamento } = useReceta();
     const comandos = {
-        // Al abrir el modal, el editor nacerá con el HTML que generamos arriba
+
         mostrarReceta: () => {
             setModalAbierto(true);
         },
@@ -52,36 +51,26 @@ const Tiptap = () => {
                     Confirmar Datos
                 </button>
             </div>
-
             <ModalEditor
                 isOpen={modalAbierto}
                 onClose={() => setModalAbierto(false)}
                 titulo="Generación de Receta Médica"
             >
-                {modalAbierto && (
-                    <DocumentoModal
-                        onEditorInit={(editor) => setEditorInstance(editor)}
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <BuscadorMedicamentos alSeleccionar={manejarSeleccionMedicamento} />
 
-                        contenidoInicial={prepararContenidoReceta(datosReceta)}
-                    />
-                )}
+                    <div style={{ flex: 1, overflowY: 'auto', backgroundColor: '#f0f2f5', padding: '40px 0', display: 'flex', justifyContent: 'center' }}>
+                        {modalAbierto && (
+                            <DocumentoModal
+                                onEditorInit={(editor) => setEditorInstance(editor)}
+                                contenidoInicial={prepararContenidoReceta(datosReceta)}
+                            />
+                        )}
+                    </div>
+                </div>
             </ModalEditor>
         </div>
-        // <div className="editor-main-container">
 
-        //     <Toolbar editor={editorInstance} comandos={{
-        //         insertarFormulario: () => setModalAbierto(true),
-        //         guardar: () => console.log("Guardado!")
-        //     }} />
-        //     <FormularioDatos datos={datosReceta} setDatos={setDatosReceta} />
-
-        //     <ModalEditor isOpen={modalAbierto} onClose={() => setModalAbierto(false)}>
-        //         <DocumentoModal
-        //             onEditorInit={(editor) => setEditorInstance(editor)}
-        //             datosPrellenados={datosReceta}
-        //         />
-        //     </ModalEditor>
-        // </div>
     );
 };
 

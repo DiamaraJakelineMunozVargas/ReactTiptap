@@ -16,6 +16,7 @@ export default Node.create({
             edad: { default: '' },
             diagnostico: { default: '' },
             prescripcion: { default: '' },
+            indicaciones: { default: '' }
         };
     },
     addKeyboardShortcuts() {

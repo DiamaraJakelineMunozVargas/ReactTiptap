@@ -31,6 +31,10 @@ const FormularioDatos = ({ datos, setDatos }) => {
                     <label>Prescripción (RP)</label>
                     <textarea name="prescripcion" value={datos.prescripcion} onChange={handleChange} placeholder="Medicamentos y dosis..." />
                 </div>
+                <div className="input-group full-width">
+                    <label>Indicaciones(RP)</label>
+                    <textarea name="indicaciones" value={datos.indicaciones} onChange={handleChange} placeholder="Tomar después de las comidas..." />
+                </div>
             </div>
         </div>
     );
