@@ -10,7 +10,11 @@ const List = ({ data, setSelectedNote }) => {
                         key={note._id}
                         onClick={() => {
                             console.log("CLIC EN NOTA:", note.title, note.name);
-                            setSelectedNote(note)
+                            window.open(
+                                `/reports/${note._id}`,
+                                "_blank",
+                                "width=800,height=600,resizable=yes"
+                            );
                         }}
                         className="list-row hover:bg-base-200 transition cursor-pointer"
                     >

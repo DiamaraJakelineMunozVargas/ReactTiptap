@@ -4,7 +4,8 @@ import CrearNote from './pages/CreateNote';
 import { useEffect, useState } from 'react';
 import axios from "axios"
 import { Routes, Route } from 'react-router-dom';
-import NavbarCompo from './componentes/NavbarCompo';
+
+import Reports from './pages/reports';
 const apiurl = import.meta.env.VITE_API_URL;
 
 const App = () => {
@@ -50,12 +51,13 @@ const App = () => {
 	return (
 		<>
 
-			<NavbarCompo selectedNote={selectedNote} onUpdate={handleUpdateNote} />
+			{/* <NavbarCompo selectedNote={selectedNote} onUpdate={handleUpdateNote} /> */}
 			<div className='w-full max-w-[1540px] mx-auto'>
 
 				<Routes>
 
 					<Route path='/' element={<Inicio data={infoPat.data} setSelectedNote={setSelectedNote} />} />
+					<Route path='/reports/:nota_id' Component={Reports} />
 					<Route path='/createNote' element={<CrearNote />} />
 				</Routes>
 			</div>

@@ -16,6 +16,7 @@ const ModalComponente = ({ selectedNote, onUpdate, isOpen }) => {
 
     }, [isOpen])
 
+
     return (
         <dialog ref={dialogref} id="my_modal_3" className="modal">
             <DraggableModal handle=".handle">

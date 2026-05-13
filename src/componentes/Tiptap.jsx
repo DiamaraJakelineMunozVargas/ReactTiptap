@@ -2,8 +2,8 @@ import { useEditor, EditorContent, EditorContext } from '@tiptap/react'
 import { FloatingMenu, BubbleMenu } from '@tiptap/react/menus'
 import StarterKit from '@tiptap/starter-kit'
 import { useMemo, useEffect } from 'react'
-import "../styles/styletiptap.css";
 
+import Toolbar from './Wordtoolbar';
 
 const Tiptap = ({ content, editable, onChange }) => {
     const editor = useEditor({
@@ -21,13 +21,9 @@ const Tiptap = ({ content, editable, onChange }) => {
             editor.setEditable(editable);
         }
     }, [editable, editor]);
+
     useEffect(() => {
-        if (editor && content) {
-            editor.commands.focus();
-        }
-    })
-    useEffect(() => {
-        if (editor && content) {
+        if (editor && content !== editor.getText()) {
 
             editor.commands.setContent(content);
         }
@@ -39,8 +35,14 @@ const Tiptap = ({ content, editable, onChange }) => {
 
     return (
         <EditorContext.Provider value={providerValue}>
+            <div className='sticky top-0 z-50 bg-white border-b mb-6 p-2 flex gap-2'>
+                <Toolbar editor={editor} />
+            </div>
+            <div >
+                <EditorContent editor={editor} />
+            </div>
 
-            <EditorContent editor={editor} />
+
             <FloatingMenu editor={editor}></FloatingMenu>
             <BubbleMenu editor={editor}></BubbleMenu>
         </EditorContext.Provider>

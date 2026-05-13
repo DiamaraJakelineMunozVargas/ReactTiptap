@@ -40,12 +40,12 @@ function ContenidoModalTipTap({ selectedNote, onUpdate }) {
             {/* contenido */}
             <div className="reporte-contenido border-2 border-dashed border-base-300 p-4 rounded-lg transition-colors">
                 <h2 className="font-bold mb-2 text-shadow-black">Contenido:</h2>
-                <Tiptap
+                {/* <Tiptap
                     key={selectedNote._id}
                     content={selectedNote.content}
                     editable={true}
                     onChange={setCurrentContent}
-                />
+                /> */}
             </div>
 
             {/* --- PIE DE PÁGINA FIJO --- */}
