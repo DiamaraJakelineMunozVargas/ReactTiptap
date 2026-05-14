@@ -3,43 +3,43 @@ const Wordtoolbar = ({ editor }) => {
     return (
         <div className='flex gap-2'>
             <div className="button-group ">
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
                     className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
                 >
                     H1
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
                     className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
                 >
                     H2
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
                     className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
                 >
                     H3
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().setParagraph().run()}
                     className={editor.isActive('paragraph') ? 'is-active' : ''}
                 >
                     Paragraph
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     className={editor.isActive('bold') ? 'is-active' : ''}
                 >
                     Bold
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     className={editor.isActive('italic') ? 'is-active' : ''}
                 >
                     Italic
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().toggleStrike().run()}
                     className={editor.isActive('strike') ? 'is-active' : ''}
                 >
@@ -51,13 +51,13 @@ const Wordtoolbar = ({ editor }) => {
                 >
                     Highlight
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().setTextAlign('left').run()}
                     className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
                 >
                     Left
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().setTextAlign('center').run()}
                     className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
                 >
@@ -69,7 +69,7 @@ const Wordtoolbar = ({ editor }) => {
                 >
                     Right
                 </button>
-                <button
+                <button type="button"
                     onClick={() => editor.chain().focus().setTextAlign('justify').run()}
                     className={editor.isActive({ textAlign: 'justify' }) ? 'is-active' : ''}
                 >

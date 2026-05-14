@@ -26,14 +26,14 @@ const NavbarCompo = ({ selectedNote, onUpdate }) => {
                             <PlusIcon />
                             Crear una nota
                         </NavLink>
-                        <button
+                        {/* <button
                             className="btn btn-soft btn-primary text-[1.1em]"
                             onClick={abrirModal}
                             disabled={!selectedNote}
                         >
                             <BookText />
                             Reporte
-                        </button>
+                        </button> */}
                     </div>
 
                 </div>

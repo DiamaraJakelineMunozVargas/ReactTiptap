@@ -1,33 +1,13 @@
-import { useEditor, EditorContent, EditorContext } from '@tiptap/react'
+import { EditorContent, EditorContext } from '@tiptap/react'
 import { FloatingMenu, BubbleMenu } from '@tiptap/react/menus'
-import StarterKit from '@tiptap/starter-kit'
-import { useMemo, useEffect } from 'react'
 
-import Toolbar from './Wordtoolbar';
+import { useMemo } from 'react'
+import "../styles/styletiptap.css"
 
-const Tiptap = ({ content, editable, onChange }) => {
-    const editor = useEditor({
-        extensions: [StarterKit],
-        content: content,
-        editable: editable,
-        onUpdate: ({ editor }) => {
-            if (onChange) {
-                onChange(editor.getText());
-            }
-        },
-    });
-    useEffect(() => {
-        if (editor) {
-            editor.setEditable(editable);
-        }
-    }, [editable, editor]);
 
-    useEffect(() => {
-        if (editor && content !== editor.getText()) {
+const Tiptap = ({ editor }) => {
 
-            editor.commands.setContent(content);
-        }
-    }, [content, editor]);
+
 
     const providerValue = useMemo(() => ({ editor }), [editor])
 
@@ -35,12 +15,11 @@ const Tiptap = ({ content, editable, onChange }) => {
 
     return (
         <EditorContext.Provider value={providerValue}>
-            <div className='sticky top-0 z-50 bg-white border-b mb-6 p-2 flex gap-2'>
-                <Toolbar editor={editor} />
-            </div>
-            <div >
-                <EditorContent editor={editor} />
-            </div>
+
+
+
+            <EditorContent editor={editor} />
+
 
 
             <FloatingMenu editor={editor}></FloatingMenu>

@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from "axios"
-import Tiptap from '../componentes/Tiptap'
 
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+
+import DocumentoEditor from '../componentes/DocumentoEditor'
 
 const Reports = () => {
     const [state, setstate] = useState({
@@ -24,7 +27,6 @@ const Reports = () => {
         })();
     }, [])
 
-    if (!state.ready) { return <div>Loading...</div> }
 
     const handleContentChange = (newContent) => {
         setstate(prev => ({
@@ -32,42 +34,56 @@ const Reports = () => {
             nota: { ...prev.nota, content: newContent }
         }));
     };
+    const handleCreate = async () => {
+        try {
+
+        }
+        catch (error) {
+            console.error(error)
+        }
+    }
+    const editor = useEditor({
+        extensions: [StarterKit],
+        content: "",
+        onUpdate: ({ editor }) => {
+            handleContentChange(editor.getHTML())
+        },
+    })
+
+    useEffect(() => {
+        if (
+            editor &&
+            state.nota?.content &&
+            editor.isEmpty
+        ) {
+            editor.commands.setContent(state.nota.content)
+        }
+
+    }, [editor, state.nota?.content])
+    if (!state.ready) { return <div>Loading...</div> }
 
     const fechaFormateada = new Date(state.nota.date).toLocaleDateString('es-ES', {
         year: 'numeric', month: 'long', day: 'numeric'
     });
+
     return (
 
-        <div className="bg-gray-200 min-h-screen py-12 flex justify-center text-black">
 
-            <div className="bg-white w-[21cm] min-h-[29.7cm] p-[2.5cm] shadow-2xl ring-1 ring-black/5">
+        <div>
+            <DocumentoEditor
 
-
-                <div className="text-center border-b-2 border-black pb-6 mb-8">
-                    <h1 className="text-3xl font-serif font-bold uppercase tracking-tighter">Reporte Oficial</h1>
-                    <p className="text-sm italic">Documento generado vía Sistema de Notas</p>
-                    <p className="text-sm opacity-60">Fecha de emisión:  {fechaFormateada}</p>
-                </div>
-
-
-                <div className="mb-6 space-y-2">
-                    <p><strong>Nombre:</strong> {state.nota.name}</p>
-                    <p><strong>Titulo:</strong> {state.nota.title}</p>
-                </div>
-
-
-                <div className="reporte-contenido ">
-                    <h2 className="font-bold mb-2 text-shadow-black">Contenido:</h2>
-
-                    <Tiptap
-                        key={state.nota._id}
-                        content={state.nota.content}
-                        editable={true}
-                        onChange={handleContentChange}
-                    />
-                </div>
-            </div>
+                editor={editor}
+                nota={state.nota}
+                fechaFormateada={fechaFormateada} />
+            {/* <Tiptap
+                key={state.nota._id}
+                content={state.nota.content}
+                editable={true}
+                onChange={handleContentChange}
+            /> */}
         </div>
+
+
 
     )
 }

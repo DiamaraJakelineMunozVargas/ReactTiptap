@@ -1,13 +1,3 @@
-/* El "fondo" donde descansa la hoja */
-.reporte-container {
-
-    /* Gris claro tipo escritorio */
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-
-}
-
 /* La hoja de papel */
 .ProseMirror {
     background: white;
@@ -17,7 +7,7 @@
     max-width: 850px;
     min-height: 1000px;
 
-    padding: 80px;
+
 
     outline: none;
 
@@ -53,15 +43,14 @@
 }
 
 .reporte-seccion {
-    margin: 20px 0;
+
     font-size: 16px;
 }
 
 .reporte-contenido h2 {
     font-size: 18px;
     border-bottom: 1px solid #e5e7eb;
-    margin-top: 30px;
-    margin-bottom: 10px;
+
 
 }
 
@@ -74,8 +63,4 @@
 .reporte-footer {
     margin-top: 100px;
     text-align: center;
-}
-
-.firma {
-    display: inline-block;
 }

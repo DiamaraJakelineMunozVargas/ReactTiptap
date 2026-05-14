@@ -1,5 +1,5 @@
 import DraggableModal from "./DraggableModal";
-import ContenidoModalTipTap from "./ContenidoModal";
+
 import { useEffect, useRef } from "react";
 
 
@@ -29,7 +29,7 @@ const ModalComponente = ({ selectedNote, onUpdate, isOpen }) => {
                     </div>
 
                     <div className="p-6 ">
-                        <ContenidoModalTipTap selectedNote={selectedNote} onUpdate={onUpdate} />
+                        {/* <ContenidoModalTipTap selectedNote={selectedNote} onUpdate={onUpdate} /> */}
                     </div>
                 </div>
             </DraggableModal>
