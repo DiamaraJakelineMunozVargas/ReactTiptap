@@ -31,13 +31,13 @@ const Wordtoolbar = ({ editor }) => {
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     className={editor.isActive('bold') ? 'is-active' : ''}
                 >
-                    Bold
+                    N
                 </button>
                 <button type="button"
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     className={editor.isActive('italic') ? 'is-active' : ''}
                 >
-                    Italic
+                    K
                 </button>
                 <button type="button"
                     onClick={() => editor.chain().focus().toggleStrike().run()}
