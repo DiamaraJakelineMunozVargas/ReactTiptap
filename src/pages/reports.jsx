@@ -5,7 +5,7 @@ import axios from "axios"
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
-import DocumentoEditor from '../componentes/DocumentoEditor'
+import DocumentoEditor from '../components/DocumentoEditor'
 
 const Reports = () => {
     const [state, setstate] = useState({
@@ -34,22 +34,31 @@ const Reports = () => {
             nota: { ...prev.nota, content: newContent }
         }));
     };
-    const handleCreate = async () => {
-        try {
 
-        }
-        catch (error) {
-            console.error(error)
-        }
-    }
     const editor = useEditor({
         extensions: [StarterKit],
         content: "",
         onUpdate: ({ editor }) => {
-            handleContentChange(editor.getHTML())
+            handleContentChange(editor.getText())
         },
     })
+    const handleSave = async () => {
 
+        try {
+
+            await axios.put(
+                `http://localhost:3000/notas/${params.nota_id}`,
+                state.nota
+            )
+
+            alert("Guardado correctamente")
+
+        } catch (error) {
+
+            console.error(error)
+
+        }
+    }
     useEffect(() => {
         if (
             editor &&
@@ -74,7 +83,8 @@ const Reports = () => {
 
                 editor={editor}
                 nota={state.nota}
-                fechaFormateada={fechaFormateada} />
+                fechaFormateada={fechaFormateada}
+                handleSave={handleSave} />
             {/* <Tiptap
                 key={state.nota._id}
                 content={state.nota.content}
