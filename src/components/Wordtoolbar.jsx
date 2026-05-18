@@ -1,6 +1,6 @@
 import "../styles/toolbar.css"
-import { Undo2, Redo2, Bold, Italic, List, ListOrdered, Underline, Save } from "lucide-react"
-const Wordtoolbar = ({ editor, handleSave }) => {
+import { Undo2, Redo2, Bold, Italic, List, ListOrdered, Underline, Save, FileDown } from "lucide-react"
+const Wordtoolbar = ({ editor, handleSave, handlePrint }) => {
 
 
     if (!editor) return null
@@ -64,6 +64,9 @@ const Wordtoolbar = ({ editor, handleSave }) => {
                     </button>
                 </div>
                 <div className="flex ml-auto gap-5">
+                    <button className="btn btn-soft btn-ghost font-bold" onClick={handlePrint}>
+                        <FileDown size={18} /> Imprimir
+                    </button>
                     <button className="btn btn-soft btn-ghost font-bold" onClick={handleSave}>
                         <Save size={18} /> Guardar
                     </button>

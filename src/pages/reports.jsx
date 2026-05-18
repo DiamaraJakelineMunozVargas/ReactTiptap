@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from "axios"
-
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-
 import DocumentoEditor from '../components/DocumentoEditor'
+import { useReactToPrint } from "react-to-print"
+import { useState, useEffect, useRef } from 'react'
 
 const Reports = () => {
     const [state, setstate] = useState({
@@ -59,6 +58,11 @@ const Reports = () => {
 
         }
     }
+    const printRef = useRef(null)
+    const handlePrint = useReactToPrint({
+        contentRef: printRef,
+        documentTitle: "reporte"
+    })
     useEffect(() => {
         if (
             editor &&
@@ -84,7 +88,11 @@ const Reports = () => {
                 editor={editor}
                 nota={state.nota}
                 fechaFormateada={fechaFormateada}
-                handleSave={handleSave} />
+                handleSave={handleSave}
+                handlePrint={handlePrint}
+                printRef={printRef}
+
+            />
             {/* <Tiptap
                 key={state.nota._id}
                 content={state.nota.content}
