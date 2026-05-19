@@ -1,15 +1,16 @@
 
 import Tiptap from "./Tiptap";
-
+import "../styles/documento.css"
 import Wordtoolbar from "./Wordtoolbar";
+
 function DocumentoEditor({ editor, nota, fechaFormateada, handleSave, handlePrint, printRef }) {
 
     return (
-        <div>
+        <div >
             <Wordtoolbar editor={editor} handleSave={handleSave} handlePrint={handlePrint} />
-            <div className="bg-base-200 min-h-screen py-12 flex justify-center text-black">
+            <div className="bg-base-200 flex justify-center text-black">
 
-                <div ref={printRef} className="bg-white w-[21cm] min-h-[29.7cm] p-[2.5cm] shadow-2xl ring-1 ring-black/5">
+                <div ref={printRef} className=" documento-pdf bg-white shadow-2xl ring-1 ring-black/5">
 
 
                     <div className="text-center border-b-2 border-black pb-6 mb-8 rounded-sm">
@@ -25,7 +26,7 @@ function DocumentoEditor({ editor, nota, fechaFormateada, handleSave, handlePrin
                     </div>
 
 
-                    <div className="reporte-contenido ">
+                    <div className="reporte-contenido">
                         <h2 className="font-bold mb-2 text-shadow-black">Contenido:</h2>
                         <Tiptap editor={editor} />
                         {/* <Tiptap

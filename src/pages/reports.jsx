@@ -5,6 +5,10 @@ import StarterKit from '@tiptap/starter-kit'
 import DocumentoEditor from '../components/DocumentoEditor'
 import { useReactToPrint } from "react-to-print"
 import { useState, useEffect, useRef } from 'react'
+import { TextStyle } from '@tiptap/extension-text-style'
+import { FontFamily } from '@tiptap/extension-font-family'
+import { Underline } from '@tiptap/extension-underline'
+import FontSize from '../extensions/FontSize'
 
 const Reports = () => {
     const [state, setstate] = useState({
@@ -35,10 +39,10 @@ const Reports = () => {
     };
 
     const editor = useEditor({
-        extensions: [StarterKit],
+        extensions: [StarterKit, TextStyle, FontFamily, FontSize, Underline],
         content: "",
         onUpdate: ({ editor }) => {
-            handleContentChange(editor.getText())
+            handleContentChange(editor.getHTML())
         },
     })
     const handleSave = async () => {

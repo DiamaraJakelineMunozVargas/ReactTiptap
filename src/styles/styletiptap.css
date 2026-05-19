@@ -1,27 +1,21 @@
 /* La hoja de papel */
 .ProseMirror {
-    background: white;
+    background: transparent;
     color: black;
-
     width: 100%;
-    max-width: 850px;
-    min-height: 1000px;
-
-
 
     outline: none;
-
     font-family: Arial, sans-serif;
-    line-height: 1.8;
-
+    line-height: 1.6;
     text-align: left;
-
     caret-color: black;
     cursor: text;
+
 }
 
 .ProseMirror p {
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
 }
 
 /* Estilos internos del reporte */

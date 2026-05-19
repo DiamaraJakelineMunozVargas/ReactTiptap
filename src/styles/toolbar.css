@@ -95,3 +95,47 @@
          margin: 2rem 0;
      }
  }
+
+ .toolbar-btn {
+     width: 34px;
+     height: 34px;
+     border-radius: 6px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     transition: 0.15s;
+ }
+
+ .toolbar-btn:hover {
+     background: #e4e4e4;
+ }
+
+ .active-toolbar-btn {
+     background: #dbeafe;
+ }
+
+ .toolbar-select {
+     height: 34px;
+     border: 1px solid #d1d5db;
+     border-radius: 6px;
+     padding: 0 10px;
+     background: white;
+     font-size: 14px;
+ }
+
+ .toolbar-action-btn {
+     height: 34px;
+     padding: 0 14px;
+     border-radius: 6px;
+     border: 1px solid #d1d5db;
+     background: white;
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     font-size: 14px;
+     transition: 0.15s;
+ }
+
+ .toolbar-action-btn:hover {
+     background: #f3f4f6;
+ }
