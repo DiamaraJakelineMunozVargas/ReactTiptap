@@ -51,7 +51,7 @@
 .texto-principal {
     text-align: justify;
     white-space: pre-wrap;
-    /* Respeta los saltos de línea */
+
 }
 
 .reporte-footer {
