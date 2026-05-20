@@ -7,8 +7,9 @@ import { useReactToPrint } from "react-to-print"
 import { useState, useEffect, useRef } from 'react'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { FontFamily } from '@tiptap/extension-font-family'
-import { Underline } from '@tiptap/extension-underline'
+import ResizeImage from 'tiptap-extension-resize-image'
 import FontSize from '../extensions/FontSize'
+import { UnderlineStyle } from '../extensions/Underline'
 
 const Reports = () => {
     const [state, setstate] = useState({
@@ -39,11 +40,44 @@ const Reports = () => {
     };
 
     const editor = useEditor({
-        extensions: [StarterKit, TextStyle, FontFamily, FontSize, Underline],
+        extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle, ResizeImage],
         content: "",
         onUpdate: ({ editor }) => {
             handleContentChange(editor.getHTML())
         },
+        editorProps:{
+            handlePaste(view, event) {
+
+            const items = event.clipboardData?.items
+
+            if (!items) return false
+
+            for (const item of items) {
+
+                if (item.type.startsWith('image')) {
+
+                    const file = item.getAsFile()
+
+                    const reader = new FileReader()
+
+                    reader.onload = () => {
+
+                        const src = reader.result
+
+                        editor.chain().focus().setImage({
+                            src,
+                        }).run()
+                    }
+
+                    reader.readAsDataURL(file)
+
+                    return true
+                }
+            }
+
+            return false
+        },
+        }
     })
     const handleSave = async () => {
 

@@ -1,64 +1,47 @@
-import { Extension } from '@tiptap/core'
+import { Mark, mergeAttributes } from '@tiptap/core'
 
-const UnderlineStyle = Extension.create({
+export const UnderlineStyle = Mark.create({
     name: 'underlineStyle',
 
-    addGlobalAttributes() {
+    addAttributes() {
+        return {
+            style: {
+                default: 'solid',
+            },
+        }
+    },
+
+    parseHTML() {
         return [
             {
-                types: ['textStyle'],
-                attributes: {
-                    underlineStyle: {
-                        default: null,
-
-                        parseHTML: element => {
-                            return element.style.textDecorationStyle
-                        },
-
-                        renderHTML: attributes => {
-
-                            if (!attributes.underlineStyle) {
-                                return {}
-                            }
-
-                            return {
-                                style: `
-                                    text-decoration-line: underline;
-                                    text-decoration-style: ${attributes.underlineStyle};
-                                `,
-                            }
-                        },
-                    },
-                },
+                tag: 'span[data-underline]',
             },
+        ]
+    },
+
+    renderHTML({ HTMLAttributes }) {
+        return [
+            'span',
+            mergeAttributes(HTMLAttributes, {
+                'data-underline': '',
+                style: `
+          text-decoration-line: underline;
+          text-decoration-style: ${HTMLAttributes.style};
+        `,
+            }),
+            0,
         ]
     },
 
     addCommands() {
         return {
             setUnderlineStyle:
-                underlineStyle =>
-                    ({ chain }) => {
-
-                        return chain()
-                            .setMark('textStyle', {
-                                underlineStyle,
-                            })
-                            .run()
-                    },
-
-            unsetUnderlineStyle:
-                () =>
-                    ({ chain }) => {
-
-                        return chain()
-                            .setMark('textStyle', {
-                                underlineStyle: null,
-                            })
-                            .run()
+                (style) =>
+                    ({ commands }) => {
+                        return commands.setMark(this.name, {
+                            style,
+                        })
                     },
         }
     },
 })
-
-export default UnderlineStyle

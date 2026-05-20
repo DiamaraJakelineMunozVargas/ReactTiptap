@@ -18,6 +18,10 @@ const noteSchema = new mongoose.Schema({
     content: {
         type: String,
         default: ""
+    },
+    tipo: {
+        type: String,
+        default: ""
     }
 })
 const Note = new mongoose.model('Note', noteSchema)
