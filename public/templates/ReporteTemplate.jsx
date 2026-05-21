@@ -25,7 +25,9 @@ function ReporteTemplate({ children, nota, fechaFormateada, printRef }) {
           size={90}
           bgColor="#ffffff"
           fgColor="#000000"
+         
         />
+     
       </div>
 
       <div className="mb-6 space-y-2">
