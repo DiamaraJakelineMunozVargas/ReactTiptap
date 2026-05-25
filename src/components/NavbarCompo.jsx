@@ -13,7 +13,7 @@ const NavbarCompo = ({ selectedNote, onUpdate }) => {
     };
     return (
         <>
-            <header className="navbar bg-base-300 py-8 mb-10">
+            <header className="navbar bg-base-300 py-8 mb-15">
                 <div className="w-full max-w-[1500px] mx-auto flex items-center justify-between">
                     <NavLink className={"text-3xl font-bold"} to={"/"}>
                         NoteApp

@@ -20,7 +20,7 @@ const App = () => {
 	useEffect(() => {
 		(async () => {
 			try {
-				const response = await axios.get(`${apiurl}/notas`);
+				const response = await axios.get(`${apiurl}/pacientes`);
 				const data = response.data;
 				setinfoPat({ ready: true, data })
 			} catch (error) {
@@ -31,7 +31,7 @@ const App = () => {
 
 	const handleUpdateNote = async (id, updatedData) => {
 		try {
-			const response = await axios.put(`${apiurl}/notas/${id}`, updatedData);
+			const response = await axios.put(`${apiurl}/pacientes/${id}`, updatedData);
 
 
 			setinfoPat(prev => ({
@@ -52,12 +52,12 @@ const App = () => {
 		<>
 
 			{/* <NavbarCompo selectedNote={selectedNote} onUpdate={handleUpdateNote} /> */}
-			<div className='w-full max-w-[1540px] mx-auto'>
+			<div className='w-full '>
 
 				<Routes>
 
 					<Route path='/' element={<Inicio data={infoPat.data} setSelectedNote={setSelectedNote} />} />
-					<Route path='/reports/:nota_id' Component={Reports} />
+					<Route path='/reports/:paciente_id' Component={Reports} />
 					<Route path='/createNote' element={<CrearNote />} />
 				</Routes>
 			</div>

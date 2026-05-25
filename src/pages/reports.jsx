@@ -20,7 +20,8 @@ const Reports = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/notas/${params.nota_id}`);
+                const response = await axios.get(`http://localhost:3000/pacientes/completo/${params.paciente_id}`);
+                console.log(response.data);
                 setstate({
                     ready: true,
                     nota: response.data
@@ -84,7 +85,7 @@ const Reports = () => {
         try {
 
             await axios.put(
-                `http://localhost:3000/notas/${params.nota_id}`,
+                `http://localhost:3000/pacientes/${params.paciente_id}`,
                 state.nota
             )
 

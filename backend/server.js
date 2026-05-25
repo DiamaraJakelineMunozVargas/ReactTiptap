@@ -1,5 +1,6 @@
 import express from 'express';
-import router from './routes/routesRoutes.js';
+import router from './routes/routesPaciente.js';
+import routerEstudio from './routes/routesEstudio.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -12,8 +13,8 @@ app.use(cors({
 }))
 //Midleware 
 app.use(express.json()) //para recibir archivo json 
-app.use('/notas', router)
-
+app.use('/pacientes', router)
+app.use('/estudios', routerEstudio)
 
 const PORT = process.env.PORT || 3000;
 

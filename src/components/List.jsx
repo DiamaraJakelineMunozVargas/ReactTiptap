@@ -38,7 +38,7 @@ const List = ({ data, setSelectedNote }) => {
 
                         </div>
                         <div className=" flex justify-between items-end text-xs opacity-60 p-2 ">
-                            {new Date(note.date).toLocaleDateString()}
+                            {new Date(note.fechaNacimiento).toLocaleDateString()}
                         </div>
 
                         {/* <button className="btn btn-primary btn-sm">Abrir</button> */}

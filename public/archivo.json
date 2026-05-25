@@ -1,0 +1,102 @@
+[
+    {
+        "ID": 2245,
+        "FECHA": 20260511,
+        "NOMBRE": "SERRANO^YENNY",
+        "SEXO": "",
+        "PAS_ID": "13693246",
+        "PAS_BD": "",
+        "EST_UID": "719a478f-abb3f083-5cccbd80-e539b8ce-f85089df",
+        "INFORM": [
+            "719a478f-abb3f083-5cccbd80-e539b8ce-f85089df--0"
+        ],
+        "SERIES": [
+            {
+                "SER_UID": 2246,
+                "SER_ID": "c0ce4c5a-921ad345-81ddd135-3b02b64c-a31e9631",
+                "MODALIDAD": "US",
+                "NOMBRE": "SERIE 0"
+            }
+        ]
+    },
+    {
+        "ID": 2228,
+        "FECHA": 20260511,
+        "NOMBRE": "GONZALEZ^ROSA",
+        "SEXO": "",
+        "PAS_ID": "6063193",
+        "PAS_BD": "",
+        "EST_UID": "4c8c3447-0169dd1a-83a9e606-dc621be1-4cf4c820",
+        "INFORM": [
+            "4c8c3447-0169dd1a-83a9e606-dc621be1-4cf4c820--0"
+        ],
+        "SERIES": [
+            {
+                "SER_UID": 2229,
+                "SER_ID": "492e55fa-9d134aa2-a19e4284-8db5dbc5-c4aabf15",
+                "MODALIDAD": "US",
+                "NOMBRE": "SERIE 0"
+            }
+        ]
+    },
+    {
+        "ID": 2189,
+        "FECHA": 20260511,
+        "NOMBRE": "ACURERO^BIANCA",
+        "SEXO": "",
+        "PAS_ID": "8698678",
+        "PAS_BD": "",
+        "EST_UID": "d7d1a199-3d6b5c2f-b703355b-6118f85a-0d5e7875",
+        "INFORM": [
+            "d7d1a199-3d6b5c2f-b703355b-6118f85a-0d5e7875--0"
+        ],
+        "SERIES": [
+            {
+                "SER_UID": 2190,
+                "SER_ID": "9655659d-77b4c3c5-122263aa-414ea5c4-ae9a8edf",
+                "MODALIDAD": "US",
+                "NOMBRE": "SERIE 0"
+            }
+        ]
+    },
+    {
+        "ID": 2180,
+        "FECHA": 20260511,
+        "NOMBRE": "JOSE^HERNANDEZ",
+        "SEXO": "",
+        "PAS_ID": "6919507",
+        "PAS_BD": "",
+        "EST_UID": "2021b2e2-e1894eb1-d54ba4a8-216469e3-99cc983f",
+        "INFORM": [
+            "2021b2e2-e1894eb1-d54ba4a8-216469e3-99cc983f--0"
+        ],
+        "SERIES": [
+            {
+                "SER_UID": 2181,
+                "SER_ID": "b398fb91-1ee115a7-12b62cd7-fe37c5ad-fe463526",
+                "MODALIDAD": "US",
+                "NOMBRE": "SERIE 0"
+            }
+        ]
+    },
+    {
+        "ID": 2171,
+        "FECHA": 20260511,
+        "NOMBRE": "JOSE^HERNANDEZ",
+        "SEXO": "",
+        "PAS_ID": "6919507",
+        "PAS_BD": "",
+        "EST_UID": "cb9d25ec-4fd04745-bec6bc06-27967563-f4089571",
+        "INFORM": [
+            "cb9d25ec-4fd04745-bec6bc06-27967563-f4089571--0"
+        ],
+        "SERIES": [
+            {
+                "SER_UID": 2172,
+                "SER_ID": "b24f4214-2c660e7c-ba8dcf03-07b1b76a-3844fbda",
+                "MODALIDAD": "US",
+                "NOMBRE": "SERIE 0"
+            }
+        ]
+    }
+]
