@@ -20,14 +20,14 @@ const Reports = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/pacientes/completo/${params.paciente_id}`);
+                const response = await axios.get(`http://localhost:3000/plantillas/${params.plantilla_id}`);
                 console.log(response.data);
                 setstate({
                     ready: true,
                     nota: response.data
                 })
             } catch (error) {
-                console.error("Error al obtener la nota:", error);
+                console.error("Error al obtener la plantilla:", error);
             }
         })();
     }, [])
@@ -85,7 +85,7 @@ const Reports = () => {
         try {
 
             await axios.put(
-                `http://localhost:3000/pacientes/${params.paciente_id}`,
+                `http://localhost:3000/plantillas/${params.plantilla_id}`,
                 state.nota
             )
 
@@ -108,7 +108,7 @@ const Reports = () => {
             state.nota?.content &&
             editor.isEmpty
         ) {
-            editor.commands.setContent(state.nota.content)
+            editor.commands.setContent(state.nota.contenido)
         }
 
     }, [editor, state.nota?.content])

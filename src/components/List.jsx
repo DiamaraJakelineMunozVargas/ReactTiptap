@@ -1,5 +1,11 @@
+
 const List = ({ data, setSelectedNote }) => {
-    // {data}
+       const abrirModal = () => {
+        const modal = document.getElementById("my_modal_3");
+        if (modal) {
+            modal.showModal();
+        }
+    };
     return (
         <div className="bg-base-100 w-full ">
             <ul className="list bg-base-100 rounded-box shadow-md">
@@ -38,7 +44,10 @@ const List = ({ data, setSelectedNote }) => {
 
                         </div>
                         <div className=" flex justify-between items-end text-xs opacity-60 p-2 ">
-                            {new Date(note.fechaNacimiento).toLocaleDateString()}
+                            {/* {new Date(note.fechaNacimiento).toLocaleDateString()} */}
+                            <button className="btn btn-accent btn-sm" onClick={(e) => {
+                                e.stopPropagation(); setSelectedNote(note);
+                            }}>Reporte</button>
                         </div>
 
                         {/* <button className="btn btn-primary btn-sm">Abrir</button> */}

@@ -1,6 +1,7 @@
 import express from 'express';
 import router from './routes/routesPaciente.js';
 import routerEstudio from './routes/routesEstudio.js';
+import routerplantilla from './routes/routes.plantillas.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
@@ -15,6 +16,7 @@ app.use(cors({
 app.use(express.json()) //para recibir archivo json 
 app.use('/pacientes', router)
 app.use('/estudios', routerEstudio)
+app.use('/plantillas', routerplantilla)
 
 const PORT = process.env.PORT || 3000;
 
