@@ -6,7 +6,7 @@ import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 
 import Reports from "./pages/reports";
-const apiurl = import.meta.env.VITE_API_URL;
+
 
 const App = () => {
   const [infoPat, setinfoPat] = useState({
@@ -15,12 +15,12 @@ const App = () => {
   });
   const [selectedNote, setSelectedNote] = useState(null);
 
-  console.log("Nota seleccionada actualmente:", selectedNote);
+  console.log("Paciente seleccionado actualmente:", selectedNote);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await axios.get(`${apiurl}/pacientes`);
+        const response = await axios.get(`http://localhost:3000/pacientes`);
         const data = response.data;
         setinfoPat({ ready: true, data });
       } catch (error) {
@@ -29,26 +29,7 @@ const App = () => {
     })();
   }, []);
 
-  const handleUpdateNote = async (id, updatedData) => {
-    try {
-      const response = await axios.put(
-        `${apiurl}/pacientes/${id}`,
-        updatedData,
-      );
-
-      setinfoPat((prev) => ({
-        ...prev,
-        data: prev.data
-          ? prev.data.map((n) => (n._id === id ? response.data : n))
-          : null,
-      }));
-
-      setSelectedNote(response.data);
-      alert("Nota actualizada con éxito");
-    } catch (error) {
-      console.error("Error al actualizar:", error);
-    }
-  };
+  
   if (!infoPat.ready) return <div>Cargando.......</div>;
 
   return (

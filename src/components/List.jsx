@@ -1,27 +1,23 @@
+import { BookText } from "lucide-react";
 
 const List = ({ data, setSelectedNote }) => {
-       const abrirModal = () => {
-        const modal = document.getElementById("my_modal_3");
-        if (modal) {
-            modal.showModal();
-        }
-    };
+      
     return (
         <div className="bg-base-100 w-full ">
             <ul className="list bg-base-100 rounded-box shadow-md">
 
 
-                {data.map((note) => (
+                {data.map((paciente) => (
                     <li
-                        key={note._id}
-                        onClick={() => {
+                        key={paciente._id}
+                       /**  onClick={() => {
                             console.log("CLIC EN NOTA:", note.title, note.name);
                             window.open(
                                 `/reports/${note._id}`,
                                 "_blank",
                                 "width=800,height=600,resizable=yes"
                             );
-                        }}
+                        }}*/
                         className="list-row hover:bg-base-200 transition cursor-pointer"
                     >
                         <div className="avatar">
@@ -32,22 +28,21 @@ const List = ({ data, setSelectedNote }) => {
 
                         <div>
                             <div className="font-semibold text-accent lg: text-2xl" id="name">
-                                {note.name}
+                                {paciente.name}
                                 {/* {note.name} */}
                             </div>
 
-                            <div className="text-lg">
-                                {note.title}
-                                {/* {note.title} */}
-                            </div>
+                         
 
 
                         </div>
                         <div className=" flex justify-between items-end text-xs opacity-60 p-2 ">
                             {/* {new Date(note.fechaNacimiento).toLocaleDateString()} */}
                             <button className="btn btn-accent btn-sm" onClick={(e) => {
-                                e.stopPropagation(); setSelectedNote(note);
-                            }}>Reporte</button>
+                                e.stopPropagation(); setSelectedNote(paciente);
+                            }}> 
+                            <BookText size={18}/>
+                            Reporte</button>
                         </div>
 
                         {/* <button className="btn btn-primary btn-sm">Abrir</button> */}

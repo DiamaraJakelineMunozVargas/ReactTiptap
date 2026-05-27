@@ -1,6 +1,6 @@
 import QRCode from "react-qr-code";
 
-function ReporteTemplate({ children, nota, fechaFormateada, printRef }) {
+function ReporteTemplate({ children, nota, pac, fechaFormateada, printRef }) {
   return (
     <div
       ref={printRef}
@@ -9,9 +9,11 @@ function ReporteTemplate({ children, nota, fechaFormateada, printRef }) {
       <div className="flex justify-between items-start mb-8">
         <div className="text-center border-b-2 border-black pb-6 mb-8 rounded-sm">
           <h1 className="text-3xl font-serif font-bold uppercase tracking-tighter">
-            Reporte Oficial
+               REPORTE OFICIAL 
           </h1>
-
+          <p className="text-sm italic">
+           {nota.modalidad} - {nota.nombre}
+          </p>
           <p className="text-sm italic">
             Documento generado vía Sistema de Notas
           </p>
@@ -21,21 +23,23 @@ function ReporteTemplate({ children, nota, fechaFormateada, printRef }) {
           </p>
         </div>
         <QRCode
-          value={`Reporte-${nota.content}`}
+          value={`Reporte-${nota.contenido}`}
           size={90}
           bgColor="#ffffff"
           fgColor="#000000"
-         
         />
-     
       </div>
 
       <div className="mb-6 space-y-2">
         <p>
-          <strong>Nombre:</strong> {nota.name}
+          <strong>Nombre Completo del paciente:</strong> {pac.name}
         </p>
         <p>
-          <strong>Titulo:</strong> {nota.title}
+          <strong>Edad:</strong> {pac.edad}
+        </p>
+        <p>
+          <strong>Fecha de nacimiento:</strong>{" "}
+          {new Date(pac.fechaNacimiento).toLocaleDateString()}{" "}
         </p>
       </div>
 

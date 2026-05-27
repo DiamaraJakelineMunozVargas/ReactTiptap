@@ -1,16 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-const apiurl = import.meta.env.VITE_API_URL;
 
-const ModalComponente = ({
-    selectedNote,
-    isOpen,
-    onClose
-}) => {
+
+const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
 
     const dialogref = useRef(null);
-
     const [plantillas, setPlantillas] = useState([]);
 
     useEffect(() => {
@@ -32,7 +27,7 @@ const ModalComponente = ({
         try {
 
             const response = await axios.get(
-                `${apiurl}/plantillas`
+                `http://localhost:3000/plantillas`
             );
 
             setPlantillas(response.data);

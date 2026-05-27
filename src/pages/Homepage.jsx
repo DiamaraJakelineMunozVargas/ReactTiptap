@@ -1,6 +1,4 @@
-
 import List from "../components/List";
-
 import NavbarCompo from "../components/NavbarCompo";
 
 const Inicio = ({ data, setSelectedNote }) => {
