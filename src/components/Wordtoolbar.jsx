@@ -13,7 +13,7 @@ import {
 import FontFamilySelect from "./componentsWord/FontFamilySelect";
 import FontSizeSelect from "./componentsWord/FontSizeSelect";
 
-const Wordtoolbar = ({ editor, handleSave, handlePrint }) => {
+const Wordtoolbar = ({ editor,editordescripciom, handleSave, handlePrint }) => {
   if (!editor) return null;
   const underlineOptions = [
     { label: "Simple", style: "solid" },
