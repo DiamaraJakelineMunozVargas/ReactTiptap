@@ -7,6 +7,8 @@ import ReporteTemplate from "../../public/templates/ReporteTemplate.jsx";
 function DocumentoEditor({
   editor,
   editorDescripcion,
+  activeEditor,
+  setActiveEditor,
   plantilla,
   paciente,
   fechaFormateada,
@@ -24,8 +26,7 @@ function DocumentoEditor({
   return (
     <div>
       <Wordtoolbar
-        editor={editor}
-        editorDescripcion={editorDescripcion}
+        editor={activeEditor}
         handleSave={handleSave}
         handlePrint={handlePrint}
       />
@@ -33,19 +34,21 @@ function DocumentoEditor({
       <div className="bg-base-200 flex justify-center text-black">
         <TemplateComponent
           nota={plantilla}
-          pac= {paciente}
+          pac={paciente}
           fechaFormateada={fechaFormateada}
           printRef={printRef}
         >
           <div className="reporte-contenido">
             <h2 className="font-bold mb-2">Descripcion:</h2>
-
-            <Tiptap editor={editorDescripcion} />
+            <div onClick={() => setActiveEditor(editorDescripcion)}>
+              <Tiptap editor={editorDescripcion} />
+            </div>
           </div>
           <div className="reporte-contenido">
             <h2 className="font-bold mb-2">Contenido:</h2>
-
-            <Tiptap editor={editor} />
+            <div onClick={() => setActiveEditor(editor)}>
+              <Tiptap editor={editor} />
+            </div>
           </div>
         </TemplateComponent>
       </div>

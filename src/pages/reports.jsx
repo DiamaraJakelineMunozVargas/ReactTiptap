@@ -15,6 +15,7 @@ const Reports = () => {
   const [plantilla, setPlantilla] = useState(null);
   const [paciente, setPaciente] = useState(null);
   const [ready, setReady] = useState(false);
+  const [activeEditor, setActiveEditor] = useState(null);
   const params = useParams();
 
   useEffect(() => {
@@ -145,6 +146,8 @@ const Reports = () => {
       <DocumentoEditor
         editor={editor}
         editorDescripcion={editorDescripcion}
+        activeEditor={activeEditor}
+        setActiveEditor={setActiveEditor}
         plantilla={plantilla}
         paciente={paciente}
         fechaFormateada={fechaFormateada}
