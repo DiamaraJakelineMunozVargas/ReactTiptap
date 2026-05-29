@@ -1,4 +1,4 @@
-import Inicio from "./pages/Homepage";
+import Inicio from "./pages/ReportPage";
 import CrearNote from "./pages/CreateNote";
 import ModalComponente from "./components/ModalComponente";
 import { useEffect, useState } from "react";

@@ -23,7 +23,7 @@ function ReporteTemplate({ children, nota, pac, fechaFormateada, printRef }) {
           </p>
         </div>
         <QRCode
-          value={`Reporte-${nota.contenido}`}
+        value={`Paciente: ${pac.name} | Estudio: ${nota.nombre} | Fecha: ${nota.fechaFormateada}`}
           size={90}
           bgColor="#ffffff"
           fgColor="#000000"

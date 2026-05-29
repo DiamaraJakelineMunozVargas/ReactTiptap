@@ -1,7 +1,7 @@
 import Tiptap from "./Tiptap";
 import "../styles/documento.css";
 import Wordtoolbar from "./Wordtoolbar";
-import CartaTemplate from "../../public/templates/CartaTemplate.jsx";
+
 import ReporteTemplate from "../../public/templates/ReporteTemplate.jsx";
 
 function DocumentoEditor({
@@ -18,7 +18,7 @@ function DocumentoEditor({
 }) {
   const templates = {
     reporte: ReporteTemplate,
-    carta: CartaTemplate,
+   
   };
 
   const TemplateComponent = templates[plantilla.modalidad] || ReporteTemplate;
@@ -26,7 +26,7 @@ function DocumentoEditor({
   return (
     <div>
       <Wordtoolbar
-        editor={activeEditor}
+        editor={activeEditor || editor}
         handleSave={handleSave}
         handlePrint={handlePrint}
       />

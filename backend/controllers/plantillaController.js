@@ -28,11 +28,11 @@ export const getId = async (req, res) => {
     }
 
 }
-// crear una nota 
+// crear una plantilla :v 
 export const create = async (req, res) => {
     try {
         const { nombre, modalidad, tipo_estudio} = req.body
-        const newNote = new plantillasModel({nombre, modalidad, tipo_estudio }) // para crear una nota 
+        const newNote = new plantillasModel({nombre, modalidad, tipo_estudio }) // para crear un nuevo dato 
         const savedNote = await newNote.save(); // espera el inicio de guardado en la BD
         res.status(201).json({ mensaje: 'plantilla creada exitosamente', nota: savedNote }) // muestrta un estado de la respuesta y su mensaje 
         console.log('Creando una plantilla nueva')
@@ -43,7 +43,7 @@ export const create = async (req, res) => {
     }
 
 }
-// actualizar una nota 
+// actualizar una plantilla 
 export const update = async (req, res) => {
     try {
         const id = req.params.id
@@ -57,7 +57,7 @@ export const update = async (req, res) => {
     }
 }
 
-// eliminar una nota 
+// eliminar una plantilla
 export const eliminar = async (req, res) => {
     try {
         const id = req.params.id

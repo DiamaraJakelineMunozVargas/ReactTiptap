@@ -5,6 +5,7 @@ import routerplantilla from './routes/routes.plantillas.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import routesreport from './routes/routesreport.js';
 dotenv.config()
 
 const app = express()
@@ -17,6 +18,7 @@ app.use(express.json()) //para recibir archivo json
 app.use('/pacientes', router)
 app.use('/estudios', routerEstudio)
 app.use('/plantillas', routerplantilla)
+app.use('/reportes', routesreport)
 
 const PORT = process.env.PORT || 3000;
 

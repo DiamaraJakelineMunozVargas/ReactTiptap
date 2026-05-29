@@ -56,7 +56,7 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
         <div>
           <SearchComponent search={search} setSearch={setSearch} />
         </div>
-        <div className="space-y-2">
+        <div className="space-y-2 max-h-[250px] overflow-y-auto pr-2">
           {plantillasFiltradas.map((plantilla) => (
             <button
               key={plantilla._id}

@@ -14,6 +14,7 @@ import { UnderlineStyle } from "../extensions/Underline";
 const Reports = () => {
   const [plantilla, setPlantilla] = useState(null);
   const [paciente, setPaciente] = useState(null);
+  const [reporte, setReporte] = useState(null);
   const [ready, setReady] = useState(false);
   const [activeEditor, setActiveEditor] = useState(null);
   const params = useParams();
@@ -30,6 +31,13 @@ const Reports = () => {
 
         setPlantilla(responseplantilla.data);
         setPaciente(responsepaciente.data);
+        setReporte({
+          pacId: responsepaciente.data._id,
+          plantillaId: responseplantilla.data._id,
+          descripcion: responseplantilla.data.descripcion || "",
+          contenido: responseplantilla.data.contenido || "",
+        });
+
         setReady(true);
       } catch (error) {
         console.error("Error al obtener la plantilla:", error);
@@ -38,7 +46,7 @@ const Reports = () => {
   }, []);
 
   const handleContentChange = (newContent) => {
-    setPlantilla((prev) => ({
+    setReporte((prev) => ({
       ...prev,
       contenido: newContent,
     }));
@@ -47,7 +55,7 @@ const Reports = () => {
     extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle],
     content: "",
     onUpdate: ({ editor }) => {
-      setPlantilla((prev) => ({
+      setReporte((prev) => ({
         ...prev,
         descripcion: editor.getHTML(),
       }));
@@ -102,17 +110,21 @@ const Reports = () => {
   });
 
   const handleSave = async () => {
+    console.log(reporte)
     try {
-      await axios.put(
-        `http://localhost:3000/plantillas/${params.plantilla_id}`,
-        plantilla,
-      );
+      await axios.post("http://localhost:3000/reportes", {
+        pacId: reporte._id,
+        plantillaId: reporte._id,
+        descripcion: reporte.descripcion,
+        contenido: reporte.contenido,
+      });
 
       alert("Guardado correctamente");
     } catch (error) {
       console.error(error);
     }
   };
+
   const printRef = useRef(null);
   const handlePrint = useReactToPrint({
     contentRef: printRef,
@@ -121,15 +133,15 @@ const Reports = () => {
   useEffect(() => {
     if (
       editorDescripcion &&
-      plantilla?.descripcion &&
+      reporte?.descripcion &&
       editorDescripcion.isEmpty
     ) {
-      editorDescripcion.commands.setContent(plantilla.descripcion);
+      editorDescripcion.commands.setContent(reporte.descripcion);
     }
-    if (editor && plantilla?.contenido && editor.isEmpty) {
-      editor.commands.setContent(plantilla.contenido);
+    if (editor && reporte?.contenido && editor.isEmpty) {
+      editor.commands.setContent(reporte.contenido);
     }
-  }, [editor, editorDescripcion, plantilla]);
+  }, [editor, editorDescripcion, reporte]);
 
   if (!ready) {
     return <div>Loading...</div>;
