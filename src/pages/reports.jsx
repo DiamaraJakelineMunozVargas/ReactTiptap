@@ -10,6 +10,7 @@ import { FontFamily } from "@tiptap/extension-font-family";
 import ResizeImage from "tiptap-extension-resize-image";
 import FontSize from "../extensions/FontSize";
 import { UnderlineStyle } from "../extensions/Underline";
+import { LifeLine } from "react-loading-indicators";
 
 const Reports = () => {
   const [plantilla, setPlantilla] = useState(null);
@@ -17,14 +18,14 @@ const Reports = () => {
   const [reporte, setReporte] = useState(null);
   const [ready, setReady] = useState(false);
   const [activeEditor, setActiveEditor] = useState(null);
-  const params = useParams();
+  const { paciente_id, plantilla_id, reporte_id } = useParams();
 
   useEffect(() => {
     (async () => {
       try {
         const [responsepaciente, responseplantilla] = await Promise.all([
-          axios.get(`http://localhost:3000/pacientes/${params.paciente_id}`),
-          axios.get(`http://localhost:3000/plantillas/${params.plantilla_id}`),
+          axios.get(`http://localhost:3000/pacientes/${paciente_id}`),
+          axios.get(`http://localhost:3000/plantillas/${plantilla_id}`),
         ]);
         console.log(responseplantilla.data);
         console.log(responsepaciente.data);
@@ -110,14 +111,12 @@ const Reports = () => {
   });
 
   const handleSave = async () => {
-    console.log(reporte)
+   
     try {
-      await axios.post("http://localhost:3000/reportes", {
-        pacId: reporte._id,
-        plantillaId: reporte._id,
-        descripcion: reporte.descripcion,
-        contenido: reporte.contenido,
-      });
+       console.log(reporte)
+      await axios.post("http://localhost:3000/reportes", 
+      reporte
+      );
 
       alert("Guardado correctamente");
     } catch (error) {
@@ -144,7 +143,11 @@ const Reports = () => {
   }, [editor, editorDescripcion, reporte]);
 
   if (!ready) {
-    return <div>Loading...</div>;
+    return<div className="flex h-screen w-screen items-center justify-center">
+      <LifeLine 
+    color={["#32cd32", "#327fcd", "#cd32cd", "#cd8032"]} 
+    size="large" text="Cargando" textColor="black" />
+    </div> 
   }
 
   const fechaFormateada = new Date(plantilla.date).toLocaleDateString("es-ES", {

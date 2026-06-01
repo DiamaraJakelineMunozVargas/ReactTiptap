@@ -1,8 +1,8 @@
 import reportModel from "../model/reportModel.js";
 
-export const getAll = async (res) => {
+export const getAll = async (req, res) => {
   try {
-    const reportes = await reportModel.find();
+    const reportes = await reportModel.find().populate("pacId").populate("plantillaId");
     res.status(200).json(reportes);
     console.log("obteniendo todos los reportes");
   } catch (error) {
@@ -26,12 +26,31 @@ export const getById = async (req, res) => {
     });
   }
 };
+
+// reportes por pacientes 
+export const getByPaciente = async (req, res) => {
+  try {
+
+    const reportes = await reportModel
+      .find({ pacId: req.params.pacienteId })
+      .populate("plantillaId");
+
+    res.json(reportes);
+
+  } catch (error) {
+
+    console.error(error);
+    res.status(500).json({ error: "Error servidor" });
+
+  }
+};
 export const post = async (req, res) => {
   try {
+    console.log("BODY RECIBIDO");
     const {pacId, plantillaId, descripcion, contenido } = req.body;
     const newreport = new reportModel({pacId, plantillaId, descripcion, contenido });
     const savedreport = await newreport.save();
-    res.status(200).json({ mensaje: "reporte guardado", reporte: savedreport });
+    res.status(201).json({ mensaje: "reporte guardado", reporte: savedreport });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "error en el servidor" });

@@ -1,4 +1,4 @@
-const NoteForm = () => {
+const NoteForm = ({onSubmit, initialDate}) => {
     return (
         <div>
             <form className="bg-base-300 rounded-lg max-w-4xl mx-auto p-10">
@@ -12,10 +12,10 @@ const NoteForm = () => {
                 ></input>
                 <input
                     className="block w-full mb-8 input lg:input-lg focus: ring-0 focus: outline-0 border-0"
-                    placeholder="Titulo"
+                    placeholder="Modalidad"
                     type="text"
-                    id="title"
-                    name="title"
+                    id="modalidad"
+                    name="modalidad"
                     required
                 ></input>
                 {/* <textarea

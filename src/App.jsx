@@ -4,9 +4,8 @@ import ModalComponente from "./components/ModalComponente";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
 import Reports from "./pages/reports";
-
 
 const App = () => {
   const [infoPat, setinfoPat] = useState({
@@ -29,7 +28,6 @@ const App = () => {
     })();
   }, []);
 
-  
   if (!infoPat.ready) return <div>Cargando.......</div>;
 
   return (
@@ -43,9 +41,23 @@ const App = () => {
               <Inicio data={infoPat.data} setSelectedNote={setSelectedNote} />
             }
           />
-          <Route path="/reports/:paciente_id/:plantilla_id" Component={Reports} />
+          <Route
+            path="/reports/:paciente_id/:plantilla_id"
+            Component={Reports}
+          />
+          <Route path="/reports/:reporte_id" Component={Reports} />
           <Route path="/createNote" element={<CrearNote />} />
         </Routes>
+        <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        theme="light"/>
         <ModalComponente
           selectedNote={selectedNote}
           isOpen={!!selectedNote}
