@@ -2,8 +2,11 @@
 import NoteForm from '../components/NoteForm';
 import axios from "axios";
 import { toast} from 'react-toastify';
+import NavbarCompo from '../components/NavbarCompo';
+import { useNavigate } from 'react-router-dom';
 
 const CreateNote = () => {
+    const navigate = useNavigate();
     const handleCreate = async (plantilla) => {
         try{
             await axios.post(`http://localhost:3000/plantillas`,plantilla)
@@ -14,6 +17,7 @@ const CreateNote = () => {
                 toast.success("Plantilla creada con éxito", {
                     position: "bottom-center", autoClose: 3000, theme: "colored",
                 });
+                navigate("/");
             });
         }
         catch(error){
@@ -22,6 +26,7 @@ const CreateNote = () => {
     }
     return (
         <div>
+              <NavbarCompo />
             <NoteForm onSubmit={handleCreate} initialDate={{descripcion: "", contenido: "" }} ></NoteForm>
         </div>
     )

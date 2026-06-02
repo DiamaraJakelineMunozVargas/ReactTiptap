@@ -22,7 +22,8 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
   }, [isOpen]);
 
   const plantillasFiltradas = plantillas.filter((plantilla) =>
-    plantilla.nombre.toLowerCase().includes(search.toLowerCase()),
+    plantilla.nombre.toLowerCase().includes(search.toLowerCase()) || 
+  plantilla.modalidad.toLowerCase().includes(search.toLowerCase())
   );
 
   const cargarPlantillas = async () => {
@@ -109,7 +110,7 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
           <SearchComponent search={search} setSearch={setSearch} />
         </div>
 
-        <div className="space-y-2 max-h-[250px] overflow-y-auto pr-2">
+        <div className="space-y-2 max-h-[240px] overflow-y-auto pr-2">
           {plantillasFiltradas.map((plantilla) => (
             <button
               key={plantilla._id}

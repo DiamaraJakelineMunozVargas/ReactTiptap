@@ -60,9 +60,10 @@ export const editar = async (req, res) => {
   try {
     const id = req.params.id;
     const updatere = await reportModel.findByIdAndUpdate(id, req.body, {
-      new: true,
+      returnDocument: "after", runValidators: true,
     });
-    if (!updatere) return res.status(404).json({ error: "dato no encontrado" });
+    if (!updatere) {return res.status(404).json({ error: "dato no encontrado" });}
+    res.status(200).json({mensaje: "reporte actualizado", reporte: updatere,})
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "error en el servidor" });

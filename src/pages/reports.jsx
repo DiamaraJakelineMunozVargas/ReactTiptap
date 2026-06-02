@@ -23,23 +23,34 @@ const Reports = () => {
   useEffect(() => {
     (async () => {
       try {
-        const [responsepaciente, responseplantilla] = await Promise.all([
-          axios.get(`http://localhost:3000/pacientes/${paciente_id}`),
-          axios.get(`http://localhost:3000/plantillas/${plantilla_id}`),
-        ]);
-        console.log(responseplantilla.data);
-        console.log(responsepaciente.data);
+        if (reporte_id) {
+          const responseEditar = await axios.get(
+            `http://localhost:3000/reportes/${reporte_id}`,
+          );
+          console.log(responseEditar.data);
+          setReporte(responseEditar.data);
+          setPaciente(responseEditar.data.pacId);
+          setPlantilla(responseEditar.data.plantillaId);
+          setReady(true);
+        } else {
+          const [responsepaciente, responseplantilla] = await Promise.all([
+            axios.get(`http://localhost:3000/pacientes/${paciente_id}`),
+            axios.get(`http://localhost:3000/plantillas/${plantilla_id}`),
+          ]);
+          console.log(responseplantilla.data);
+          console.log(responsepaciente.data);
 
-        setPlantilla(responseplantilla.data);
-        setPaciente(responsepaciente.data);
-        setReporte({
-          pacId: responsepaciente.data._id,
-          plantillaId: responseplantilla.data._id,
-          descripcion: responseplantilla.data.descripcion || "",
-          contenido: responseplantilla.data.contenido || "",
-        });
+          setPlantilla(responseplantilla.data);
+          setPaciente(responsepaciente.data);
+          setReporte({
+            pacId: responsepaciente.data._id,
+            plantillaId: responseplantilla.data._id,
+            descripcion: responseplantilla.data.descripcion || "",
+            contenido: responseplantilla.data.contenido || "",
+          });
 
-        setReady(true);
+          setReady(true);
+        }
       } catch (error) {
         console.error("Error al obtener la plantilla:", error);
       }
@@ -111,14 +122,19 @@ const Reports = () => {
   });
 
   const handleSave = async () => {
-   
     try {
-       console.log(reporte)
-      await axios.post("http://localhost:3000/reportes", 
-      reporte
-      );
+      if (reporte._id) {
+        await axios.put(
+          `http://localhost:3000/reportes/${reporte._id}`,
+          reporte,
+        );
+        alert("reporte Actualizado");
+      } else {
+        console.log(reporte);
+        await axios.post("http://localhost:3000/reportes", reporte);
 
-      alert("Guardado correctamente");
+        alert("Guardado correctamente");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -143,11 +159,16 @@ const Reports = () => {
   }, [editor, editorDescripcion, reporte]);
 
   if (!ready) {
-    return<div className="flex h-screen w-screen items-center justify-center">
-      <LifeLine 
-    color={["#32cd32", "#327fcd", "#cd32cd", "#cd8032"]} 
-    size="large" text="Cargando" textColor="black" />
-    </div> 
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <LifeLine
+          color={["#32cd32", "#327fcd", "#cd32cd", "#cd8032"]}
+          size="large"
+          text="Cargando"
+          textColor="black"
+        />
+      </div>
+    );
   }
 
   const fechaFormateada = new Date(plantilla.date).toLocaleDateString("es-ES", {

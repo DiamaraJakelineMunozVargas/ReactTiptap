@@ -19,13 +19,13 @@ const NavbarCompo = ({ selectedNote, onUpdate }) => {
                        BioGénesis
                     </NavLink>
                     <div className="ml-auto flex gap-5 ">
-                        <NavLink
+                        {/* <NavLink
                             className={"btn btn-soft btn-primary font-bold text-[1.1em]"}
                             to={"/createNote"}
                         >
                             <PlusIcon />
                             Agregar nueva plantilla
-                        </NavLink>
+                        </NavLink> */}
                         {/* <button
                             className="btn btn-soft btn-primary text-[1.1em]"
                             onClick={abrirModal}
