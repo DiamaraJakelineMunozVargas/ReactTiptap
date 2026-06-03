@@ -5,6 +5,8 @@ import { toast} from 'react-toastify';
 import NavbarCompo from '../components/NavbarCompo';
 import { useNavigate } from 'react-router-dom';
 
+import Tiptap from '../components/Tiptap';
+
 const CreateNote = () => {
     const navigate = useNavigate();
     const handleCreate = async (plantilla) => {
@@ -27,6 +29,7 @@ const CreateNote = () => {
     return (
         <div>
               <NavbarCompo />
+              <Tiptap/>
             <NoteForm onSubmit={handleCreate} initialDate={{descripcion: "", contenido: "" }} ></NoteForm>
         </div>
     )
