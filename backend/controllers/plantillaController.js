@@ -33,8 +33,8 @@ export const getId = async (req, res) => {
 export const create = async (req, res) => {
     try {
         console.log(req.body)
-        const { nombre, modalidad, tipo_estudio } = req.body
-        const newNote = new plantillasModel({ nombre, modalidad, tipo_estudio }) // para crear una nota 
+        const { nombre, modalidad, tipo_estudio, descripcion, contenido } = req.body
+        const newNote = new plantillasModel({ nombre, modalidad, tipo_estudio, descripcion, contenido }) // para crear una nota 
         const savedNote = await newNote.save(); // espera el inicio de guardado en la BD
         res.status(201).json({ mensaje: 'plantilla creada exitosamente', nota: savedNote }) // muestrta un estado de la respuesta y su mensaje 
         console.log('Creando una plantilla')

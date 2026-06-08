@@ -18,7 +18,6 @@ function DocumentoEditor({
 }) {
   const templates = {
     reporte: ReporteTemplate,
-   
   };
 
   const TemplateComponent = templates[plantilla.modalidad] || ReporteTemplate;
