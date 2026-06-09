@@ -47,7 +47,7 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
     window.open(
       `/reports/${selectedNote._id}/${plantilla._id}`,
       "_blank",
-      "width=800,height=600,resizable=yes",
+      "width=900,height=600,resizable=yes",
     );
 
     onClose();
@@ -91,7 +91,7 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
                         onClick={() =>
                           window.open(`/reports/${reporte._id}`, 
                             "_blank",  
-                            "width=800,height=600,resizable=yes",)
+                            "width=900,height=600,resizable=yes",)
                           
                         }
                       >

@@ -6,133 +6,120 @@ import {
   Italic,
   List,
   ListOrdered,
-  Underline,
   Save,
   FileDown,
 } from "lucide-react";
+
+// Tus componentes modulares de Word
 import FontFamilySelect from "./componentsWord/FontFamilySelect";
 import FontSizeSelect from "./componentsWord/FontSizeSelect";
+import HeadingSelect from "./componentsWord/HeadingSelect";
+import TextAlignGroup from "./componentsWord/TextAlignGroup";
+import FontColorPicker from "./componentsWord/FontColorPicker";
+import UnderlineSelect from "./componentsWord/UnderlineSelect";
 
 const Wordtoolbar = ({ editor, handleSave, handlePrint }) => {
   if (!editor) return null;
-  const underlineOptions = [
-    { label: "Simple", style: "solid" },
-    { label: "Doble", style: "double" },
-    { label: "Punteado", style: "dotted" },
-    { label: "Guiones", style: "dashed" },
-    { label: "Ondulado", style: "wavy" },
-  ];
+
   return (
-    <div className="sticky top-0 z-50 bg-[#f3f3f3] border-b border-gray-300 shadow-sm">
-      <div className="flex items-center gap-2 px-4 py-2 flex-wrap">
-        {/* Undo / Redo */}
-        <div className="flex items-center gap-1 pr-3 border-r border-gray-300">
+    <div className="sticky top-0 z-50 bg-[#f3f3f3] border-b border-gray-300 shadow-sm text-black select-none">
+      <div className="flex items-center gap-4 px-4 py-1.5 overflow-visible select-none scrollbar-none snap-x whitespace-nowrap ">
+        <div className="flex items-center gap-1 pr-3 border-r border-gray-300 h-10">
           <button
-            className="toolbar-btn"
+            className="p-1.5 hover:bg-gray-200 rounded text-gray-700"
             onClick={() => editor.chain().focus().undo().run()}
           >
-            <Undo2 size={18} />
+            <Undo2 size={16} />
           </button>
-
           <button
-            className="toolbar-btn"
+            className="p-1.5 hover:bg-gray-200 rounded text-gray-700"
             onClick={() => editor.chain().focus().redo().run()}
           >
-            <Redo2 size={18} />
+            <Redo2 size={16} />
           </button>
         </div>
 
-        {/* Fuente y tamaño de fuente*/}
-
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 pr-3 border-b border-r border-gray-300 pb-2">
+        <div className="flex flex-col gap-1 pr-3 border-r border-gray-300 pb-1">
+          <div className="flex items-center gap-2">
             <FontFamilySelect editor={editor} />
-            <FontSizeSelect editor={editor}/>
+            <FontSizeSelect editor={editor} />
           </div>
 
-          {/* Bold / Italic / Underline */}
-          <div className="flex items-center gap-1 pr-3 border-r border-gray-300">
+          <div className="flex items-center gap-1.5">
             <button
-              className={`toolbar-btn ${
-                editor.isActive("bold") ? "active-toolbar-btn" : ""
-              }`}
+              className={`p-1 rounded text-sm font-bold w-7 h-7 flex items-center justify-center ${editor.isActive("bold") ? "bg-blue-100 text-blue-700" : "hover:bg-gray-200"}`}
               onClick={() => editor.chain().focus().toggleBold().run()}
             >
-              <Bold size={18} />
+              <Bold size={15} />
             </button>
-
             <button
-              className={`toolbar-btn ${
-                editor.isActive("italic") ? "active-toolbar-btn" : ""
-              }`}
+              className={`p-1 rounded w-7 h-7 flex items-center justify-center ${editor.isActive("italic") ? "bg-blue-100 text-blue-700" : "hover:bg-gray-200"}`}
               onClick={() => editor.chain().focus().toggleItalic().run()}
             >
-              <Italic size={18} />
+              <Italic size={15} />
             </button>
-            <div className="relative group">
-              <button className="toolbar-btn">
-                <Underline size={18} />
-              </button>
-
-              <div className="absolute hidden group-hover:flex flex-col bg-white border shadow-md rounded-md p-2 z-50 min-w-[180px]">
-                {underlineOptions.map((item) => (
-                  <button
-                    key={item.style}
-                    onClick={() =>
-                      editor.chain().focus().setUnderlineStyle(item.style).run()
-                    }
-                    className="flex items-center gap-3 px-3 py-2 hover:bg-gray-100 rounded"
-                  >
-                    {/* Preview */}
-                    <span
-                      className="w-16"
-                      style={{
-                        textDecorationLine: "underline",
-                        textDecorationStyle: item.style,
-                      }}
-                    >
-                      ABC
-                    </span>
-
-                    <span className="text-sm">{item.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            <UnderlineSelect editor={editor} />
+            <FontColorPicker editor={editor} />
           </div>
         </div>
 
-        {/* Listas */}
-        <div className="flex items-center gap-1">
-          <button
-            className="toolbar-btn"
-            onClick={() => editor.chain().focus().toggleBulletList().run()}
-          >
-            <List size={18} />
-          </button>
+        <div className="flex flex-col gap-1 pr-3 border-r border-gray-300 pb-1">
+          <div className="flex items-center gap-1">
+            <button
+              className={`p-1 rounded ${editor.isActive("bulletList") ? "bg-blue-100" : "hover:bg-gray-200"}`}
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+            >
+              <List size={16} />
+            </button>
+            <button
+              className={`p-1 rounded ${editor.isActive("orderedList") ? "bg-blue-100" : "hover:bg-gray-200"}`}
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            >
+              <ListOrdered size={16} />
+            </button>
+          </div>
 
-          <button
-            className="toolbar-btn"
-            onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          >
-            <ListOrdered size={18} />
-          </button>
+          <TextAlignGroup editor={editor} />
         </div>
 
-        {/* Save */}
-        <div className="ml-auto flex gap-2">
-          <button className="toolbar-action-btn" onClick={handlePrint}>
-            <FileDown size={16} />
-            Imprimir
+        <div className="flex items-center pr-3 border-r border-gray-300 h-10">
+          <HeadingSelect editor={editor} />
+        </div>
+
+        <div className="ml-auto flex items-center gap-1 h-full">
+          <button
+            className="flex flex-col items-center justify-center gap-1 bg-transparent hover:bg-gray-200 ctive:bg-gray-300 w-16 h-16 rounded-md transition-all text-gray-700 border border-transparent hover:border-gray-300 group"
+            onClick={handlePrint}
+            title="Imprimir documento"
+          >
+            <FileDown
+              size={22}
+              className="text-blue-600 group-hover:scale-110 transition-transform"
+            />
+            <span className="text-[12px] font-medium leading-none text-center">
+              Imprimir
+            </span>
           </button>
 
-          <button className="toolbar-action-btn" onClick={handleSave}>
-            <Save size={16} />
-            Guardar
+          <div className="w-px bg-gray-300 h-10 mx-1" />
+
+          <button
+            className="flex flex-col items-center justify-center gap-1 bg-transparent hover:bg-gray-200 active:bg-gray-300 w-16 h-16 rounded-md transition-all text-gray-700 border border-transparent hover:border-gray-300 group"
+            onClick={handleSave}
+            title="Guardar todos los cambios"
+          >
+            <Save
+              size={22}
+              className="text-emerald-600 group-hover:scale-110 transition-transform"
+            />
+            <span className="text-[10px] font-medium leading-none text-center">
+              Guardar
+            </span>
           </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default Wordtoolbar;

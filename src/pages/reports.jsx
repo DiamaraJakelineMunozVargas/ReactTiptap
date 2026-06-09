@@ -11,6 +11,8 @@ import ResizeImage from "tiptap-extension-resize-image";
 import FontSize from "../extensions/FontSize";
 import { UnderlineStyle } from "../extensions/Underline";
 import { LifeLine } from "react-loading-indicators";
+import TextAlign from "@tiptap/extension-text-align";
+import { Color } from "@tiptap/extension-text-style";
 
 const Reports = () => {
   const [plantilla, setPlantilla] = useState(null);
@@ -64,7 +66,7 @@ const Reports = () => {
     }));
   };
   const editorDescripcion = useEditor({
-    extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle],
+    extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle, TextAlign.configure({types:['heading','paragraph']}), Color],
     content: "",
     onUpdate: ({ editor }) => {
       setReporte((prev) => ({
@@ -81,6 +83,7 @@ const Reports = () => {
       FontSize,
       UnderlineStyle,
       ResizeImage,
+      TextAlign.configure({types:['heading','paragraph']}), Color
     ],
     content: "",
     onUpdate: ({ editor }) => {

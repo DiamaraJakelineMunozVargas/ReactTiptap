@@ -2,11 +2,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import NavbarCompo from "../components/NavbarCompo";
 import { useNavigate } from "react-router-dom";
-
+import TextAlign from "@tiptap/extension-text-align";
 import { useState } from "react";
 import { useEditor } from "@tiptap/react";
 import Wordtoolbar from "../components/Wordtoolbar";
-
+import { Color } from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { FontFamily } from "@tiptap/extension-font-family";
@@ -31,7 +31,8 @@ const CreateNote = () => {
   };
 
   const editorDescripcion = useEditor({
-    extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle],
+    extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle, TextAlign.configure({types: ['heading',  'paragraph']}), Color],
+    
     content: "",
     onUpdate: ({ editor }) => {
       setDatos((prev) => ({
@@ -49,6 +50,7 @@ const CreateNote = () => {
       FontSize,
       UnderlineStyle,
       ResizeImage,
+      TextAlign.configure({types:['heading','paragraph']}), Color
     ],
     content:
       "",

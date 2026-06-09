@@ -139,3 +139,13 @@
  .toolbar-action-btn:hover {
      background: #f3f4f6;
  }
+ /* Ocultar barra de scroll en Chrome, Safari y Opera */
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ocultar barra de scroll en IE, Edge y Firefox */
+.overflow-x-auto {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
