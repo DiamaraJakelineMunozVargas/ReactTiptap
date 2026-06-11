@@ -12,13 +12,9 @@ const reportSchema = new mongoose.Schema({
     ref: "Plantilla",
     required: true,
   },
-  descripcion:{
-    type:String,
-    default: ""
-  },
-  contenido:{
+ template: {
     type: String,
-    default: " "
+    required: true,
   },
    date: {
     type: Date,

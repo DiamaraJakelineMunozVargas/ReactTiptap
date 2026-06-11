@@ -3,8 +3,7 @@ import Tiptap from "./Tiptap";
 const PlantillaForm = ({
   datos,
   onMetaChange,
-  editorContenido,
-  editorDescripcion,
+  editor,
   setActiveEditor,
 }) => {
   return (
@@ -55,20 +54,16 @@ const PlantillaForm = ({
         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 border-b pb-1">
           Descripción y Contenido (Datos para administración)
         </h2>
-        <h2 className="font-bold mb-2">Descripcion:</h2>
+       
         <div
           className="cursor-text min-h-[120px] focus:outline-none"
-          onClick={() => setActiveEditor(editorDescripcion)}
+          onClick={() => setActiveEditor(editor)}
         >
-          <Tiptap editor={editorDescripcion} />
+          
+          <Tiptap editor={editor} />
         </div>
-           <h2 className="font-bold mb-2">Contenido:</h2>
-        <div
-          className="cursor-text min-h-[500px] focus:outline-none"
-          onClick={() => setActiveEditor(editorContenido)}
-        >
-          <Tiptap editor={editorContenido} />
-        </div>
+        
+       
       </div>
     </div>
   );

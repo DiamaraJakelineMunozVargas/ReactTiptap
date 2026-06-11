@@ -1,40 +1,30 @@
 import mongoose from "mongoose";
 
 const plantillaSchema = new mongoose.Schema({
-    nombre: {
-        type: String,
-        required: true
-    },
+  nombre: {
+    type: String,
+    required: true,
+  },
 
-    modalidad: {
-        type: String,
-        required: true
-    },
+  modalidad: {
+    type: String,
+    required: true,
+  },
 
-    tipo_estudio: {
-        type: String,
-        required: true
-    },
+  tipo_estudio: {
+    type: String,
+    required: true,
+  },
 
-    descripcion: {
-        type: String,
-        default: ""
-    },
+  template: {
+    type: String,
+    required: true,
+  },
 
-    contenido: {
-        type: String,
-        default: ""
-    },
-
-   date: {
+  date: {
     type: Date,
-    default: Date.now // para que me salga la fecha de hoy en automatico
-  }
+    default: Date.now, // para que me salga la fecha de hoy en automatico
+  },
+});
 
-
-})
-
-export default mongoose.model(
-    "Plantilla",
-    plantillaSchema
-);
+export default mongoose.model("Plantilla", plantillaSchema);

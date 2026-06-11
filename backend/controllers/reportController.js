@@ -47,8 +47,8 @@ export const getByPaciente = async (req, res) => {
 export const post = async (req, res) => {
   try {
     console.log("BODY RECIBIDO");
-    const {pacId, plantillaId, descripcion, contenido } = req.body;
-    const newreport = new reportModel({pacId, plantillaId, descripcion, contenido });
+    const {pacId, plantillaId, template} = req.body;
+    const newreport = new reportModel({pacId, plantillaId, template});
     const savedreport = await newreport.save();
     res.status(201).json({ mensaje: "reporte guardado", reporte: savedreport });
   } catch (error) {

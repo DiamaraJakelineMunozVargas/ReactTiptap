@@ -13,6 +13,7 @@ import { UnderlineStyle } from "../extensions/Underline";
 import { LifeLine } from "react-loading-indicators";
 import TextAlign from "@tiptap/extension-text-align";
 import { Color } from "@tiptap/extension-text-style";
+import { reemplazarVariables } from "../utils/MotorRegex";
 
 const Reports = () => {
   const [plantilla, setPlantilla] = useState(null);
@@ -47,8 +48,7 @@ const Reports = () => {
           setReporte({
             pacId: responsepaciente.data._id,
             plantillaId: responseplantilla.data._id,
-            descripcion: responseplantilla.data.descripcion || "",
-            contenido: responseplantilla.data.contenido || "",
+            template: responseplantilla.data.template || "",
           });
 
           setReady(true);
@@ -59,23 +59,7 @@ const Reports = () => {
     })();
   }, []);
 
-  const handleContentChange = (newContent) => {
-    setReporte((prev) => ({
-      ...prev,
-      contenido: newContent,
-    }));
-  };
-  const editorDescripcion = useEditor({
-    extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle, TextAlign.configure({types:['heading','paragraph']}), Color],
-    content: "",
-    onUpdate: ({ editor }) => {
-      setReporte((prev) => ({
-        ...prev,
-        descripcion: editor.getHTML(),
-      }));
-    },
-  });
-  const editor = useEditor({
+  const editorTemplate = useEditor({
     extensions: [
       StarterKit,
       TextStyle,
@@ -83,11 +67,16 @@ const Reports = () => {
       FontSize,
       UnderlineStyle,
       ResizeImage,
-      TextAlign.configure({types:['heading','paragraph']}), Color
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Color,
     ],
     content: "",
     onUpdate: ({ editor }) => {
-      handleContentChange(editor.getHTML());
+      setReporte((prev) => ({
+        ...prev,
+
+        template: editor.getHTML(),
+      }));
     },
     editorProps: {
       handlePaste(view, event) {
@@ -95,6 +84,7 @@ const Reports = () => {
 
         if (!items) return false;
 
+        // IMAGENES
         for (const item of items) {
           if (item.type.startsWith("image")) {
             const file = item.getAsFile();
@@ -104,19 +94,36 @@ const Reports = () => {
             reader.onload = () => {
               const src = reader.result;
 
-              editor
-                .chain()
-                .focus()
-                .setImage({
-                  src,
-                })
-                .run();
+              editor.chain().focus().setImage({ src }).run();
             };
 
             reader.readAsDataURL(file);
 
             return true;
           }
+        }
+
+        // HTML (WORD / GOOGLE DOCS)
+        const html = event.clipboardData.getData("text/html");
+
+        if (html) {
+          editor.chain().focus().insertContent(html).run();
+
+          return true;
+        }
+
+        // TEXTO PLANO
+        const text = event.clipboardData.getData("text/plain");
+
+        if (text) {
+          const formattedText = text
+            .split("\n")
+            .map((line) => `<p>${line}</p>`)
+            .join("");
+
+          editor.chain().focus().insertContent(formattedText).run();
+
+          return true;
         }
 
         return false;
@@ -148,18 +155,23 @@ const Reports = () => {
     contentRef: printRef,
     documentTitle: "reporte",
   });
+  const htmlFinal = reemplazarVariables(
+    reporte?.template || "",
+
+    {
+      paciente,
+      plantilla,
+
+      fechaActual: new Date().toLocaleDateString(),
+
+      contenido: reporte?.contenido || "",
+    },
+  );
   useEffect(() => {
-    if (
-      editorDescripcion &&
-      reporte?.descripcion &&
-      editorDescripcion.isEmpty
-    ) {
-      editorDescripcion.commands.setContent(reporte.descripcion);
+    if (editorTemplate && htmlFinal && editorTemplate.getHTML() === "<p></p>") {
+      editorTemplate.commands.setContent(htmlFinal);
     }
-    if (editor && reporte?.contenido && editor.isEmpty) {
-      editor.commands.setContent(reporte.contenido);
-    }
-  }, [editor, editorDescripcion, reporte]);
+  }, [editorTemplate, htmlFinal]);
 
   if (!ready) {
     return (
@@ -183,8 +195,8 @@ const Reports = () => {
   return (
     <div>
       <DocumentoEditor
-        editor={editor}
-        editorDescripcion={editorDescripcion}
+        htmlFinal={htmlFinal}
+        editor={editorTemplate}
         activeEditor={activeEditor}
         setActiveEditor={setActiveEditor}
         plantilla={plantilla}

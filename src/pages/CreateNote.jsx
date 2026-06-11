@@ -22,6 +22,7 @@ const CreateNote = () => {
     nombre: "",
     modalidad: "",
     tipo_estudio: "",
+    template: "",
   });
   const handleMetaChange = (e) => {
     setDatos({
@@ -30,19 +31,7 @@ const CreateNote = () => {
     });
   };
 
-  const editorDescripcion = useEditor({
-    extensions: [StarterKit, TextStyle, FontFamily, FontSize, UnderlineStyle, TextAlign.configure({types: ['heading',  'paragraph']}), Color],
-    
-    content: "",
-    onUpdate: ({ editor }) => {
-      setDatos((prev) => ({
-        ...prev,
-        descripcion: editor.getHTML(),
-      }));
-    },
-  });
-
-  const editorContenido = useEditor({
+  const editorTemplate = useEditor({
     extensions: [
       StarterKit,
       TextStyle,
@@ -50,32 +39,64 @@ const CreateNote = () => {
       FontSize,
       UnderlineStyle,
       ResizeImage,
-      TextAlign.configure({types:['heading','paragraph']}), Color
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Color,
     ],
-    content:
-      "",
+    content: "",
     onUpdate: ({ editor }) => {
       setDatos((prev) => ({
         ...prev,
-        contenido: editor.getHTML(),
+        template: editor.getHTML(),
       }));
     },
     editorProps: {
       handlePaste(view, event) {
         const items = event.clipboardData?.items;
+
         if (!items) return false;
+
+        // IMAGENES
         for (const item of items) {
           if (item.type.startsWith("image")) {
             const file = item.getAsFile();
+
             const reader = new FileReader();
+
             reader.onload = () => {
               const src = reader.result;
+
               editor.chain().focus().setImage({ src }).run();
             };
+
             reader.readAsDataURL(file);
+
             return true;
           }
         }
+
+        // HTML (WORD / GOOGLE DOCS)
+        const html = event.clipboardData.getData("text/html");
+
+        if (html) {
+          editor.chain().focus().insertContent(html).run();
+
+          return true;
+        }
+
+        // TEXTO PLANO
+        const text = event.clipboardData.getData("text/plain");
+
+        if (text) {
+          const formattedText = text
+            .split("\n")
+            .map((line) => `<p>${line}</p>`)
+            .join("");
+
+          editor.chain().focus().insertContent(formattedText).run();
+
+          return true;
+        }
+
         return false;
       },
     },
@@ -85,20 +106,14 @@ const CreateNote = () => {
       toast.warning("Por favor asigne un nombre y modalidad de plantilla");
       return;
     }
-    if (!editorContenido || !editorDescripcion) {
-      toast.error("Los editores de texto aún no están listos.");
-      return;
-    }
-    try {
-      const htmlDescripcion = editorDescripcion.getHTML();
-      const htmlContenido = editorContenido.getHTML();
 
+    try {
       const plantillaCompleta = {
         nombre: datos.nombre,
         modalidad: datos.modalidad,
         tipo_estudio: datos.tipo_estudio,
-        descripcion: htmlDescripcion,
-        contenido: htmlContenido,
+
+        template: editorTemplate.getHTML(),
       };
       console.log(plantillaCompleta);
       const res = await axios.post(
@@ -127,7 +142,7 @@ const CreateNote = () => {
 
       <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
         <Wordtoolbar
-          editor={activeEditor || editorContenido}
+          editor={activeEditor || editorTemplate}
           handleSave={handleCreate}
           handlePrint={() => window.print()}
         />
@@ -136,8 +151,7 @@ const CreateNote = () => {
       <PlantillaForm
         datos={datos}
         onMetaChange={handleMetaChange}
-        editorContenido={editorContenido}
-        editorDescripcion={editorDescripcion}
+        editor={editorTemplate}
         setActiveEditor={setActiveEditor}
       />
     </div>
