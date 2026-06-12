@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import List from "../components/List";
 import NavbarCompo from "../components/NavbarCompo";
 import { PlusIcon } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 const Inicio = ({ data, setSelectedNote }) => {
   if (!data) return <span>No hay datos</span>;
@@ -17,6 +18,13 @@ const Inicio = ({ data, setSelectedNote }) => {
         >
           <PlusIcon />
           Agregar Nueva Plantilla
+        </Link>
+        <Link
+          to="/editPlantilla"
+          className="btn btn-soft btn-primary font-bold text-[1.1em] ml-auto flex gap-2 justify-between"
+        >
+          <Pencil/>
+          Editar Plantilla
         </Link>
         <h1 className="p-4 font-bold lg: text-3xl">Lista de Reportes</h1>
 

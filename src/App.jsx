@@ -6,6 +6,7 @@ import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Reports from "./pages/reports";
+import EditPlantilla from "./pages/EditPlantilla";
 
 const App = () => {
   const [infoPat, setinfoPat] = useState({
@@ -47,6 +48,7 @@ const App = () => {
           />
           <Route path="/reports/:reporte_id" Component={Reports} />
           <Route path="/createNote" element={<CrearNote />} />
+          <Route path="/editPlantilla" element={<EditPlantilla/>}/>
         </Routes>
         <ToastContainer
         position="bottom-right"
