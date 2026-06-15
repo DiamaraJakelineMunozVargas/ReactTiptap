@@ -13,11 +13,12 @@ import ResizeImage from "tiptap-extension-resize-image";
 import FontSize from "../extensions/FontSize";
 import { UnderlineStyle } from "../extensions/Underline";
 import TextAlign from "@tiptap/extension-text-align";
-
+import Highlight from "@tiptap/extension-highlight";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 import PlantillaForm from "../components/PlantillaForm";
 
 const EditPlantilla = () => {
-
   const [activeEditor, setActiveEditor] = useState(null);
 
   const [infoPlantilla, setInfoPlantilla] = useState({
@@ -38,27 +39,20 @@ const EditPlantilla = () => {
   useEffect(() => {
     (async () => {
       try {
-
-        const response = await axios.get(
-          "http://localhost:3000/plantillas"
-        );
+        const response = await axios.get("http://localhost:3000/plantillas");
 
         setInfoPlantilla({
           ready: true,
           data: response.data,
         });
-
       } catch (error) {
-
         console.error(error);
-
       }
     })();
   }, []);
 
   // MANEJAR INPUTS
   const handleMetaChange = (e) => {
-
     setDatos({
       ...datos,
       [e.target.name]: e.target.value,
@@ -78,12 +72,16 @@ const EditPlantilla = () => {
         types: ["heading", "paragraph"],
       }),
       Color,
+      Highlight.configure({
+        multicolor: true,
+      }),
+      Subscript,
+      Superscript,
     ],
 
     content: "",
 
     onUpdate: ({ editor }) => {
-
       setDatos((prev) => ({
         ...prev,
         template: editor.getHTML(),
@@ -92,22 +90,18 @@ const EditPlantilla = () => {
 
     editorProps: {
       handlePaste(view, event) {
-
         const items = event.clipboardData?.items;
 
         if (!items) return false;
 
         // IMAGENES
         for (const item of items) {
-
           if (item.type.startsWith("image")) {
-
             const file = item.getAsFile();
 
             const reader = new FileReader();
 
             reader.onload = () => {
-
               const src = reader.result;
 
               editor.chain().focus().setImage({ src }).run();
@@ -123,7 +117,6 @@ const EditPlantilla = () => {
         const html = event.clipboardData.getData("text/html");
 
         if (html) {
-
           editor.chain().focus().insertContent(html).run();
 
           return true;
@@ -133,7 +126,6 @@ const EditPlantilla = () => {
         const text = event.clipboardData.getData("text/plain");
 
         if (text) {
-
           const formattedText = text
             .split("\n")
             .map((line) => `<p>${line}</p>`)
@@ -151,7 +143,6 @@ const EditPlantilla = () => {
 
   // SELECCIONAR PLANTILLA
   const seleccionarPlantilla = (plantilla) => {
-
     setSelectedPlantilla(plantilla);
 
     setDatos({
@@ -161,23 +152,18 @@ const EditPlantilla = () => {
       template: plantilla.template || "",
     });
 
-    editorTemplate?.commands.setContent(
-      plantilla.template || ""
-    );
+    editorTemplate?.commands.setContent(plantilla.template || "");
   };
 
   // GUARDAR CAMBIOS
   const handleSave = async () => {
-
     if (!selectedPlantilla) {
-
       toast.warning("Seleccione una plantilla");
 
       return;
     }
 
     try {
-
       const plantillaActualizada = {
         ...datos,
         template: editorTemplate.getHTML(),
@@ -185,13 +171,11 @@ const EditPlantilla = () => {
 
       await axios.put(
         `http://localhost:3000/plantillas/${selectedPlantilla._id}`,
-        plantillaActualizada
+        plantillaActualizada,
       );
 
       toast.success("Plantilla actualizada");
-
     } catch (error) {
-
       console.error(error);
 
       toast.error("Error al actualizar");
@@ -204,31 +188,23 @@ const EditPlantilla = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-
       <NavbarCompo />
 
       {/* TOOLBAR */}
       <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
-
         <Wordtoolbar
           editor={activeEditor || editorTemplate}
           handleSave={handleSave}
           handlePrint={() => window.print()}
         />
-
       </div>
 
       {/* LISTA PLANTILLAS */}
       <div className="max-w-[900px] mx-auto p-4">
-
-        <h2 className="font-bold text-xl mb-4">
-          Seleccione una plantilla
-        </h2>
+        <h2 className="font-bold text-xl mb-4">Seleccione una plantilla</h2>
 
         <div className="flex flex-wrap gap-2">
-
           {infoPlantilla.data.map((item) => (
-
             <button
               key={item._id}
               className="
@@ -237,15 +213,10 @@ const EditPlantilla = () => {
               "
               onClick={() => seleccionarPlantilla(item)}
             >
-
               {item.modalidad} - {item.nombre}
-
             </button>
-
           ))}
-
         </div>
-
       </div>
 
       {/* FORMULARIO */}
@@ -255,7 +226,6 @@ const EditPlantilla = () => {
         editor={editorTemplate}
         setActiveEditor={setActiveEditor}
       />
-
     </div>
   );
 };

@@ -52,7 +52,7 @@ const PlantillaForm = ({
 
       <div className="documento-pdf bg-white shadow-2xl p-12 min-h-[200px] rounded-sm text-black">
         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-4 border-b pb-1">
-          Descripción y Contenido (Datos para administración)
+          Plantilla de Salud 
         </h2>
        
         <div

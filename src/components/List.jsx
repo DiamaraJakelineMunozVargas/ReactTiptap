@@ -1,6 +1,6 @@
 import { BookText } from "lucide-react";
 
-const List = ({ data, setSelectedNote }) => {
+const List = ({ data, setSelectedNote }) => { // le pasamos a la lista los datos del paciente y el paciente seleccionado
       
     return (
         <div className="bg-base-100 w-full ">
@@ -31,13 +31,17 @@ const List = ({ data, setSelectedNote }) => {
                                 {paciente.name}
                                 {/* {note.name} */}
                             </div>
+                               <div className="font-semibold" id="edad">
+                                Edad: {paciente.edad}
+                                {/* {note.name} */}
+                            </div>
 
                          
 
 
                         </div>
                         <div className=" flex justify-between items-end text-xs opacity-60 p-2 ">
-                            {/* {new Date(note.fechaNacimiento).toLocaleDateString()} */}
+                           
                             <button className="btn btn-accent btn-sm" onClick={(e) => {
                                 e.stopPropagation(); setSelectedNote(paciente);
                             }}> 

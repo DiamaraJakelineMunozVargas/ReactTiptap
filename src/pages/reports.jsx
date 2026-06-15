@@ -14,14 +14,17 @@ import { LifeLine } from "react-loading-indicators";
 import TextAlign from "@tiptap/extension-text-align";
 import { Color } from "@tiptap/extension-text-style";
 import { reemplazarVariables } from "../utils/MotorRegex";
+import Highlight from "@tiptap/extension-highlight";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 
 const Reports = () => {
-  const [plantilla, setPlantilla] = useState(null);
-  const [paciente, setPaciente] = useState(null);
-  const [reporte, setReporte] = useState(null);
-  const [ready, setReady] = useState(false);
-  const [activeEditor, setActiveEditor] = useState(null);
-  const { paciente_id, plantilla_id, reporte_id } = useParams();
+  const [plantilla, setPlantilla] = useState(null); // plantilla = null 
+  const [paciente, setPaciente] = useState(null); //paciente = null 
+  const [reporte, setReporte] = useState(null); //reporte = null 
+  const [ready, setReady] = useState(false); //ready = false 
+  const [activeEditor, setActiveEditor] = useState(null); 
+  const { paciente_id, plantilla_id, reporte_id } = useParams(); // leer los parametros de la URL ;) 
 
   useEffect(() => {
     (async () => {
@@ -69,6 +72,11 @@ const Reports = () => {
       ResizeImage,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Color,
+      Highlight.configure({
+        multicolor: true,
+      }),
+      Subscript,
+      Superscript,
     ],
     content: "",
     onUpdate: ({ editor }) => {
@@ -205,6 +213,7 @@ const Reports = () => {
         handleSave={handleSave}
         handlePrint={handlePrint}
         printRef={printRef}
+        
       />
     </div>
   );

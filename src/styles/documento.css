@@ -14,7 +14,11 @@
     border-bottom: 1px solid #e5e7eb;
 
 }
-
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #a19f9d;
+  margin: 10%px 0;
+}
 .documento-pdf {
     width: 21cm;
     min-height: 29.7cm;

@@ -9,11 +9,17 @@ import Reports from "./pages/reports";
 import EditPlantilla from "./pages/EditPlantilla";
 
 const App = () => {
-  const [infoPat, setinfoPat] = useState({
+  const [infoPat, setinfoPat] = useState({ // dato paciente 
     ready: false,
     data: [],
   });
-  const [selectedNote, setSelectedNote] = useState(null);
+  const [selectedNote, setSelectedNote] = useState(null); // paciente seleccionado
+  // ESTADO EN REACT 
+  /**selectedNote es el valor actual 
+   * setSelectedNote es la funcion para cambiar ese valor
+   * al inicio selectedNote es = null porque useState esta igual a null 
+   * entonces inicialmente significa: selectedNote= null (no hay pacientes seleccionados)
+   */
 
   console.log("Paciente seleccionado actualmente:", selectedNote);
 
@@ -33,7 +39,7 @@ const App = () => {
 
   return (
     <>
-      {/* <NavbarCompo selectedNote={selectedNote} onUpdate={handleUpdateNote} /> */}
+      
       <div className="w-full ">
         <Routes>
           <Route

@@ -51,10 +51,11 @@ const HeadingSelect = ({ editor }) => {
     <Select
       className="w-44 text-black text-sm"
       options={headingOptions}
+     
       value={getCurrentValue()}
       formatOptionLabel={({ label, style }) => <div style={style}>{label}</div>}
       onChange={handleStyleChange}
-      isSearchable={false} // No hace falta escribir para buscar aquí
+      isSearchable={false} 
     />
   );
 };

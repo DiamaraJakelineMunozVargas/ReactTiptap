@@ -13,6 +13,9 @@ import { FontFamily } from "@tiptap/extension-font-family";
 import ResizeImage from "tiptap-extension-resize-image";
 import FontSize from "../extensions/FontSize";
 import { UnderlineStyle } from "../extensions/Underline";
+import Highlight from "@tiptap/extension-highlight";
+import Subscript from "@tiptap/extension-subscript";
+import Superscript from "@tiptap/extension-superscript";
 import PlantillaForm from "../components/PlantillaForm";
 
 const CreateNote = () => {
@@ -41,6 +44,11 @@ const CreateNote = () => {
       ResizeImage,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Color,
+      Highlight.configure({
+        multicolor: true,
+      }),
+      Subscript,
+      Superscript,
     ],
     content: "",
     onUpdate: ({ editor }) => {
@@ -74,7 +82,7 @@ const CreateNote = () => {
           }
         }
 
-        // HTML (WORD / GOOGLE DOCS)
+
         const html = event.clipboardData.getData("text/html");
 
         if (html) {
@@ -83,7 +91,7 @@ const CreateNote = () => {
           return true;
         }
 
-        // TEXTO PLANO
+        
         const text = event.clipboardData.getData("text/plain");
 
         if (text) {

@@ -27,8 +27,7 @@ const Inicio = ({ data, setSelectedNote }) => {
           Editar Plantilla
         </Link>
         <h1 className="p-4 font-bold lg: text-3xl">Lista de Reportes</h1>
-
-        <List data={data} setSelectedNote={setSelectedNote}></List>
+        <List data={data} setSelectedNote={setSelectedNote}></List>  
       </div>
     </div>
   );

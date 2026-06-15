@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import SearchComponent from "./SearchComponent.jsx";
 import { Pencil } from "lucide-react";
+
 const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
   const dialogref = useRef(null);
-  const [plantillas, setPlantillas] = useState([]);
-  const [search, setSearch] = useState("");
-  const [reportes, setReportes] = useState([]);
+  const [plantillas, setPlantillas] = useState([]); // estado de las plantillas = null 
+  const [search, setSearch] = useState(""); // buscador = ""
+  const [reportes, setReportes] = useState([]);  // reportes = null 
 
   useEffect(() => {
     if (!dialogref.current) return;
@@ -30,7 +31,7 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
     try {
       const response = await axios.get(`http://localhost:3000/plantillas`);
 
-      setPlantillas(response.data);
+      setPlantillas(response.data); // plantilla = null / setplantilla = datosPlantilla 
     } catch (error) {
       console.error(error);
     }
@@ -40,12 +41,12 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
       const respo = await axios.get(
         `http://localhost:3000/reportes/paciente/${selectedNote._id}`,
       );
-      setReportes(respo.data);
+      setReportes(respo.data); // reporte = null / setreporte = datosReporte del paciente seleccionado(selectedNote)
     } catch (error) {}
   };
   const abrirReporte = (plantilla) => {
     window.open(
-      `/reports/${selectedNote._id}/${plantilla._id}`,
+      `/reports/${selectedNote._id}/${plantilla._id}`, // reports/paciente/plantilla
       "_blank",
      "width=1200,height=820,resizable=yes",
     );
