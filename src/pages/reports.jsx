@@ -22,36 +22,35 @@ const Reports = () => {
   const [plantilla, setPlantilla] = useState(null); // plantilla = null 
   const [paciente, setPaciente] = useState(null); //paciente = null 
   const [reporte, setReporte] = useState(null); //reporte = null 
-  const [ready, setReady] = useState(false); //ready = false 
-  const [activeEditor, setActiveEditor] = useState(null); 
+  const [ready, setReady] = useState(false); //ready = false  si ya termino de cargar 
   const { paciente_id, plantilla_id, reporte_id } = useParams(); // leer los parametros de la URL ;) 
 
   useEffect(() => {
     (async () => {
       try {
-        if (reporte_id) {
+        if (reporte_id) { // si existe el id del reporte, entonces que edite 
           const responseEditar = await axios.get(
-            `http://localhost:3000/reportes/${reporte_id}`,
+            `http://localhost:3000/reportes/${reporte_id}`, // trae un reporte a traves de su id 
           );
           console.log(responseEditar.data);
-          setReporte(responseEditar.data);
-          setPaciente(responseEditar.data.pacId);
-          setPlantilla(responseEditar.data.plantillaId);
+          setReporte(responseEditar.data); // se guarda el reporte ya actualizado 
+          setPaciente(responseEditar.data.pacId); //paciente= null --setpaciente = reportes/pacienteId
+          setPlantilla(responseEditar.data.plantillaId); // plantilla=null -- setplantilla= reportes/Plantilla_id 
           setReady(true);
-        } else {
-          const [responsepaciente, responseplantilla] = await Promise.all([
+        } else { // si no existe el reporte, entonces se crea uno nuevo 
+          const [responsepaciente, responseplantilla] = await Promise.all([ //Promise.all = las dos peticiones al mismo tiempo: paciente - plantilla
             axios.get(`http://localhost:3000/pacientes/${paciente_id}`),
             axios.get(`http://localhost:3000/plantillas/${plantilla_id}`),
           ]);
           console.log(responseplantilla.data);
           console.log(responsepaciente.data);
 
-          setPlantilla(responseplantilla.data);
-          setPaciente(responsepaciente.data);
+          setPlantilla(responseplantilla.data); // plantilla=null -- setplantilla= datos de la plantilla
+          setPaciente(responsepaciente.data); //paciente = null -- setpaciente = datos del paciente seleccionado
           setReporte({
-            pacId: responsepaciente.data._id,
-            plantillaId: responseplantilla.data._id,
-            template: responseplantilla.data.template || "",
+            pacId: responsepaciente.data._id, // pacientes datos 
+            plantillaId: responseplantilla.data._id, // plantilla datos 
+            template: responseplantilla.data.template || "", // el template son los datos que se guardaran de los datos de las expresiones regulares 
           });
 
           setReady(true);
@@ -163,21 +162,19 @@ const Reports = () => {
     contentRef: printRef,
     documentTitle: "reporte",
   });
-  const htmlFinal = reemplazarVariables(
+  const htmlFinal = reemplazarVariables( // se llama al motor regex  paciente: {{paciente.name}}
     reporte?.template || "",
 
     {
       paciente,
       plantilla,
-
       fechaActual: new Date().toLocaleDateString(),
-
       contenido: reporte?.contenido || "",
     },
   );
   useEffect(() => {
     if (editorTemplate && htmlFinal && editorTemplate.getHTML() === "<p></p>") {
-      editorTemplate.commands.setContent(htmlFinal);
+      editorTemplate.commands.setContent(htmlFinal); // el html con variables se mete dentro del editor :) 
     }
   }, [editorTemplate, htmlFinal]);
 
@@ -203,10 +200,8 @@ const Reports = () => {
   return (
     <div>
       <DocumentoEditor
-        htmlFinal={htmlFinal}
         editor={editorTemplate}
-        activeEditor={activeEditor}
-        setActiveEditor={setActiveEditor}
+       
         plantilla={plantilla}
         paciente={paciente}
         fechaFormateada={fechaFormateada}

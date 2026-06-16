@@ -22,7 +22,8 @@ const List = ({ data, setSelectedNote }) => { // le pasamos a la lista los datos
                     >
                         <div className="avatar">
                             <div className="w-15 rounded-full">
-                                <img src="https://i.pravatar.cc/100" />
+                                {/* <img src="https://i.pravatar.cc/100" /> */}
+                                   <img src="public/image/imagen.png" />
                             </div>
                         </div>
 
