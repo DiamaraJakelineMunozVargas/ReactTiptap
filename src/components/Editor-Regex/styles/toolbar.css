@@ -1,0 +1,231 @@
+.tiptap {
+  :first-child {
+    margin-top: 0;
+  }
+
+  /* =========================
+     LISTAS
+  ========================= */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1rem 0 1rem 1rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* =========================
+     HEADINGS
+  ========================= */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  h3 {
+    font-size: 1.3rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* =========================
+     TEXTO
+  ========================= */
+  p {
+    line-height: 1.7;
+    margin: 0.4rem 0;
+  }
+
+  /* =========================
+     CODE
+  ========================= */
+  code {
+    background-color: #f3f0ff;
+    border-radius: 4px;
+    color: #111827;
+    font-size: 0.85rem;
+    padding: 0.2em 0.4em;
+  }
+
+  pre {
+    background: #111827;
+    border-radius: 8px;
+    color: white;
+    padding: 1rem;
+    overflow-x: auto;
+
+    code {
+      background: none;
+      color: inherit;
+      padding: 0;
+    }
+  }
+
+  /* =========================
+     HIGHLIGHT
+  ========================= */
+  mark {
+    background-color: #fff59d;
+    border-radius: 4px;
+    padding: 0.1rem 0.2rem;
+  }
+
+  /* =========================
+     BLOCKQUOTE
+  ========================= */
+  blockquote {
+    border-left: 4px solid #d1d5db;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #4b5563;
+  }
+
+  /* =========================
+     LINEA HORIZONTAL
+  ========================= */
+  hr {
+    border: none;
+    border-top: 2px solid #d1d5db;
+    margin: 1.5rem 0;
+  }
+
+  /* =========================
+     IMAGENES
+  ========================= */
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1rem 0;
+    display: block;
+  }
+}
+
+/* =====================================================
+   TOOLBAR
+===================================================== */
+
+.toolbar-btn {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.15s;
+
+  border: 1px solid transparent;
+
+  color: #323130;
+}
+
+.toolbar-btn:hover {
+  background: #e4e4e4;
+}
+
+.toolbar-btn-active {
+  background: #dbeafe;
+  border-color: #93c5fd;
+}
+
+/* =====================================================
+   SELECTS
+===================================================== */
+
+.toolbar-select {
+  height: 32px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 6px;
+
+  padding: 0 10px;
+
+  background: white;
+
+  font-size: 13px;
+}
+
+/* =====================================================
+   BOTONES GRANDES
+===================================================== */
+
+.toolbar-action-btn {
+  width: 60px;
+  height: 58px;
+
+  border-radius: 8px;
+
+  border: 1px solid transparent;
+
+  background: transparent;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  font-size: 11px;
+
+  transition: 0.15s;
+
+  color: #323130;
+}
+
+.toolbar-action-btn:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* =====================================================
+   LABELS
+===================================================== */
+
+.toolbar-label {
+  font-size: 10px;
+  color: #6b7280;
+  text-align: center;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+/* =====================================================
+   SCROLLBAR
+===================================================== */
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

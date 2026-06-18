@@ -1,0 +1,62 @@
+.contenedor-paginas {
+    background: #e5e7eb;
+    padding: 2rem 0;
+}
+
+.pagina {
+    width: 21cm;
+    min-height: 29.7cm;
+    background: white;
+    margin: 2rem auto;
+    padding: 1.5cm;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 18px;
+    border-bottom: 1px solid #e5e7eb;
+
+}
+
+.ProseMirror hr {
+    border: none;
+    border-top: 2px solid #a19f9d;
+    margin: 10%px 0;
+}
+
+.documento-pdf {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 2.5cm;
+    margin: 2rem auto;
+    background: white;
+    color: black;
+    box-sizing: border-box;
+}
+
+@page {
+    size: A4;
+    margin: 10mm;
+}
+
+@media print {
+
+    body {
+        background: white;
+
+    }
+
+    .documento-pdf {
+        width: 21cm;
+        height: 29.7cm;
+        margin: 0;
+        padding: 2.5cm;
+        box-shadow: none !important;
+        border: none;
+        page-break-after: always;
+    }
+
+    .reporte-contenido,
+    .ProseMiror p {
+        page-break-inside: auto;
+    }
+
+
+}
