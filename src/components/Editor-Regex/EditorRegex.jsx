@@ -1,5 +1,5 @@
 import TextAlign from "@tiptap/extension-text-align";
-import { useState, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useEditor } from "@tiptap/react";
 import Wordtoolbar from "./Wordtoolbar";
 import { Color } from "@tiptap/extension-text-style";
@@ -13,15 +13,15 @@ import Highlight from "@tiptap/extension-highlight";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import DocumentEditor from "./DocumentEditor";
+import { useReactToPrint } from "react-to-print";
 
-
-const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onChange }) => {
-
-  const [activeEditor, setActiveEditor] = useState(null);
-  const [textoHtml, setTextoHtml] = useState(initialContent);
-
-
-
+const EditorRegex = ({
+  onSave,
+  onPrint,
+  variables = [],
+  initialContent = "",
+  onChange,
+}) => {
   const editorTemplate = useEditor({
     extensions: [
       StarterKit,
@@ -29,7 +29,22 @@ const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onC
       FontFamily,
       FontSize,
       UnderlineStyle,
-      ResizeImage,
+      ResizeImage.extend({
+        selectable: true,
+        addAttributes() {
+          return {
+            ...this.parent?.(),
+            style: {
+              default: null,
+              parseHTML: (element) => element.getAttribute("style"),
+              renderHTML: (attributes) => {
+                if (!attributes.style) return {};
+                return { style: attributes.style };
+              },
+            },
+          };
+        },
+      }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Color,
       Highlight.configure({
@@ -37,16 +52,10 @@ const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onC
       }),
       Subscript,
       Superscript,
-
     ],
     content: initialContent,
     onUpdate: ({ editor }) => {
-
-      const html = editor.getHTML();
-
-      setTextoHtml(html);
-
-      onChange?.(html);
+      onChange?.(editor.getHTML());
     },
     editorProps: {
       handlePaste(view, event) {
@@ -64,7 +73,12 @@ const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onC
             reader.onload = () => {
               const src = reader.result;
 
-              editor.chain().focus().setImage({ src }).run();
+              editor
+                .chain()
+                .focus()
+                .setImage({ src })
+                .updateAttributes("image", { style: "float: none;" })
+                .run();
             };
 
             reader.readAsDataURL(file);
@@ -73,7 +87,6 @@ const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onC
           }
         }
 
-
         const html = event.clipboardData.getData("text/html");
 
         if (html) {
@@ -81,7 +94,6 @@ const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onC
 
           return true;
         }
-
 
         const text = event.clipboardData.getData("text/plain");
 
@@ -101,32 +113,37 @@ const EditorRegex = ({ onSave, onPrint, variables = [], initialContent = "", onC
     },
   });
   const handleSave = () => {
-    onSave?.(textoHtml);
+    if (editorTemplate) {
+      onSave?.(editorTemplate.getHTML());
+    }
   };
+  const documentoRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: documentoRef,
+    documentTitle: "documento",
+  });
 
   useEffect(() => {
-    if (editorTemplate && initialContent) {
+    if (editorTemplate && initialContent && !editorTemplate.isFocused) {
       editorTemplate.commands.setContent(initialContent);
     }
   }, [editorTemplate, initialContent]);
 
   return (
     <div className="min-h-screen bg-gray-100">
-
-
       <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
         <Wordtoolbar
-          editor={activeEditor || editorTemplate}
+          editor={editorTemplate}
           handleSave={handleSave}
-          handlePrint={onPrint}
+          handlePrint={onPrint || handlePrint}
           variables={variables}
         />
       </div>
 
-      <DocumentEditor
-        editor={editorTemplate}
-        setActiveEditor={setActiveEditor}
-      />
+      <div ref={documentoRef} className="print-content-wrapper">
+        <DocumentEditor editor={editorTemplate} />
+      </div>
     </div>
   );
 };

@@ -2,31 +2,56 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import NavbarCompo from "../components/NavbarCompo";
 import { useNavigate } from "react-router-dom";
-import TextAlign from "@tiptap/extension-text-align";
+
 import { useState } from "react";
-import { useEditor } from "@tiptap/react";
-import Wordtoolbar from "../components/Wordtoolbar";
-import { Color } from "@tiptap/extension-text-style";
-import StarterKit from "@tiptap/starter-kit";
-import { TextStyle } from "@tiptap/extension-text-style";
-import { FontFamily } from "@tiptap/extension-font-family";
-import ResizeImage from "tiptap-extension-resize-image";
-import FontSize from "../extensions/FontSize";
-import { UnderlineStyle } from "../extensions/Underline";
-import Highlight from "@tiptap/extension-highlight";
-import Subscript from "@tiptap/extension-subscript";
-import Superscript from "@tiptap/extension-superscript";
-import PlantillaForm from "../components/PlantillaForm";
+import { EditorRegex } from "../components/Editor-Regex";
+
 
 const CreateNote = () => {
+  const variables = [
+    {
+      label: "Nombre Paciente",
+      value: "{{paciente.name}}",
+    },
+    {
+      label: "Edad",
+      value: "{{paciente.edad}}",
+    },
+    {
+      label: "Fecha Nacimiento",
+      value: "{{paciente.fechaNacimiento}}",
+    },
+    {
+      label: "Fecha Actual",
+      value: "{{fechaActual}}",
+    },
+    {
+      label: "Nombre de Estudio",
+      value: "{{plantilla.nombre}}",
+    },
+    {
+      label: "Modalidad",
+      value: "{{plantilla.modalidad}}",
+    },
+    {
+      label: "Tipo Estudio",
+      value: "{{plantilla.tipo_estudio}}",
+    },
+  ];
   const navigate = useNavigate();
-  const [activeEditor, setActiveEditor] = useState(null);
+  
   const [datos, setDatos] = useState({
     nombre: "",
     modalidad: "",
     tipo_estudio: "",
     template: "",
   });
+  const handleTemplateChange = (html) => { 
+    setDatos((prev) => ({
+      ...prev,
+      template: html,
+    }));
+  };
   const handleMetaChange = (e) => {
     setDatos({
       ...datos,
@@ -34,81 +59,7 @@ const CreateNote = () => {
     });
   };
 
-  const editorTemplate = useEditor({
-    extensions: [
-      StarterKit,
-      TextStyle,
-      FontFamily,
-      FontSize,
-      UnderlineStyle,
-      ResizeImage,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-      Color,
-      Highlight.configure({
-        multicolor: true,
-      }),
-      Subscript,
-      Superscript,
-    ],
-    content: "",
-    onUpdate: ({ editor }) => {
-      setDatos((prev) => ({
-        ...prev,
-        template: editor.getHTML(),
-      }));
-    },
-    editorProps: {
-      handlePaste(view, event) {
-        const items = event.clipboardData?.items;
-
-        if (!items) return false;
-
-        // IMAGENES
-        for (const item of items) {
-          if (item.type.startsWith("image")) {
-            const file = item.getAsFile();
-
-            const reader = new FileReader();
-
-            reader.onload = () => {
-              const src = reader.result;
-
-              editor.chain().focus().setImage({ src }).run();
-            };
-
-            reader.readAsDataURL(file);
-
-            return true;
-          }
-        }
-
-
-        const html = event.clipboardData.getData("text/html");
-
-        if (html) {
-          editor.chain().focus().insertContent(html).run();
-
-          return true;
-        }
-
-        
-        const text = event.clipboardData.getData("text/plain");
-
-        if (text) {
-          const formattedText = text
-            .split("\n")
-            .map((line) => `<p>${line}</p>`)
-            .join("");
-
-          editor.chain().focus().insertContent(formattedText).run();
-
-          return true;
-        }
-
-        return false;
-      },
-    },
-  });
+  
   const handleCreate = async () => {
     if (!datos.nombre || !datos.modalidad) {
       toast.warning("Por favor asigne un nombre y modalidad de plantilla");
@@ -120,8 +71,7 @@ const CreateNote = () => {
         nombre: datos.nombre,
         modalidad: datos.modalidad,
         tipo_estudio: datos.tipo_estudio,
-
-        template: editorTemplate.getHTML(),
+        template: datos.template,
       };
       console.log(plantillaCompleta);
       const res = await axios.post(
@@ -147,21 +97,62 @@ const CreateNote = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <NavbarCompo />
+      
 
-      <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
-        <Wordtoolbar
-          editor={activeEditor || editorTemplate}
-          handleSave={handleCreate}
-          handlePrint={() => window.print()}
-        />
+      <div className="bg-base-300 p-6 rounded-xl shadow-md grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label className="text-xs font-bold text-gray-500 uppercase block mb-1">
+            Nombre de la Plantilla
+          </label>
+          <input
+            className="input w-full bg-white border-0 focus:outline-none text-black"
+            placeholder="Ej: Radiografía de Tórax"
+            type="text"
+            name="nombre"
+            value={datos.nombre}
+            onChange={handleMetaChange}
+          />
+        </div>
+        <div>
+          <label className="text-xs font-bold text-gray-400 uppercase block mb-1">
+            Modalidad
+          </label>
+          <input
+            className="input w-full bg-white border-0 focus:outline-none text-black"
+            placeholder="Ej: RX, ECO, TAC"
+            type="text"
+            name="modalidad"
+            value={datos.modalidad}
+            onChange={handleMetaChange}
+          />
+        </div>
+        <div>
+          <label className="text-xs font-bold text-gray-400 uppercase block mb-1">
+            Tipo de Estudio
+          </label>
+          <input
+            className="input w-full bg-white border-0 focus:outline-none text-black"
+            placeholder="Ej: Clínico"
+            type="text"
+            name="tipo_estudio"
+            value={datos.tipo_estudio}
+            onChange={handleMetaChange}
+          />
+        </div>
       </div>
 
-      <PlantillaForm
-        datos={datos}
-        onMetaChange={handleMetaChange}
-        editor={editorTemplate}
-        setActiveEditor={setActiveEditor}
-      />
+      <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
+        <EditorRegex
+          onSave={handleCreate}
+  
+          variables={variables}
+        
+          onChange={handleTemplateChange}
+        ></EditorRegex>
+    
+      </div>
+
+   
     </div>
   );
 };

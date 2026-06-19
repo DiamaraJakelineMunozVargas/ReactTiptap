@@ -2,9 +2,7 @@ import Tiptap from "./Tiptap";
 import "./styles/documento.css";
 
 const DocumentEditor = ({
-
-  editor,
-  setActiveEditor,
+  editor
 }) => {
   return (
     <div className="max-w-[900px] mx-auto p-6 flex flex-col gap-6">
@@ -15,6 +13,7 @@ const DocumentEditor = ({
           className="cursor-text min-h-[120px] focus:outline-none"
           onClick={() => setActiveEditor(editor)}
         >
+
 
           <Tiptap editor={editor} />
         </div>

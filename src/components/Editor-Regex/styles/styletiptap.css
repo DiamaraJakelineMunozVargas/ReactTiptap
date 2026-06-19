@@ -81,3 +81,24 @@
     margin: 10px auto;
     border-radius: 8px;
 }
+/* Estilos para el ajuste de texto cuadrado en las imágenes del editor */
+.prose img[data-align="left"], 
+img[style*="float: left"] {
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.prose img[data-align="right"], 
+img[style*="float: right"] {
+  float: right;
+  margin-left: 15px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* Asegura que los párrafos siguientes puedan limpiar la flotación si es necesario */
+.prose p {
+  clear: none; /* Permite que el texto suba y rodee la imagen */
+}

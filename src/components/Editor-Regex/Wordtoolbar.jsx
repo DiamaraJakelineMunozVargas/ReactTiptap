@@ -9,8 +9,11 @@ import {
   ListOrdered,
   Save,
   Printer,
+  FileText,
+  AlignLeft,
+  AlignRight,
+  Maximize2
 } from "lucide-react";
-
 
 import FontFamilySelect from "./componentsWord/FontFamilySelect";
 import FontSizeSelect from "./componentsWord/FontSizeSelect";
@@ -29,146 +32,185 @@ import InsertImageButton from "./componentsWord/InsertImageButton";
 const Wordtoolbar = ({ editor, handleSave, handlePrint, variables }) => {
   if (!editor) return null;
 
+
+
+const isImageActive = editor.isActive("image") || 
+                      editor.isActive("resizeImage") || 
+                      editor.state.selection.node?.type.name === 'resizeImage' ||
+                      editor.state.selection.node?.type.name === 'image';
+const currentImageStyle = editor.getAttributes("image").style || editor.getAttributes("resizeImage").style || "";
+const imageNodeName = editor.isActive("resizeImage") ? "resizeImage" : "image";
+
   return (
-    <div className="sticky top-0 z-50 bg-[#edebe9] backdrop-blur-sm border-b border-[#d2d0ce] shadow-sm text-black select-none font-sans">
-      <div
-        className="
-    flex
-    flex-wrap
-    items-start
-    gap-3
-    px-4
-    py-3
-    overflow-visible
-    select-none
-  "
-      >
-        {/* Historial - Deshacer / Rehacer */}
-        <div className="flex items-center gap-0.5 pr-2 border-r border-[#d2d0ce]">
-          <button
-            className="p-1.5 hover:bg-[#f3f2f1] active:bg-[#e1dfdd] rounded text-[#323130]"
-            onClick={() => editor.chain().focus().undo().run()}
-          >
-            <Undo2 size={15} />
-          </button>
-          <button
-            className="p-1.5 hover:bg-[#f3f2f1] active:bg-[#e1dfdd] rounded text-[#323130]"
-            onClick={() => editor.chain().focus().redo().run()}
-          >
-            <Redo2 size={15} />
-          </button>
+    <div className="bg-[#f3f2f1] border-b border-[#d2d0ce] text-black select-none font-sans shadow-sm w-full">
+      <div className="flex flex-wrap items-stretch gap-0 px-2 py-1.5 overflow-visible">
+        
+        {/* GRUPO: DESHACER / REHACER */}
+        <div className="word-ribbon-group pl-1">
+          <div className="word-ribbon-row justify-center h-full gap-1">
+            <button
+              className="word-btn-sm"
+              onClick={() => editor.chain().focus().undo().run()}
+              title="Deshacer (Ctrl+Z)"
+            >
+              <Undo2 size={14} />
+            </button>
+            <button
+              className="word-btn-sm"
+              onClick={() => editor.chain().focus().redo().run()}
+              title="Rehacer (Ctrl+Y)"
+            >
+              <Redo2 size={14} />
+            </button>
+          </div>
+          <span className="word-group-label">Historial</span>
         </div>
 
-        {/* BLOQUE DE FUENTE (Ajustado idéntico a image_737406.png) */}
-        <div className="flex flex-col gap-1.5 pr-3 border-r border-[#d2d0ce] pl-2">
-          {/* Fila Superior: Tipografías, Tamaños y Botones de incremento */}
-          <div className="flex items-center gap-1.5">
+        {/* GRUPO: FUENTE (Estructura de doble fila perfecta) */}
+        <div className="word-ribbon-group">
+          {/* Fila Superior */}
+          <div className="word-ribbon-row gap-1">
             <FontFamilySelect editor={editor} />
             <FontSizeSelect editor={editor} />
-            {/* Agregado: Las A▲ A▼ */}
             <FontSizeAdjust editor={editor} />
           </div>
-
-          {/* Fila Inferior: Formatos y Efectos */}
-          <div className="flex items-center gap-1">
+          {/* Fila Inferior */}
+          <div className="word-ribbon-row gap-0.5 mt-1">
             <button
-              className={`p-1 rounded text-xs font-bold w-7 h-6.5 flex items-center justify-center border transition-all ${editor.isActive("bold")
-                ? "bg-[#e1dfdd] border-[#8a8886]"
-                : "bg-transparent border-transparent hover:bg-[#f3f2f1]"
-                }`}
+              className={`word-btn-sm font-bold ${editor.isActive("bold") ? "active" : ""}`}
               onClick={() => editor.chain().focus().toggleBold().run()}
+              title="Negrita"
             >
-              <Bold size={14} />
+              <Bold size={13} />
             </button>
 
             <button
-              className={`p-1 rounded w-7 h-6.5 flex items-center justify-center border transition-all ${editor.isActive("italic")
-                ? "bg-[#e1dfdd] border-[#8a8886]"
-                : "bg-transparent border-transparent hover:bg-[#f3f2f1]"
-                }`}
+              className={`word-btn-sm ${editor.isActive("italic") ? "active" : ""}`}
               onClick={() => editor.chain().focus().toggleItalic().run()}
+              title="Cursiva"
             >
-              <Italic size={14} />
+              <Italic size={13} />
             </button>
 
             <UnderlineSelect editor={editor} />
             <HighlightButton editor={editor} />
-
             <SubscriptButton editor={editor} />
-
             <SuperscriptButton editor={editor} />
 
-            {/* NUEVO: Botón de Tachado (abc) */}
             <button
-              className={`p-1 rounded w-7 h-6.5 flex items-center justify-center text-xs border transition-all line-through font-serif ${editor.isActive("strike")
-                ? "bg-[#e1dfdd] border-[#8a8886]"
-                : "bg-transparent border-transparent hover:bg-[#f3f2f1]"
-                }`}
+              className={`word-btn-sm text-xs line-through font-serif ${editor.isActive("strike") ? "active" : ""}`}
               onClick={() => editor.chain().focus().toggleStrike().run()}
               title="Tachado"
             >
               abc
             </button>
 
-            <div className="w-px bg-[#d2d0ce] h-4 mx-0.5" />
-
-            {/* Selector de color de Fuente normal */}
+            <div className="w-px bg-[#d2d0ce] h-3.5 mx-1" />
             <FontColorPicker editor={editor} />
           </div>
+          <span className="word-group-label">Fuente</span>
         </div>
 
-        {/* Bloque de Párrafo: Listas y Alineación */}
-        <div className="flex flex-col gap-1.5 pr-3 border-r border-[#d2d0ce] pl-2">
-          <div className="flex items-center gap-1">
+        {/* GRUPO: PÁRRAFO */}
+        <div className="word-ribbon-group">
+          <div className="word-ribbon-row gap-1">
             <button
-              className={`p-1 rounded border transition-all ${editor.isActive("bulletList") ? "bg-[#e1dfdd] border-[#8a8886]" : "bg-transparent border-transparent hover:bg-[#f3f2f1]"}`}
+              className={`word-btn-sm ${editor.isActive("bulletList") ? "active" : ""}`}
               onClick={() => editor.chain().focus().toggleBulletList().run()}
+              title="Lista con viñetas"
             >
-              <List size={15} />
+              <List size={14} />
             </button>
             <button
-              className={`p-1 rounded border transition-all ${editor.isActive("orderedList") ? "bg-[#e1dfdd] border-[#8a8886]" : "bg-transparent border-transparent hover:bg-[#f3f2f1]"}`}
+              className={`word-btn-sm ${editor.isActive("orderedList") ? "active" : ""}`}
               onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              title="Lista numerada"
             >
-              <ListOrdered size={15} />
+              <ListOrdered size={14} />
             </button>
           </div>
-          <TextAlignGroup editor={editor} />
-        </div>
-        {/* Bloque Insertar */}
-        <div className="flex items-center gap-1 pr-3 border-r border-[#d2d0ce] pl-2">
-          <HorizontalRuleButton editor={editor} />
-        </div>
-        {/* Bloque de Estilos (Títulos) */}
-
-        <div className="flex items-center pr-3 border-r border-[#d2d0ce]">
-          <HeadingSelect editor={editor} />
+          <div className="word-ribbon-row mt-1">
+            <TextAlignGroup editor={editor} />
+          </div>
+          <span className="word-group-label">Párrafo</span>
         </div>
 
-        {/* Bloque Variables */}
-        <div className="flex items-center pr-3 border-r border-[#d2d0ce]">
-          <InsertVariableSelect editor={editor} variables={variables} />
+        {/* GRUPO: ESTILOS */}
+        <div className="word-ribbon-group justify-center gap-1">
+          <div className="flex items-center h-full">
+            <HeadingSelect editor={editor} />
+          </div>
+          <span className="word-group-label">Estilos</span>
         </div>
 
-        {/* Botones de acción del sistema */}
-        <div className="ml-auto flex items-center gap-2">
-          <InsertImageButton editor={editor} />
+        {/* GRUPO: INSERTAR ELEMENTOS */}
+        <div className="word-ribbon-group">
+          <div className="word-ribbon-row justify-center items-center h-full gap-1.5">
+            <HorizontalRuleButton editor={editor} />
+            <InsertVariableSelect editor={editor} variables={variables} />
+          </div>
+          <span className="word-group-label">Insertar</span>
+        </div>
+
+        {/* 🔲 DINÁMICO: CONFIGURACIÓN CUADRADA DE IMAGEN */}
+        {isImageActive && (
+          <div className="word-ribbon-group bg-[#e1dfdd] animate-fade-in border border-[#a1a09f] mx-1 rounded px-1">
+            <div className="word-ribbon-row gap-1 justify-center h-full">
+              <button
+                className={`word-btn-sm ${currentImageStyle.includes("float: left") ? "active bg-white" : "bg-transparent"}`}
+              onClick={() => editor.chain().focus().updateAttributes(imageNodeName, { style: "float: left;" }).run()}
+                title="Ajuste Cuadrado Izquierda"
+              >
+                <AlignLeft size={13} className="text-[#0078d4]" />
+                <span className="text-[10px] ml-0.5 font-bold">Izq</span>
+              </button>
+
+              <button
+                className={`word-btn-sm ${currentImageStyle.includes("float: right") ? "active bg-white" : "bg-transparent"}`}
+               onClick={() => editor.chain().focus().updateAttributes(imageNodeName, { style: "float: left;" }).run()}
+                title="Ajuste Cuadrado Derecha"
+              >
+                <span className="text-[10px] mr-0.5 font-bold">Der</span>
+                <AlignRight size={13} className="text-[#0078d4]" />
+              </button>
+
+              <button
+                className={`word-btn-sm ${(!currentImageStyle.includes("float: left") && !currentImageStyle.includes("float: right")) ? "active bg-white" : "bg-transparent"}`}
+                onClick={() => editor.chain().focus().updateAttributes(imageNodeName, { style: "float: left;" }).run()}
+                title="Alineado en línea (Normal)"
+              >
+                <Maximize2 size={12} />
+              </button>
+            </div>
+            <span className="word-group-label font-bold text-[#0078d4]">Ajuste de Imagen</span>
+          </div>
+        )}
+
+        {/* BOTONES DE ACCIÓN GLOBAL (MÁRGEN DERECHO) */}
+        <div className="ml-auto flex items-center gap-1.5 pl-3">
+          <div className="flex flex-col items-center">
+            <InsertImageButton editor={editor} />
+          </div>
+          
+          <div className="w-px bg-[#d2d0ce] h-10 mx-1" />
+
           <button
-            className="flex flex-col items-center justify-center gap-0.5 bg-transparent hover:bg-[#f3f2f1] active:bg-[#e1dfdd] w-12 h-12 rounded border border-transparent hover:border-[#d2d0ce] text-[#323130] transition-all"
+            className="flex flex-col items-center justify-center bg-transparent hover:bg-[#eaeaea] active:bg-[#e1dfdd] w-14 h-14 rounded border border-transparent hover:border-[#d2d0ce] text-[#323130] transition-all"
             onClick={handlePrint}
           >
-            <Printer size={18} className="text-[#0078d4]" />
-            <span className="text-[10px] font-medium">Imprimir</span>
+            <Printer size={16} className="text-[#0078d4]" />
+            <span className="text-[10px] font-semibold mt-1">Imprimir</span>
           </button>
 
           <button
-            className="flex flex-col items-center justify-center gap-0.5 bg-transparent hover:bg-[#f3f2f1] active:bg-[#e1dfdd] w-12 h-12 rounded border border-transparent hover:border-[#d2d0ce] text-[#323130] transition-all"
+            className="flex flex-col items-center justify-center bg-transparent hover:bg-[#eaeaea] active:bg-[#e1dfdd] w-14 h-14 rounded border border-transparent hover:border-[#d2d0ce] text-[#323130] transition-all"
             onClick={handleSave}
           >
-            <Save size={18} className="text-[#107c41]" />
-            <span className="text-[10px] font-medium">Guardar</span>
+            <Save size={16} className="text-[#107c41]" />
+            <span className="text-[10px] font-semibold mt-1">Guardar</span>
           </button>
         </div>
+
       </div>
     </div>
   );
