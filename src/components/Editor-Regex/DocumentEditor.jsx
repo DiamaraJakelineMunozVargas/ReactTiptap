@@ -10,9 +10,7 @@ const DocumentEditor = ({
       <div className="documento-pdf bg-white shadow-2xl p-12 min-h-[200px] rounded-sm text-black">
 
         <div
-          className="cursor-text min-h-[120px] focus:outline-none"
-          onClick={() => setActiveEditor(editor)}
-        >
+          className="cursor-text min-h-[120px] focus:outline-none" >
 
 
           <Tiptap editor={editor} />

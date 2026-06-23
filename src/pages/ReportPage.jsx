@@ -13,7 +13,7 @@ const Inicio = ({ data, setSelectedNote }) => {
 
       <div className="grid grid-cols- [repeat(auto-fit, _minmax(280px, -1fr))] gap-4 mt-16 xl:grid-cols-[repeat(auto-fit, _minmax(350px, -1fr))]. max-w-[1540px] mx-auto">
         <Link
-          to="/createNote"
+          to="/CreatePage"
           className="btn btn-soft btn-primary font-bold text-[1.1em] ml-auto flex gap-2 justify-between"
         >
           <PlusIcon />

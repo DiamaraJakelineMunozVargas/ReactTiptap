@@ -1,5 +1,5 @@
 import Inicio from "./pages/ReportPage";
-import CrearNote from "./pages/CreateNote";
+import CreatePage from "./components/Editor-Regex/CreatePage";
 import ModalComponente from "./components/ModalComponente";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -53,7 +53,7 @@ const App = () => {
             Component={Reports}
           />
           <Route path="/reports/:reporte_id" Component={Reports} />
-          <Route path="/createNote" element={<CrearNote />} />
+          <Route path="/CreatePage" element={<CreatePage />} />
           <Route path="/editPlantilla" element={<EditPlantilla/>}/>
         </Routes>
         <ToastContainer

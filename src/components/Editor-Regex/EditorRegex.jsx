@@ -1,5 +1,5 @@
 import TextAlign from "@tiptap/extension-text-align";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef} from "react";
 import { useEditor } from "@tiptap/react";
 import Wordtoolbar from "./Wordtoolbar";
 import { Color } from "@tiptap/extension-text-style";
@@ -15,13 +15,18 @@ import Superscript from "@tiptap/extension-superscript";
 import DocumentEditor from "./DocumentEditor";
 import { useReactToPrint } from "react-to-print";
 
+
 const EditorRegex = ({
+ children,
   onSave,
   onPrint,
   variables = [],
   initialContent = "",
   onChange,
 }) => {
+
+
+
   const editorTemplate = useEditor({
     extensions: [
       StarterKit,
@@ -140,7 +145,8 @@ const EditorRegex = ({
           variables={variables}
         />
       </div>
-
+      {children}
+     
       <div ref={documentoRef} className="print-content-wrapper">
         <DocumentEditor editor={editorTemplate} />
       </div>
