@@ -1,78 +1,47 @@
-import Inicio from "./pages/ReportPage";
-import CreatePage from "./components/Editor-Regex/CreatePage";
-import ModalComponente from "./components/ModalComponente";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+
+
+import Inicio from "./pages/Inicio";
 import Reports from "./pages/reports";
+import NewPlantilla from "./pages/NewPlantilla";
 import EditPlantilla from "./pages/EditPlantilla";
 
+
+import { pacienteService } from "./services/pacienteService";
+
 const App = () => {
-  const [infoPat, setinfoPat] = useState({ // dato paciente 
-    ready: false,
-    data: [],
-  });
-  const [selectedNote, setSelectedNote] = useState(null); // paciente seleccionado
-  // ESTADO EN REACT 
-  /**selectedNote es el valor actual 
-   * setSelectedNote es la funcion para cambiar ese valor
-   * al inicio selectedNote es = null porque useState esta igual a null 
-   * entonces inicialmente significa: selectedNote= null (no hay pacientes seleccionados)
-   */
+  const [infoPat, setinfoPat] = useState({ ready: false, data: [] });
 
-  console.log("Paciente seleccionado actualmente:", selectedNote);
-
+ 
   useEffect(() => {
-    (async () => {
+    const cargarPacientes = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/pacientes`);
-        const data = response.data;
+        const data = await pacienteService.getAll();
         setinfoPat({ ready: true, data });
       } catch (error) {
-        console.error("Error al obtener los datos:", error);
+        console.error("Error al obtener los pacientes:", error);
       }
-    })();
+    };
+    cargarPacientes();
   }, []);
 
-  if (!infoPat.ready) return <div>Cargando.......</div>;
+  if (!infoPat.ready) return <div className="p-10 text-center font-bold">Cargando aplicación.......</div>;
 
   return (
-    <>
+    <div className="w-full">
+      <Routes>
+    
+        <Route path="/" element={<Inicio data={infoPat.data} />} />
+        <Route path="/reports/:paciente_id/:plantilla_id" Component={Reports} />
+        <Route path="/reports/:reporte_id" Component={Reports} />
+        <Route path="/CreatePage" element={<NewPlantilla />} />
+        <Route path="/editPlantilla" element={<EditPlantilla />} />
+      </Routes>
       
-      <div className="w-full ">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Inicio data={infoPat.data} setSelectedNote={setSelectedNote} />
-            }
-          />
-          <Route
-            path="/reports/:paciente_id/:plantilla_id"
-            Component={Reports}
-          />
-          <Route path="/reports/:reporte_id" Component={Reports} />
-          <Route path="/CreatePage" element={<CreatePage />} />
-          <Route path="/editPlantilla" element={<EditPlantilla/>}/>
-        </Routes>
-        <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        theme="light"/>
-        <ModalComponente
-          selectedNote={selectedNote}
-          isOpen={!!selectedNote}
-          onClose={() => setSelectedNote(null)}
-        />
-      </div>
-    </>
+      <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
+    </div>
   );
 };
 

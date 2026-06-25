@@ -1,103 +1,79 @@
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import SearchComponent from "./SearchComponent.jsx";
-import { Pencil } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Pencil, X } from "lucide-react";
 
-const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
-  const dialogref = useRef(null);
-  const [plantillas, setPlantillas] = useState([]); // estado de las plantillas = null 
-  const [search, setSearch] = useState(""); // buscador = ""
-  const [reportes, setReportes] = useState([]);  // reportes = null 
+const ModalComponente = ({
+  isOpen,
+  onClose,
 
+  tituloSeccionSuperior = "Elementos registrados",
+  textoVacioSuperior = "No hay registros disponibles.",
+  columnasTabla = ["Categoría", "Detalle", "Acciones"],
+  datosSuperiores = [],
+  onAccionSuperior,
+  textoBotonSuperior = "Editar",
+  iconoBotonSuperior: IconoSuperior = Pencil,
+
+  tituloSeccionInferior = "Seleccionar opción",
+  datosInferiores = [],
+  onAccionInferior,
+
+  searchValue = "",
+  onSearchChange,
+  placeholderBuscar = "Buscar...", 
+}) => {
+  const dialogRef = useRef(null);
+
+  // Control del diálogo nativo de HTML5
   useEffect(() => {
-    if (!dialogref.current) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return; 
 
     if (isOpen) {
-      dialogref.current.showModal();
-
-      cargarPlantillas();
-      CargarReports();
+      if (!dialog.open) dialog.showModal();
     } else {
-      dialogref.current.close();
+      if (dialog.open) dialog.close();
     }
   }, [isOpen]);
 
-  const plantillasFiltradas = plantillas.filter((plantilla) =>
-    plantilla.nombre.toLowerCase().includes(search.toLowerCase()) || 
-  plantilla.modalidad.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const cargarPlantillas = async () => {
-    try {
-      const response = await axios.get(`http://localhost:3000/plantillas`);
-
-      setPlantillas(response.data); // plantilla = null / setplantilla = datosPlantilla 
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  const CargarReports = async () => {
-    try {
-      const respo = await axios.get(
-        `http://localhost:3000/reportes/paciente/${selectedNote._id}`,
-      );
-      setReportes(respo.data); // reporte = null / setreporte = datosReporte del paciente seleccionado(selectedNote)
-    } catch (error) {}
-  };
-  const abrirReporte = (plantilla) => {
-    window.open(
-      `/reports/${selectedNote._id}/${plantilla._id}`, // reports/paciente/plantilla
-      "_blank",
-     "width=1200,height=820,resizable=yes",
-    );
-
-    onClose();
-  };
-
   return (
-    <dialog ref={dialogref} className="modal">
+    <dialog ref={dialogRef} className="modal" onClose={onClose}>
       <div className="modal-box max-w-4xl">
+        
+        {/* Encabezado Principal */}
         <div className="flex justify-between items-center mb-5">
-          <h3 className="font-bold text-xl mb-2">Reportes realizados</h3>
-          <button className="btn btn-sm btn-circle" onClick={onClose}>
-            ✕
+          <h3 className="font-bold text-xl">{tituloSeccionSuperior}</h3>
+          <button className="btn btn-sm btn-circle" onClick={onClose} aria-label="Cerrar">
+            <X size={18} />
           </button>
         </div>
 
-        {reportes.length === 0 ? (
-          <div className="alert">
-            Este paciente no tiene reportes registrados.
+        {/* 1. SECCIÓN SUPERIOR: Tabla Genérica */}
+        {datosSuperiores.length === 0 ? (
+          <div className="alert mb-6">
+            {textoVacioSuperior}
           </div>
         ) : (
-          <div className="overflow-x-auto mb-6 ">
-            <table className="table ">
+          <div className="overflow-x-auto mb-6">
+            <table className="table w-full">
               <thead>
                 <tr>
-                  <th>Modalidad</th>
-                  <th>Estudio</th>
-                  <th></th>
+                  {columnasTabla.map((col, index) => (
+                    <th key={index}>{col}</th>
+                  ))}
                 </tr>
               </thead>
-
               <tbody>
-                {reportes.map((reporte) => (
-                  <tr key={reporte._id}>
-                    <td>{reporte.plantillaId.modalidad}</td>
-
-                    <td>{reporte.plantillaId.nombre}</td>
-
+                {datosSuperiores.map((fila,index) => (
+                  <tr key={fila.id || index}>
+                    <td>{fila.celda1}</td>
+                    <td>{fila.celda2}</td>
                     <td>
                       <button
-                        className="btn btn-ghost btn-primary"
-                        onClick={() =>
-                          window.open(`/reports/${reporte._id}`, 
-                            "_blank",  
-                            "width=1200,height=820,resizable=yes",)
-                          
-                        }
+                        className="btn btn-ghost btn-primary btn-sm flex items-center gap-2"
+                        onClick={() => onAccionSuperior?.(fila.originalData)} 
                       >
-                        <Pencil size={18}/>
-                        Editar 
+                        <IconoSuperior size={16} />
+                        {textoBotonSuperior}
                       </button>
                     </td>
                   </tr>
@@ -106,22 +82,36 @@ const ModalComponente = ({ selectedNote, isOpen, onClose }) => {
             </table>
           </div>
         )}
-        <div>
-          <h3 className="font-bold text-xl ">Seleccionar Plantilla</h3>
-          <SearchComponent search={search} setSearch={setSearch} />
+      
+        {/* 2. SECCIÓN INFERIOR: Buscador e Input */}
+        <div className="mb-4">
+          <h3 className="font-bold text-xl mb-2">{tituloSeccionInferior}</h3>
+          <input 
+            type="text"
+            className="input input-bordered w-full"
+            placeholder={placeholderBuscar}
+            value={searchValue}
+            onChange={(e) => onSearchChange?.(e.target.value)}
+          />
         </div>
 
+     
         <div className="space-y-2 max-h-[240px] overflow-y-auto pr-2">
-          {plantillasFiltradas.map((plantilla) => (
-            <button
-              key={plantilla._id}
-              className="btn btn-outline w-full justify-start"
-              onClick={() => abrirReporte(plantilla)}
-            >
-              {plantilla.modalidad} - {plantilla.nombre}
-            </button>
-          ))}
+          {datosInferiores.length === 0 ? (
+            <p className="text-sm text-gray-500 italic">No se encontraron opciones.</p>
+          ) : (
+            datosInferiores.map((opcion) => (
+              <button
+                key={opcion.id}
+                className="btn btn-outline w-full justify-start text-left"
+                onClick={() => onAccionInferior?.(opcion.originalData)}
+              >
+                {opcion.textoVisible}
+              </button>
+            ))
+          )}
         </div>
+
       </div>
     </dialog>
   );

@@ -1,16 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { PlusIcon, BookText } from "lucide-react";
-import ModalComponente from "./ModalComponente";
 
+const NavbarCompo = ( ) => {
 
-
-const NavbarCompo = ({ selectedNote, onUpdate }) => {
-    const abrirModal = () => {
-        const modal = document.getElementById("my_modal_3");
-        if (modal) {
-            modal.showModal();
-        }
-    };
     return (
         <>
             <header className="navbar bg-base-300 py-8 mb-15">
@@ -19,26 +10,12 @@ const NavbarCompo = ({ selectedNote, onUpdate }) => {
                        BioGénesis
                     </NavLink>
                     <div className="ml-auto flex gap-5 ">
-                        {/* <NavLink
-                            className={"btn btn-soft btn-primary font-bold text-[1.1em]"}
-                            to={"/createNote"}
-                        >
-                            <PlusIcon />
-                            Agregar nueva plantilla
-                        </NavLink> */}
-                        {/* <button
-                            className="btn btn-soft btn-primary text-[1.1em]"
-                            onClick={abrirModal}
-                            disabled={!selectedNote}
-                        >
-                            <BookText />
-                            Reporte
-                        </button> */}
+                     
                     </div>
 
                 </div>
             </header>
-            <ModalComponente selectedNote={selectedNote} onUpdate={onUpdate} isOpen={selectedNote} />
+          
         </>
     );
 };

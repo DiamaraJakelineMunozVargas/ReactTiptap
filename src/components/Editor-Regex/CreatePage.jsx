@@ -1,8 +1,6 @@
 import NavbarCompo from "../NavbarCompo";
 import { EditorRegex } from ".";
 
-
-
 const CreatePage = ({
   children, 
   variables, 

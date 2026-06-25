@@ -1,73 +1,77 @@
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { useReactToPrint } from "react-to-print";
 import { useState, useEffect, useRef } from "react";
 import { LifeLine } from "react-loading-indicators";
-import {EditorRegex, reemplazarVariables } from "../components/Editor-Regex";
+import { toast } from "react-toastify";
+import { EditorRegex, reemplazarVariables } from "../components/Editor-Regex";
 
+import { pacienteService } from "../services/pacienteService";
+import { plantillaService } from "../services/plantillaService";
+import { reporteService } from "../services/reportService";
 
 const Reports = () => {
-  const [plantilla, setPlantilla] = useState(null); // plantilla = null
-  const [paciente, setPaciente] = useState(null); //paciente = null
-  const [reporte, setReporte] = useState(null); //reporte = null
-  const [ready, setReady] = useState(false); //ready = false  si ya termino de cargar
-  const { paciente_id, plantilla_id, reporte_id } = useParams(); // leer los parametros de la URL ;)
+  const [plantilla, setPlantilla] = useState(null);
+  const [paciente, setPaciente] = useState(null);
+  const [reporte, setReporte] = useState(null);
+  const [ready, setReady] = useState(false);
+
+  const { paciente_id, plantilla_id, reporte_id } = useParams();
 
   useEffect(() => {
-    (async () => {
+    const cargarTodaLaData = async () => {
       try {
         if (reporte_id) {
-          // si existe el id del reporte, entonces que edite
-          const responseEditar = await axios.get(
-            `http://localhost:3000/reportes/${reporte_id}`, // trae un reporte a traves de su id
-          );
-          console.log(responseEditar.data);
-          setReporte(responseEditar.data); // se guarda el reporte ya actualizado
-          setPaciente(responseEditar.data.pacId); //paciente= null --setpaciente = reportes/pacienteId
-          setPlantilla(responseEditar.data.plantillaId); // plantilla=null -- setplantilla= reportes/Plantilla_id
+          const dataReporte = await reporteService.getById(reporte_id);
+
+          setReporte(dataReporte);
+          setPaciente(dataReporte.pacId);
+          setPlantilla(dataReporte.plantillaId);
           setReady(true);
         } else {
-          // si no existe el reporte, entonces se crea uno nuevo
-          const [responsepaciente, responseplantilla] = await Promise.all([
-            //Promise.all = las dos peticiones al mismo tiempo: paciente - plantilla
-            axios.get(`http://localhost:3000/pacientes/${paciente_id}`),
-            axios.get(`http://localhost:3000/plantillas/${plantilla_id}`),
+          const [dataPaciente, dataPlantilla] = await Promise.all([
+            pacienteService.getById(paciente_id),
+            plantillaService.getById(plantilla_id),
           ]);
-          console.log(responseplantilla.data);
-          console.log(responsepaciente.data);
 
-          setPlantilla(responseplantilla.data); // plantilla=null -- setplantilla= datos de la plantilla
-          setPaciente(responsepaciente.data); //paciente = null -- setpaciente = datos del paciente seleccionado
+          setPlantilla(dataPlantilla);
+          setPaciente(dataPaciente);
+
           setReporte({
-            pacId: responsepaciente.data._id, // pacientes datos
-            plantillaId: responseplantilla.data._id, // plantilla datos
-            template: responseplantilla.data.template || "", // el template son los datos que se guardaran de los datos de las expresiones regulares
+            pacId: dataPaciente._id,
+            plantillaId: dataPlantilla._id,
+            template: dataPlantilla.template || "",
           });
 
           setReady(true);
         }
       } catch (error) {
-        console.error("Error al obtener la plantilla:", error);
+        console.error(
+          "Error al obtener los datos en la página de Reportes:",
+          error,
+        );
+        toast.error("Error al cargar los datos médicos.");
       }
-    })();
-  }, []);
+    };
+
+    cargarTodaLaData();
+  }, [paciente_id, plantilla_id, reporte_id]);
 
   const handleSave = async () => {
     try {
       if (reporte._id) {
-        await axios.put(
-          `http://localhost:3000/reportes/${reporte._id}`,
-          reporte,
-        );
-        alert("reporte Actualizado");
+       
+        await reporteService.update(reporte._id, reporte);
+        toast.success("¡Reporte Actualizado correctamente!");
       } else {
-        console.log(reporte);
-        await axios.post("http://localhost:3000/reportes", reporte);
-
-        alert("Guardado correctamente");
+       
+        const nuevoReporte = await reporteService.create(reporte);
+      
+        setReporte(nuevoReporte);
+        toast.success("¡Reporte Guardado con éxito!");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error al guardar el reporte:", error);
+      toast.error("Hubo un problema al guardar el reporte.");
     }
   };
 
@@ -76,18 +80,13 @@ const Reports = () => {
     contentRef: printRef,
     documentTitle: "reporte",
   });
-  const htmlFinal = reemplazarVariables(
-    // se llama al motor regex  paciente: {{paciente.name}}
-    reporte?.template || "",
 
-    {
-      paciente,
-      plantilla,
-      fechaActual: new Date().toLocaleDateString(),
-      contenido: reporte?.contenido || "",
-    },
-  );
-
+  const htmlFinal = reemplazarVariables(reporte?.template || "", {
+    paciente,
+    plantilla,
+    fechaActual: new Date().toLocaleDateString(),
+    contenido: reporte?.contenido || "",
+  });
 
   if (!ready) {
     return (
@@ -102,15 +101,16 @@ const Reports = () => {
     );
   }
 
-  const fechaFormateada = new Date(plantilla.date).toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const fechaFormateada = plantilla?.date
+    ? new Date(plantilla.date).toLocaleDateString("es-ES", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "Sin fecha";
 
   return (
     <div>
-     
       <EditorRegex
         initialContent={htmlFinal}
         onChange={(html) =>
@@ -120,10 +120,15 @@ const Reports = () => {
           }))
         }
         onSave={handleSave}
-         fechaFormateada={fechaFormateada}
-         Imprimir={handlePrint}
-           
+        fechaFormateada={fechaFormateada}
+        Imprimir={handlePrint}
       />
+
+      <div style={{ display: "none" }}>
+        <div ref={printRef}>
+          <div dangerouslySetInnerHTML={{ __html: htmlFinal }} />
+        </div>
+      </div>
     </div>
   );
 };
