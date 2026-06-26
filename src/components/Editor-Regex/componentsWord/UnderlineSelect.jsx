@@ -28,12 +28,35 @@ const UnderlineSelect = ({ editor }) => {
   }, []);
 
   const handleSelectStyle = (styleValue) => {
-    editor.chain().focus().setUnderlineStyle(styleValue).run();
+    let cssStyle = "solid";
+    let cssThickness = "auto";
+
+    if (styleValue === "double") cssStyle = "double";
+    if (styleValue === "solid-thick") {
+      cssStyle = "solid";
+      cssThickness = "3px";
+    }
+    if (styleValue === "dotted") cssStyle = "dotted";
+    if (styleValue === "dashed") cssStyle = "dashed";
+    if (styleValue === "wavy") cssStyle = "wavy";
+    if (styleValue === "dash-dot") cssStyle = "dashed";
+
+    editor
+      .chain()
+      .focus()
+      .unsetMark("underline")
+      .setUnderlineStyle(cssStyle, cssThickness)
+      .run();
+
     setIsOpen(false);
   };
 
   const handleMainClick = () => {
-    editor.chain().focus().setUnderlineStyle("solid").run();
+    if (editor.isActive("underline")) {
+      editor.chain().focus().unsetUnderline().unsetUnderlineStyle().run();
+    } else {
+      editor.chain().focus().setUnderline().run();
+    }
   };
 
   return (

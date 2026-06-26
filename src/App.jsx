@@ -27,7 +27,7 @@ const App = () => {
     cargarPacientes();
   }, []);
 
-  if (!infoPat.ready) return <div className="p-10 text-center font-bold">Cargando aplicación.......</div>;
+  
 
   return (
     <div className="w-full">

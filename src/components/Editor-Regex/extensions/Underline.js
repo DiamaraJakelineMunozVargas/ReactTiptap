@@ -1,47 +1,53 @@
-import { Mark, mergeAttributes } from '@tiptap/core'
+import { Mark, mergeAttributes } from "@tiptap/core";
 
 export const UnderlineStyle = Mark.create({
-    name: 'underlineStyle',
+  name: "underlineStyle",
 
-    addAttributes() {
-        return {
-            style: {
-                default: 'solid',
-            },
-        }
-    },
+  addAttributes() {
+    return {
+      style: {
+        default: "solid",
+      },
+    };
+  },
 
-    parseHTML() {
-        return [
-            {
-                tag: 'span[data-underline]',
-            },
-        ]
-    },
+  parseHTML() {
+    return [
+      {
+        tag: "span[data-underline]",
+      },
+    ];
+  },
 
-    renderHTML({ HTMLAttributes }) {
-        return [
-            'span',
-            mergeAttributes(HTMLAttributes, {
-                'data-underline': '',
-                style: `
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "span",
+      mergeAttributes(HTMLAttributes, {
+        "data-underline": "",
+        style: `
           text-decoration-line: underline;
           text-decoration-style: ${HTMLAttributes.style};
         `,
-            }),
-            0,
-        ]
-    },
+      }),
+      0,
+    ];
+  },
 
-    addCommands() {
-        return {
-            setUnderlineStyle:
-                (style) =>
-                    ({ commands }) => {
-                        return commands.setMark(this.name, {
-                            style,
-                        })
-                    },
-        }
-    },
-})
+  addCommands() {
+    return {
+      setUnderlineStyle:
+        (style) =>
+        ({ commands }) => {
+          return commands.setMark(this.name, {
+            style,
+          });
+        },
+
+      unsetUnderlineStyle:
+        () =>
+        ({ commands }) => {
+          return commands.unsetMark(this.name);
+        },
+    };
+  },
+});

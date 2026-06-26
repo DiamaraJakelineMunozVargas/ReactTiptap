@@ -120,15 +120,19 @@ Los componentes de Word son las herramientas basicas que tiene un editor de text
 - TextAlignGroup
 - UnderlineSelect 
 ###### FontColorPicker
-El componente **FontColorPicker** es el componente que tiene la funcion del cambio de color del texto, tipo como el word tradicional. Tiene los colores como: el rojo, amarillo, verde, azul, gris y el negro, tambien tiene una opcion para colocar en el color que viene por automatico. 
+El componente **FontColorPicker** es el componente que tiene la funcion del cambio de color del texto, tipo como el word tradicional. Tiene todoslos colores ordenados en columnas, ademas de contar tambien con los colores estandar y con una paleta de colores donde puedes elegir un color nuevo.
 
-![alt text](image-2.png)
-Dentro del WordToolbar lo encontraras como en el word tradicional, puedes elegir cualquiera de los 6 colores que se ve en pantalla: negro, rojo, azul, amarillo y gris. 
+![alt text](image-12.png)
+
+Dentro del WordToolbar lo encontraras como en el word tradicional, puedes elegir cualquiera de los colores que se ve en pantalla.
 
 **Como funciona este componente FontColor**
-![alt text](image-3.png)
+
+![alt text](image-2.png)
+
 El **FontColorPicker**  funciona como se ve en la imagen, puede seleccionar el texto que escribiste y luego seleccionar el icono de FontColor que tiene la forma de una A mayuscula, al seleccionarlo se abrira un menu flotante de colores, donde selecionas uno y el texto tendra el color que seleccionaste. 
 tambien puedes seleccionar primero el color y al escribir el texto saldra del color que elegiste. 
+
 ###### FontFamilySelect
 El componente **FontFamilySelect** es un select donde puedes elegir el tipo de fuente: 
 ```
@@ -190,7 +194,27 @@ Seleccionas el número que prefieras y el texto del documento cambiara su tamañ
 ![alt text](image-7.png)
 
 ###### HeadingSelect
+El componente **HeadingSelect** es un select encontrado en la parte del toolbar Word, al igual que el word tradicional sirve para seleccionar el tipo de texto como: 
+![alt text](image-8.png)
+y solamente debes seleccionar uno y el cambio se reflejara en el editor. 
 ###### HighlightButton
+Tiene como icono un resaltador, su funcion es resaltar el texto, viene con el color amarillo en automatico. 
+![alt text](image-9.png)
+Con solamente dar clic al boton y seleccionar el texto, aparecera tu texto resaltado. 
+###### HorizontalRuleButton
+Es una herramienta que se creo con el proposito de que el usuario pueda insertar una línea recta en el editor. 
+Lo encontraras en la parte de insertar dentro del toolbarWord 
+![alt text](image-10.png)
+
+Con solamente darle clic, aparecera una línea recta en la hoja. 
+###### InsertImageButton
+Sirve para insertar una imagen dentro de la hoja. Tiene como icono el mismo que se ve en el word tradicional, con solamente darle un clic se abrira el explorador de archivos de su equipo y podra elegir la imagen que desea insertar en el editor.
+
+![alt text](image-11.png)
+
+Al momento de aparecer la imagen en el editor, aparecera tambien un menu flotante con las opciones de: centrar a la izquierda, al medio y a la derecha. 
+
+###### InsertVariableSelect
 
 El componente **InsertVariableSelect** es el componente que se utiliza para insertar variables dentro de un select, su funcion es mas que todo para ayudar al usuario como tipo recordatorio de que variables puede usar en la plantilla y de una manera facil, lo selecciona y se colocara automaticamente en la hoja: 
 
@@ -200,10 +224,20 @@ un select aparecera en el wordToolbar donde se podra elegir cualquier variable.
 
 ![alt text](image-1.png)
 Al seleccionar aparecera automaticamente en el DocumentoEditor (la hoja)
-evitando asi que el usuario tenga que escribir o adivinar que variable necesita 
+evitando asi que el usuario tenga que escribir o adivinar que variable necesita.
+
+###### SubscriptButton
+
+###### SuperscriptButton
+###### TextAlignGroup
+###### UnderlineSelect
 
 
+##### Extensiones
+Esta carpeta es mas que todo para guardar las extensiones que se usaron en el tiptap.
 
+###### Underline
+Es la extension para los subrayados diferentes que cuenta el word tradicional
 
 
 

@@ -7,8 +7,9 @@ import StarterKit from "@tiptap/starter-kit";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { FontFamily } from "@tiptap/extension-font-family";
 import ResizeImage from "tiptap-extension-resize-image";
-import FontSize from "./extensions/FontSize";
-import { UnderlineStyle } from "./extensions/Underline";
+
+import { FontSize } from "@tiptap/extension-text-style";
+import {UnderlineStyle} from "./extensions/Underline";
 import Highlight from "@tiptap/extension-highlight";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
