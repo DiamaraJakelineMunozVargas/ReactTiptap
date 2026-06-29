@@ -1,6 +1,13 @@
 import api from "./api";
+import axios from "axios"
+
+
 
 export const plantillaService = {
+  BaseUrl:window.origin,
+  setUrl: async (url)=>{
+    plantillaService.BaseUrl = url
+  },
   getAll: async () => {
     const res = await api.get("/plantillas");
     return res.data;

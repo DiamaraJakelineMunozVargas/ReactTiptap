@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { useState, useEffect, useRef } from "react";
@@ -6,7 +7,7 @@ import { toast } from "react-toastify";
 import { EditorRegex, reemplazarVariables } from "../components/Editor-Regex";
 
 import { pacienteService } from "../services/pacienteService";
-import { plantillaService } from "../services/plantillaService";
+import plantillaServiceClass from "../services/plantillaServiceClass";
 import { reporteService } from "../services/reportService";
 
 const Reports = () => {
@@ -30,7 +31,7 @@ const Reports = () => {
         } else {
           const [dataPaciente, dataPlantilla] = await Promise.all([
             pacienteService.getById(paciente_id),
-            plantillaService.getById(plantilla_id),
+            plantillaServiceClass.ById(plantilla_id),
           ]);
 
           setPlantilla(dataPlantilla);

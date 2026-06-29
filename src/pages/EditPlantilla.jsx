@@ -1,8 +1,9 @@
+
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import CreatePage from "../components/Editor-Regex/CreatePage";
 import FormTemplate from "../components/Editor-Regex/FormTemplate";
-import { plantillaService } from "../services/plantillaService";
+import plantillaServiceClass from "../services/plantillaServiceClass";
 
 const EditPlantilla = () => {
   const [infoPlantilla, setInfoPlantilla] = useState({
@@ -37,7 +38,7 @@ const EditPlantilla = () => {
   
   const cargarPlantillasDeServidor = async () => {
     try {
-      const data = await plantillaService.getAll(); 
+      const data = await plantillaServiceClass.All(); 
       setInfoPlantilla({
         ready: true,
         data: data,
@@ -90,7 +91,7 @@ const EditPlantilla = () => {
       };
 
      
-      await plantillaService.update(selectedPlantilla._id, plantillaActualizada);
+      await plantillaServiceClass.update(selectedPlantilla._id, plantillaActualizada);
       
       toast.success("¡Plantilla actualizada correctamente! 🔄");
       

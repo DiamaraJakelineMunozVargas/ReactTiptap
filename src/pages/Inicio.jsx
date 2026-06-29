@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Link} from "react-router-dom";
 import { PlusIcon, Pencil, BookText } from "lucide-react";
@@ -5,7 +6,7 @@ import List from "../components/List";
 import ModalComponente from "../components/ModalComponente";
 import NavbarCompo from "../components/NavbarCompo";
 import { pacienteService } from "../services/pacienteService";
-import { plantillaService } from "../services/plantillaService";
+import plantillaServiceClass from "../services/plantillaServiceClass";
 
 const Inicio = ({ data = [] }) => {
  
@@ -19,7 +20,7 @@ const Inicio = ({ data = [] }) => {
   useEffect(() => {
     const cargarPlantillas = async () => {
       try {
-        const lista = await plantillaService.getAll();
+        const lista = await plantillaServiceClass.All();
         setPlantillas(lista);
       } catch (error) {
         console.error("Error al obtener plantillas:", error);

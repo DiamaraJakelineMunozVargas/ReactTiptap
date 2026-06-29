@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CreatePage from "../components/Editor-Regex/CreatePage";
 import FormTemplate from "../components/Editor-Regex/FormTemplate"; 
-import { plantillaService } from "../services/plantillaService";
+import plantillaServiceClass from "../services/plantillaServiceClass";
 
 const NewPlantilla = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const NewPlantilla = () => {
 
     try {
     
-      await plantillaService.create({
+      await plantillaServiceClass.create({
         
         nombre: formValores.nombre,
         modalidad: formValores.modalidad,
@@ -83,11 +84,11 @@ const NewPlantilla = () => {
     >
   
       <div className="max-w-5xl mx-auto p-4">
-        <FormTemplate 
+        {/* <FormTemplate 
           fields={camposFormulario}
           values={formValores}
           onChange={handleFormChange}
-        />
+        /> */}
         <p className="text-xs text-gray-500 italic text-center mt-4">
           Diseña el contenido base abajo. Recuerda que puedes usar las variables del menú.
         </p>

@@ -15,19 +15,19 @@ import {
   Maximize2
 } from "lucide-react";
 
-import FontFamilySelect from "./componentsWord/FontFamilySelect";
-import FontSizeSelect from "./componentsWord/FontSizeSelect";
-import HeadingSelect from "./componentsWord/HeadingSelect";
-import TextAlignGroup from "./componentsWord/TextAlignGroup";
-import FontColorPicker from "./componentsWord/FontColorPicker";
-import UnderlineSelect from "./componentsWord/UnderlineSelect";
-import FontSizeAdjust from "./componentsWord/FontSizeAdjust";
-import HighlightButton from "./componentsWord/HighlightButton";
-import SuperscriptButton from "./componentsWord/SuperscriptButton";
-import SubscriptButton from "./componentsWord/SubscriptButton";
-import HorizontalRuleButton from "./componentsWord/HorizontalRuleButton";
-import InsertVariableSelect from "./componentsWord/InsertVariableSelect";
-import InsertImageButton from "./componentsWord/InsertImageButton";
+import FontFamilySelect from "./RibbonWord/componentsWord/FontFamilySelect";
+import FontSizeSelect from "./RibbonWord/componentsWord/FontSizeSelect";
+import HeadingSelect from "./RibbonWord/componentsWord/HeadingSelect";
+import TextAlignGroup from "./RibbonWord/componentsWord/TextAlignGroup";
+import FontColorPicker from "./RibbonWord/componentsWord/FontColorPicker";
+import UnderlineSelect from "./RibbonWord/componentsWord/UnderlineSelect";
+import FontSizeAdjust from "./RibbonWord/componentsWord/FontSizeAdjust";
+import HighlightButton from "./RibbonWord/componentsWord/HighlightButton";
+import SuperscriptButton from "./RibbonWord/componentsWord/SuperscriptButton";
+import SubscriptButton from "./RibbonWord/componentsWord/SubscriptButton";
+import HorizontalRuleButton from "./RibbonWord/componentsWord/HorizontalRuleButton";
+import InsertVariableSelect from "./RibbonWord/componentsWord/InsertVariableSelect";
+import InsertImageButton from "./RibbonWord/componentsWord/InsertImageButton";
 
 const Wordtoolbar = ({ editor, handleSave, handlePrint, variables }) => {
   if (!editor) return null;

@@ -15,6 +15,8 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import DocumentEditor from "./DocumentEditor";
 import { useReactToPrint } from "react-to-print";
+import RibbonWord from "./RibbonWord/RibbonWord";
+
 
 
 const EditorRegex = ({
@@ -139,13 +141,16 @@ const EditorRegex = ({
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
-        <Wordtoolbar
+        {/* <Wordtoolbar
           editor={editorTemplate}
           handleSave={handleSave}
           handlePrint={onPrint || handlePrint}
           variables={variables}
-        />
+        /> */}
+           <RibbonWord editor={editorTemplate} handleSave={handleSave} handlePrint={handlePrint} variables={variables}/>
       </div>
+   
+  
       {children}
      
       <div ref={documentoRef} className="print-content-wrapper">
