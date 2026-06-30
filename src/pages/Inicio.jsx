@@ -1,35 +1,43 @@
-
 import { useEffect, useState } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PlusIcon, Pencil, BookText } from "lucide-react";
 import List from "../components/List";
 import ModalComponente from "../components/ModalComponente";
 import NavbarCompo from "../components/NavbarCompo";
-import { pacienteService } from "../services/pacienteService";
-import plantillaServiceClass from "../services/plantillaServiceClass";
+import pacienteService from "../services/pacienteService";
+import plantillaService from "../services/plantillaServiceClass";
 
-const Inicio = ({ data = [] }) => {
- 
-
- 
+const Inicio = () => {
   const [selectedNote, setSelectedNote] = useState(null);
-  const [reportesDelPaciente, setReportesDelPaciente] = useState([]); 
-  const [plantillas, setPlantillas] = useState([]); 
-  const [search, setSearch] = useState(""); 
+  const [reportesDelPaciente, setReportesDelPaciente] = useState([]);
+  const [search, setSearch] = useState("");
+  
+  
+  const [listaPacientes, setListaPacientes] = useState([]);
+  const [listaPlantillas, setListaPlantillas] = useState([]);
 
+  
   useEffect(() => {
-    const cargarPlantillas = async () => {
+    const cargarDatosIniciales = async () => {
       try {
-        const lista = await plantillaServiceClass.All();
-        setPlantillas(lista);
+      
+        const pacs = await pacienteService.loadPacientes();
+        
+        const plants = plantillaService.loadPlantillas 
+          ? await plantillaService.loadPlantillas() 
+          : plantillaService.All;
+
+        setListaPacientes(pacs);
+        setListaPlantillas(plants);
       } catch (error) {
-        console.error("Error al obtener plantillas:", error);
+        console.error("Error cargando los datos en Inicio:", error);
       }
     };
-    cargarPlantillas();
+
+    cargarDatosIniciales();
   }, []);
 
- 
+  
   useEffect(() => {
     if (!selectedNote) {
       setReportesDelPaciente([]);
@@ -39,52 +47,61 @@ const Inicio = ({ data = [] }) => {
     const cargarReportes = async () => {
       try {
         const reportes = await pacienteService.getReportes(selectedNote._id);
-        setReportesDelPaciente(reportes);
+        setReportesDelPaciente(reportes || []);
       } catch (error) {
-        console.error("Error al traer reportes:", error);
+        console.error(error);
         setReportesDelPaciente([]);
       }
     };
+
     cargarReportes();
   }, [selectedNote]);
 
-
   const manejarEditarReporte = (reporte) => {
-    window.open(`/reports/${reporte._id}`, "_blank", "width=1200,height=820,resizable=yes");
+    window.open(
+      `/reports/${reporte._id}`,
+      "_blank",
+      "width=1200,height=820,resizable=yes",
+    );
     setSelectedNote(null);
   };
 
   const manejarSeleccionarPlantilla = (plantilla) => {
     if (!selectedNote) return;
-    window.open(`/reports/${selectedNote._id}/${plantilla._id}`, "_blank", "width=1200,height=820,resizable=yes");
+    window.open(
+      `/reports/${selectedNote._id}/${plantilla._id}`,
+      "_blank",
+      "width=1200,height=820,resizable=yes",
+    );
     setSelectedNote(null);
   };
 
   
-  const datosFormateadosParaLista = data.map((paciente) => ({
+  const datosFormateadosParaLista = listaPacientes.map((paciente) => ({
     id: paciente._id,
     titulo: paciente.name,
     subtitulo: `Edad: ${paciente.edad}`,
     imagen: "public/image/imagen.png",
-    originalData: paciente
+    originalData: paciente,
   }));
 
   const reportesMapeados = reportesDelPaciente.map((rep) => ({
     id: rep._id,
     celda1: rep.plantillaId?.modalidad || "S/M",
     celda2: rep.plantillaId?.nombre || "Sin nombre",
-    originalData: rep
+    originalData: rep,
   }));
 
-  const plantillasFiltradasYMapeadas = plantillas
-    .filter((p) =>
-      p?.nombre?.toLowerCase().includes(search.toLowerCase()) || 
-      p?.modalidad?.toLowerCase().includes(search.toLowerCase())
+  const plantillasFiltradasYMapeadas = listaPlantillas
+    .filter(
+      (p) =>
+        p?.nombre?.toLowerCase().includes(search.toLowerCase()) ||
+        p?.modalidad?.toLowerCase().includes(search.toLowerCase()),
     )
     .map((p) => ({
       id: p._id,
       textoVisible: `${p.modalidad} - ${p.nombre}`,
-      originalData: p
+      originalData: p,
     }));
 
   return (
@@ -93,26 +110,34 @@ const Inicio = ({ data = [] }) => {
 
       <div className="max-w-[1540px] mx-auto mt-16 p-4 flex flex-col gap-4">
         <div className="flex flex-wrap gap-4 justify-end">
-          <Link to="/CreatePage" className="btn btn-soft btn-primary font-bold text-[1.1em] flex gap-2">
+          <Link
+            to="/CreatePage"
+            className="btn btn-soft btn-primary font-bold text-[1.1em] flex gap-2"
+          >
             <PlusIcon size={18} /> Agregar Nueva Plantilla
           </Link>
-          <Link to="/editPlantilla" className="btn btn-soft btn-primary font-bold text-[1.1em] flex gap-2">
+          <Link
+            to="/editPlantilla"
+            className="btn btn-soft btn-primary font-bold text-[1.1em] flex gap-2"
+          >
             <Pencil size={18} /> Editar Plantilla
           </Link>
         </div>
 
-        <h1 className="font-bold text-2xl lg:text-3xl my-2">Lista de Reportes</h1>
-        
-        
-        <List 
-          data={datosFormateadosParaLista} 
-          onActionClick={(pacienteOriginal) => setSelectedNote(pacienteOriginal)}
+        <h1 className="font-bold text-2xl lg:text-3xl my-2">
+          Lista de Reportes
+        </h1>
+
+        <List
+          data={datosFormateadosParaLista}
+          onActionClick={(pacienteOriginal) =>
+            setSelectedNote(pacienteOriginal)
+          }
           textoBoton="Reporte"
           iconoBoton={BookText}
         />
       </div>
 
-   
       <ModalComponente
         isOpen={!!selectedNote}
         onClose={() => {

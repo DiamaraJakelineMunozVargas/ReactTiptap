@@ -84,11 +84,11 @@ const NewPlantilla = () => {
     >
   
       <div className="max-w-5xl mx-auto p-4">
-        {/* <FormTemplate 
+        <FormTemplate 
           fields={camposFormulario}
           values={formValores}
           onChange={handleFormChange}
-        /> */}
+        />
         <p className="text-xs text-gray-500 italic text-center mt-4">
           Diseña el contenido base abajo. Recuerda que puedes usar las variables del menú.
         </p>

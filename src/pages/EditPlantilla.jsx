@@ -38,7 +38,7 @@ const EditPlantilla = () => {
   
   const cargarPlantillasDeServidor = async () => {
     try {
-      const data = await plantillaServiceClass.All(); 
+      const data = await plantillaServiceClass.loadPlantillas(); 
       setInfoPlantilla({
         ready: true,
         data: data,

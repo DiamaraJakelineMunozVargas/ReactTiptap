@@ -7,8 +7,20 @@ const FontColorPicker = ({ editor }) => {
 
   const inputColor = useRef();
 
-  const currentColor = editor.getAttributes("textStyle").color ?? "#000000";
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (pickerRef.current && !pickerRef.current.contains(e.target))
+        setOpen(false);
+    };
+
+    document.addEventListener("mousedown", handleClick);
+
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
   if (!editor) return null;
+
+  const currentColor = editor.getAttributes("textStyle").color ?? "#000000";
 
   const themeColors = [
     [
@@ -95,16 +107,6 @@ const FontColorPicker = ({ editor }) => {
       style={{ backgroundColor: color }}
     />
   );
-  useEffect(() => {
-    const handleClick = (e) => {
-      if (pickerRef.current && !pickerRef.current.contains(e.target))
-        setOpen(false);
-    };
-
-    document.addEventListener("mousedown", handleClick);
-
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
   return (
     <div className="relative">
       <button

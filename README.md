@@ -19,28 +19,38 @@ Permite crear plantillas dinamicas variables personalizadas que posteriormente p
 
 ## Estructura 
  
-
 ```
 └── 📁src
     └── 📁components
         └── 📁Editor-Regex
-            └── 📁componentsWord
-                ├── FontColorPicker.jsx
-                ├── FontFamilySelect.jsx
-                ├── FontSizeAdjust.jsx
-                ├── FontSizeSelect.jsx
-                ├── HeadingSelect.jsx
-                ├── HighlightButton.jsx
-                ├── HorizontalRuleButton.jsx
-                ├── InsertImageButton.jsx
-                ├── InsertVariableSelect.jsx
-                ├── SubscriptButton.jsx
-                ├── SuperscriptButton.jsx
-                ├── TextAlignGroup.jsx
-                ├── UnderlineSelect.jsx
             └── 📁extensions
-                ├── FontSize.js
                 ├── Underline.js
+            └── 📁RibbonWord
+                └── 📁componentsWord
+                    ├── BoldButton.jsx
+                    ├── FontColorPicker.jsx
+                    ├── FontFamilySelect.jsx
+                    ├── FontSizeAdjust.jsx
+                    ├── FontSizeSelect.jsx
+                    ├── HeadingSelect.jsx
+                    ├── HighlightButton.jsx
+                    ├── HorizontalRuleButton.jsx
+                    ├── InsertImageButton.jsx
+                    ├── InsertVariableSelect.jsx
+                    ├── ItalicButton.jsx
+                    ├── StrikeButton.jsx
+                    ├── SubscriptButton.jsx
+                    ├── SuperscriptButton.jsx
+                    ├── TextAlignGroup.jsx
+                    ├── UnderlineSelect.jsx
+                └── 📁tabs
+                    ├── HomeTabs.jsx
+                ├── BulletListButton.jsx
+                ├── RibbonButton.jsx
+                ├── RibbonGroup.jsx
+                ├── RibbonTabs.jsx
+                ├── RibbonWord.jsx
+                ├── SpliButton.jsx
             └── 📁styles
                 ├── documento.css
                 ├── styletiptap.css
@@ -58,6 +68,10 @@ Permite crear plantillas dinamicas variables personalizadas que posteriormente p
         ├── ModalComponente.jsx
         ├── NavbarCompo.jsx
         ├── SearchComponent.jsx
+    └── 📁interfaces
+        ├── paciente.js
+        ├── plantillas.js
+        ├── reporte.js
     └── 📁pages
         ├── EditPlantilla.jsx
         ├── Inicio.jsx
@@ -66,13 +80,15 @@ Permite crear plantillas dinamicas variables personalizadas que posteriormente p
     └── 📁services
         ├── api.js
         ├── pacienteService.js
-        ├── plantillaService.js
+        ├── plantillaServiceClass.js
         ├── reportService.js
     ├── App.jsx
     ├── index.css
     ├── main.jsx
     └── scss.d.ts
 ```
+
+
 ## Arquitectura
 
 El proyecto fue diseñado bajo una arquitectura modular.
@@ -101,7 +117,7 @@ Dentro de esta carpeta se encuentra lo siguiente:
 - EditorRegex
 - Formulario 
 - Tiptap 
-- Wordtoolbar 
+- RibbonWord
 - Documento
 
 ##### Componentes Word 
@@ -119,125 +135,42 @@ Los componentes de Word son las herramientas basicas que tiene un editor de text
 - Superscriptbutton 
 - TextAlignGroup
 - UnderlineSelect 
-###### FontColorPicker
-El componente **FontColorPicker** es el componente que tiene la funcion del cambio de color del texto, tipo como el word tradicional. Tiene todoslos colores ordenados en columnas, ademas de contar tambien con los colores estandar y con una paleta de colores donde puedes elegir un color nuevo.
-
-![alt text](image-12.png)
-
-Dentro del WordToolbar lo encontraras como en el word tradicional, puedes elegir cualquiera de los colores que se ve en pantalla.
-
-**Como funciona este componente FontColor**
-
-![alt text](image-2.png)
-
-El **FontColorPicker**  funciona como se ve en la imagen, puede seleccionar el texto que escribiste y luego seleccionar el icono de FontColor que tiene la forma de una A mayuscula, al seleccionarlo se abrira un menu flotante de colores, donde selecionas uno y el texto tendra el color que seleccionaste. 
-tambien puedes seleccionar primero el color y al escribir el texto saldra del color que elegiste. 
-
-###### FontFamilySelect
-El componente **FontFamilySelect** es un select donde puedes elegir el tipo de fuente: 
-```
-const fontOptions = [
-  { value: "Arial", label: "Arial" },
-  { value: "Verdana", label: "Verdana" },
-  { value: "Times New Roman", label: "Times New Roman" },
-  { value: "Georgia", label: "Georgia" },
-];
-```
-por el momento cuenta con las siguientes fuentes: Arial, Verdana, Times New Roman y Georgia. 
-
-Al igual que en el Word, se puede apreciar dentro de las herramientas, un select que dice: Arial, el select se puede abrir al darle clic y aparecera como un menu flotante las demas fuentes que contiene: 
-![alt text](image-4.png)
-**Como funciona este componente FontFamilySelect**
-
-Con solamente seleccionar una de las fuentes del menu flotante de **FontFamilySelect** , todo lo que escribas en el documento estara con la fuente que elegiste. 
-Tambien puedes seleccionar un texto y luego seleccionar la fuente que elijas para el texto seleccionado. 
-
-###### FontSizeAdjust 
-El componente **FontSizeAdjust** al igual que en el word Tradicional, sirve para aumentar o disminuir el tamaño de la letra dentro del documento. 
-En el wordToolbar lo puedes encontrar de esta manera, con el simbolo de una A mayuscula con una flecha apuntando hacia arriba y una A mayuscula con una flecha apuntado hacia abajo que es para disminuir, de la siguiente manera: 
-![alt text](image-5.png)
-**Como funciona este componente FontSizeAdjust**
-Solo seleccionas cualquiera de los dos simbolos. 
-- Para **aumentar**, seleccionas la A mayuscula que tiene una flecha apuntando hacia arriba. 
-- Para **disminuir** el tamaño, seleccionas la A mayuscula que tiene una flecha apuntando hacia abajo. 
-
-Puedes hacerlo seleccionando el texto o incluso sin seleccionarlo y solamente seleccionar uno de los dos: **aumentar** / **disminuir**
-
-###### FontSizeSelect 
-Este componente tiene la misma funcion que el componente FontSize del word tradicional. 
-En el wordToolbar lo puedes encontrar como un select y un numero 12, que es la fuente por defecto que viene el documento. 
-Dentro del componente tiene los siguientes tamaños: 
-```
-const sizeOptions = [
-  { value: "8px", label: "8" },
-  { value: "9px", label: "9" },
-  { value: "10px", label: "10" },
-  { value: "11px", label: "11" },
-  { value: "12px", label: "12" },
-  { value: "14px", label: "14" },
-  { value: "16px", label: "16" },
-  { value: "18px", label: "18" },
-  { value: "20px", label: "20" },
-  { value: "24px", label: "24" },
-  { value: "28px", label: "28" },
-  { value: "32px", label: "32" },
-  { value: "36px", label: "36" },
-  { value: "48px", label: "48" },
-  { value: "72px", label: "72" },
-];
-```
-puedes seleccionar cualquiera y el texto cambiara de tamaño segun el número que seleccionaste. 
-**Como funciona este componente FontSizeSelect**
-![alt text](image-6.png)
-Dale clic al select que tiene el número 12 y se abrira un menu emergente, donde estara los numeros desde el 8 hasta el número 72. 
-Seleccionas el número que prefieras y el texto del documento cambiara su tamaño, aumentara o disminuira segun el número que seleccionaste. 
-![alt text](image-7.png)
-
-###### HeadingSelect
-El componente **HeadingSelect** es un select encontrado en la parte del toolbar Word, al igual que el word tradicional sirve para seleccionar el tipo de texto como: 
-![alt text](image-8.png)
-y solamente debes seleccionar uno y el cambio se reflejara en el editor. 
-###### HighlightButton
-Tiene como icono un resaltador, su funcion es resaltar el texto, viene con el color amarillo en automatico. 
-![alt text](image-9.png)
-Con solamente dar clic al boton y seleccionar el texto, aparecera tu texto resaltado. 
-###### HorizontalRuleButton
-Es una herramienta que se creo con el proposito de que el usuario pueda insertar una línea recta en el editor. 
-Lo encontraras en la parte de insertar dentro del toolbarWord 
-![alt text](image-10.png)
-
-Con solamente darle clic, aparecera una línea recta en la hoja. 
-###### InsertImageButton
-Sirve para insertar una imagen dentro de la hoja. Tiene como icono el mismo que se ve en el word tradicional, con solamente darle un clic se abrira el explorador de archivos de su equipo y podra elegir la imagen que desea insertar en el editor.
-
-![alt text](image-11.png)
-
-Al momento de aparecer la imagen en el editor, aparecera tambien un menu flotante con las opciones de: centrar a la izquierda, al medio y a la derecha. 
-
-###### InsertVariableSelect
-
-El componente **InsertVariableSelect** es el componente que se utiliza para insertar variables dentro de un select, su funcion es mas que todo para ayudar al usuario como tipo recordatorio de que variables puede usar en la plantilla y de una manera facil, lo selecciona y se colocara automaticamente en la hoja: 
-
-![imagen](image.png)
-un select aparecera en el wordToolbar donde se podra elegir cualquier variable. 
-
-
-![alt text](image-1.png)
-Al seleccionar aparecera automaticamente en el DocumentoEditor (la hoja)
-evitando asi que el usuario tenga que escribir o adivinar que variable necesita.
-
-###### SubscriptButton
-
-###### SuperscriptButton
-###### TextAlignGroup
-###### UnderlineSelect
-
 
 ##### Extensiones
 Esta carpeta es mas que todo para guardar las extensiones que se usaron en el tiptap.
 
 ###### Underline
 Es la extension para los subrayados diferentes que cuenta el word tradicional
+##### Utils
+
+Dentro de la carpeta **utils** tenemos nuestro motor regex 
+###### Motor Regex
+```
+export const reemplazarVariables = (template, datos) => {
+  return template.replace(
+    /{{(.*?)}}/g,
+
+    (_, variable) => {
+      const keys = variable.trim().split(".");
+
+      let valor = datos;
+
+      for (const key of keys) {
+        valor = valor?.[key];
+      }
+
+      if (typeof valor === "string" && /^\d{4}-\d{2}-\d{2}T/.test(valor)) {
+        return new Date(valor).toLocaleDateString();
+      }
+
+      return valor ?? "";
+    },
+  );
+};
+```
+La función **reemplazarVariables** es un motor de renderizado de plantillas ligero. Recibe una cadena de texto (template) que contiene marcadores de posición con formato de llaves dobles {{ objeto.propiedad }} y un objeto con información (datos). Su objetivo es buscar todos los marcadores en la plantilla y reemplazarlos dinámicamente con los valores reales correspondientes.
+
+Además, cuenta con un formateador automático que detecta si el valor es una fecha en formato ISO y la transforma a un formato local legible.
 
 
 

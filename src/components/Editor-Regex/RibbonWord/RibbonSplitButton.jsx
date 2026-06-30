@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 
-const SplitButton = ({
+const RibbonSplitButton = ({
   icon,
   active,
+  disabled,
   title,
   onMainClick,
   children,
@@ -32,7 +33,7 @@ const SplitButton = ({
 
   return (
     <div
-      className="relative inline-flex"
+      className="relative inline-flex items-stretch"
       ref={menuRef}
     >
       {/* Acción principal */}
@@ -40,6 +41,7 @@ const SplitButton = ({
         className={`word-btn-sm ${
           active ? "active" : ""
         }`}
+        disabled={disabled}
         title={title}
         onClick={onMainClick}
       >
@@ -49,19 +51,21 @@ const SplitButton = ({
       {/* Flecha */}
       <button
         className="word-btn-sm border-l"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(open => !open)}
       >
         <ChevronDown size={12} />
       </button>
 
       {/* Popup */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-white border rounded shadow-lg z-50">
-          {children}
+        <div className="absolute top-full left-0 mt-1 bg-white border border-gray-300 rounded-md shadow-xl z-50 p-1">
+          {children({
+            closeMenu: () => setIsOpen(false),
+          })}
         </div>
       )}
     </div>
   );
 };
 
-export default SplitButton;
+export default RibbonSplitButton;

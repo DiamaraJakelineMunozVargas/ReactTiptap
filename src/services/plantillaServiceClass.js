@@ -2,7 +2,7 @@
 import axios from "axios";
 
 class plantillaService {
-  contructor() {
+  constructor() {
     this.api = axios.create({
       baseURL: window.origin,
     });
@@ -33,21 +33,37 @@ class plantillaService {
     return this.plantillas;
   }
   ById(id) {
-    for (const plantilla of this.plantillas) {
-      if (plantilla._id === id) {
-        return plantilla;
-      }
-    }
-    return null;
+    return this.plantillas.find((plantilla) => plantilla._id === id) ?? null;
   }
   async create(data) {
     const res = await this.api.post("/plantillas", data);
+
+    this.plantillas.push(res.data);
+
     return res.data;
   }
   async update(id, data) {
     const res = await this.api.put(`/plantillas/${id}`, data);
+
+    const index = this.plantillas.findIndex((p) => p._id === id);
+
+    if (index !== -1) {
+      this.plantillas[index] = res.data;
+    }
+
     return res.data;
   }
+  async delete(id) {
+
+    await this.api.delete(`/plantillas/${id}`);
+
+    this.plantillas = this.plantillas.filter(
+
+        plantilla => plantilla._id !== id
+
+    );
+
+}
 }
 
 export default new plantillaService();

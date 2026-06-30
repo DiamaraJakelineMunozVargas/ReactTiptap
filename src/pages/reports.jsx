@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { useState, useEffect, useRef } from "react";
@@ -6,9 +5,9 @@ import { LifeLine } from "react-loading-indicators";
 import { toast } from "react-toastify";
 import { EditorRegex, reemplazarVariables } from "../components/Editor-Regex";
 
-import { pacienteService } from "../services/pacienteService";
+import pacienteService from "../services/pacienteService";
 import plantillaServiceClass from "../services/plantillaServiceClass";
-import { reporteService } from "../services/reportService";
+import reportService from "../services/reportService";
 
 const Reports = () => {
   const [plantilla, setPlantilla] = useState(null);
@@ -16,21 +15,25 @@ const Reports = () => {
   const [reporte, setReporte] = useState(null);
   const [ready, setReady] = useState(false);
 
+
+
   const { paciente_id, plantilla_id, reporte_id } = useParams();
 
   useEffect(() => {
     const cargarTodaLaData = async () => {
       try {
         if (reporte_id) {
-          const dataReporte = await reporteService.getById(reporte_id);
+          await reportService.loadReportes();
+          const dataReporte = reportService.ById(reporte_id);
 
+      
           setReporte(dataReporte);
           setPaciente(dataReporte.pacId);
           setPlantilla(dataReporte.plantillaId);
           setReady(true);
         } else {
           const [dataPaciente, dataPlantilla] = await Promise.all([
-            pacienteService.getById(paciente_id),
+            pacienteService.ById(paciente_id),
             plantillaServiceClass.ById(plantilla_id),
           ]);
 
@@ -60,13 +63,11 @@ const Reports = () => {
   const handleSave = async () => {
     try {
       if (reporte._id) {
-       
-        await reporteService.update(reporte._id, reporte);
+        await reportService.update(reporte._id, reporte);
         toast.success("¡Reporte Actualizado correctamente!");
       } else {
-       
-        const nuevoReporte = await reporteService.create(reporte);
-      
+        const nuevoReporte = await reportService.create(reporte);
+
         setReporte(nuevoReporte);
         toast.success("¡Reporte Guardado con éxito!");
       }
