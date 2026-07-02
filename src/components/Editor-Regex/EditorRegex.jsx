@@ -16,17 +16,22 @@ import DocumentEditor from "./DocumentEditor";
 import { useReactToPrint } from "react-to-print";
 import RibbonWord from "./RibbonWord/RibbonWord";
 import AutoCorrect from "./extensions/AutoCorrect";
+import CustomOrderedList from "./extensions/CustomOrderedList";
+
 const EditorRegex = ({
   children,
   onSave,
   variables = [],
   initialContent = "",
   onChange,
+  mostrarQR,
+  qrValue
 }) => {
   const editorTemplate = useEditor({
     extensions: [
       StarterKit.configure({
         bulletList: false,
+        orderedList:false,
       }),
       TextStyle,
       FontFamily,
@@ -34,7 +39,7 @@ const EditorRegex = ({
       UnderlineStyle,
       AutoCorrect,
       CustomBulletList,
-
+CustomOrderedList,
       ResizeImage.extend({
         selectable: true,
         addAttributes() {
@@ -150,7 +155,7 @@ const EditorRegex = ({
       {children}
 
       <div ref={documentoRef} className="print-content-wrapper">
-        <DocumentEditor editor={editorTemplate} />
+        <DocumentEditor editor={editorTemplate} mostrarQR={mostrarQR} qrValue={qrValue}/>
       </div>
     </div>
   );

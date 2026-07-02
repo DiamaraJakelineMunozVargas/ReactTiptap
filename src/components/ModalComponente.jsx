@@ -11,7 +11,7 @@ const ModalComponente = ({
   datosSuperiores = [],
   onAccionSuperior,
   textoBotonSuperior = "Editar",
-  iconoBotonSuperior: IconoSuperior = Pencil,
+  iconoBotonSuperior,
 
   tituloSeccionInferior = "Seleccionar opción",
   datosInferiores = [],
@@ -21,6 +21,7 @@ const ModalComponente = ({
   onSearchChange,
   placeholderBuscar = "Buscar...", 
 }) => {
+    const IconoSuperior = iconoBotonSuperior ?? Pencil;
   const dialogRef = useRef(null);
 
   // Control del diálogo nativo de HTML5

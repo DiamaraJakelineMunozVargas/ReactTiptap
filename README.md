@@ -12,10 +12,53 @@ Permite crear plantillas dinamicas variables personalizadas que posteriormente p
 - Formularios reutilizables
 - Componentes completamente modulares
 - Integración con cualquier API o backend
+- Ribbon al estilo word
 ## Instalación
 
 - npm install
 - npm run dev
+### Otros tipos de instalaciones: 
+#### Usando npm
+```
+npm install @floating-ui/react @tailwindcss/vite @tiptap/extension-color @tiptap/extension-font-family @tiptap/extension-highlight @tiptap/extension-image @tiptap/extension-subscript @tiptap/extension-superscript @tiptap/extension-text-align @tiptap/extension-text-style @tiptap/extension-underline @tiptap/pm @tiptap/react @tiptap/starter-kit axios html2pdf.js lucide-react react react-dom react-hotkeys-hook react-loading-indicators react-qr-code react-rnd react-router-dom react-select react-to-print react-toastify sass tailwindcss tiptap-extension-resize-image
+
+npm install -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react daisyui eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals sass-embedded vite
+```
+#### Usando pnpm
+```
+pnpm add @floating-ui/react @tailwindcss/vite @tiptap/extension-color @tiptap/extension-font-family @tiptap/extension-highlight @tiptap/extension-image @tiptap/extension-subscript @tiptap/extension-superscript @tiptap/extension-text-align @tiptap/extension-text-style @tiptap/extension-underline @tiptap/pm @tiptap/react @tiptap/starter-kit axios html2pdf.js lucide-react react react-dom react-hotkeys-hook react-loading-indicators react-qr-code react-rnd react-router-dom react-select react-to-print react-toastify sass tailwindcss tiptap-extension-resize-image
+
+pnpm add -D @eslint/js @types/react @types/react-dom @vitejs/plugin-react daisyui eslint eslint-plugin-react-hooks eslint-plugin-react-refresh globals sass-embedded vite
+```
+#### Núcleo y Extensiones de TipTap
+Este bloque instala el editor TipTap junto con el Starter Kit y las extensiones personalizadas de estilos, alineación, color, subíndices e imágenes redimensionables.
+
+```
+npm install @tiptap/core @tiptap/react @tiptap/pm @tiptap/starter-kit @tiptap/extension-color @tiptap/extension-font-family @tiptap/extension-highlight @tiptap/extension-image @tiptap/extension-subscript @tiptap/extension-superscript @tiptap/extension-text-align @tiptap/extension-text-style @tiptap/extension-underline tiptap-extension-resize-image
+```
+#### Interfaz, Estilos y UI (Tailwind v4 & DaisyUI)
+Librerías encargadas del diseño visual de la barra de herramientas (Ribbon), menús flotantes, dropdowns y componentes interactivos.
+
+```
+npm install @floating-ui/react lucide-react sass tailwindcss @tailwindcss/vite
+npm install -D daisyui sass-embedded
+```
+
+#### Funcionalidades del Sistema e Impresión
+Herramientas críticas para la navegación, peticiones HTTP, generación de PDFs, códigos QR, componentes arrastrables/redimensionables (react-rnd) y el sistema de alertas.
+
+```
+npm install axios react-router-dom html2pdf.js react-to-print react-qr-code react-rnd react-hotkeys-hook react-loading-indicators react-toastify
+```
+
+#### Entorno de Desarrollo (Vite, React 19 y Linters)
+Paquetes requeridos estrictamente para compilar el proyecto y mantener la calidad del código limpio.
+
+```
+npm install react react-dom
+npm install -D vite @vitejs/plugin-react eslint @eslint/js eslint-plugin-react-hooks eslint-plugin-react-refresh globals @types/react @types/react-dom
+```
+
 
 ## Estructura 
  

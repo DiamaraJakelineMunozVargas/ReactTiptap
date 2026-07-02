@@ -4,9 +4,10 @@ const List = ({
   data = [],
   onActionClick,
   textoBoton = "Ver",
-  iconoBoton: Icono = BookText,
+  iconoBoton,
   imagen = "https://i.pravatar.cc/100",
 }) => {
+  const Icono = iconoBoton ?? BookText;
   return (
     <div className="bg-base-100 w-full ">
       <ul className="list bg-base-100 rounded-box shadow-md">

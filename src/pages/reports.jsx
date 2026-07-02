@@ -15,8 +15,6 @@ const Reports = () => {
   const [reporte, setReporte] = useState(null);
   const [ready, setReady] = useState(false);
 
-
-
   const { paciente_id, plantilla_id, reporte_id } = useParams();
 
   useEffect(() => {
@@ -26,7 +24,6 @@ const Reports = () => {
           await reportService.loadReportes();
           const dataReporte = reportService.ById(reporte_id);
 
-      
           setReporte(dataReporte);
           setPaciente(dataReporte.pacId);
           setPlantilla(dataReporte.plantillaId);
@@ -124,6 +121,8 @@ const Reports = () => {
         onSave={handleSave}
         fechaFormateada={fechaFormateada}
         Imprimir={handlePrint}
+        mostrarQR={Boolean(reporte?._id)}
+        qrValue={paciente?.name || ""}
       />
 
       <div style={{ display: "none" }}>

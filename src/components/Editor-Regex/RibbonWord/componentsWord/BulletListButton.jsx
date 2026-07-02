@@ -1,7 +1,7 @@
 import React from 'react'
-import RibbonSplitButton from './RibbonSplitButton'
+import RibbonSplitButton from '../RibbonSplitButton'
 import { List } from 'lucide-react'
-import BulletListMenu from './BulletListMenu'
+import BulletListMenu from '../BulletListMenu'
 const BulletListButton = ({editor}) => {
   return (
   <RibbonSplitButton
