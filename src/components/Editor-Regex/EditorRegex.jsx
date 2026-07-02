@@ -1,42 +1,40 @@
 import TextAlign from "@tiptap/extension-text-align";
-import { useEffect, useRef} from "react";
+import { useEffect, useRef } from "react";
 import { useEditor } from "@tiptap/react";
-import Wordtoolbar from "./Wordtoolbar";
 import { Color } from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { FontFamily } from "@tiptap/extension-font-family";
 import ResizeImage from "tiptap-extension-resize-image";
-
+import CustomBulletList from "./extensions/CustomBulletList";
 import { FontSize } from "@tiptap/extension-text-style";
-import {UnderlineStyle} from "./extensions/Underline";
+import { UnderlineStyle } from "./extensions/Underline";
 import Highlight from "@tiptap/extension-highlight";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import DocumentEditor from "./DocumentEditor";
 import { useReactToPrint } from "react-to-print";
 import RibbonWord from "./RibbonWord/RibbonWord";
-
-
-
+import AutoCorrect from "./extensions/AutoCorrect";
 const EditorRegex = ({
- children,
+  children,
   onSave,
-  onPrint,
   variables = [],
   initialContent = "",
   onChange,
 }) => {
-
-
-
   const editorTemplate = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        bulletList: false,
+      }),
       TextStyle,
       FontFamily,
       FontSize,
       UnderlineStyle,
+      AutoCorrect,
+      CustomBulletList,
+
       ResizeImage.extend({
         selectable: true,
         addAttributes() {
@@ -81,7 +79,7 @@ const EditorRegex = ({
             reader.onload = () => {
               const src = reader.result;
 
-              editor
+              editorTemplate
                 .chain()
                 .focus()
                 .setImage({ src })
@@ -98,7 +96,7 @@ const EditorRegex = ({
         const html = event.clipboardData.getData("text/html");
 
         if (html) {
-          editor.chain().focus().insertContent(html).run();
+          editorTemplate.chain().focus().insertContent(html).run();
 
           return true;
         }
@@ -111,7 +109,7 @@ const EditorRegex = ({
             .map((line) => `<p>${line}</p>`)
             .join("");
 
-          editor.chain().focus().insertContent(formattedText).run();
+          editorTemplate.chain().focus().insertContent(formattedText).run();
 
           return true;
         }
@@ -141,18 +139,16 @@ const EditorRegex = ({
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="sticky top-0 z-10 bg-white border-b border-gray-300">
-        {/* <Wordtoolbar
+        <RibbonWord
           editor={editorTemplate}
           handleSave={handleSave}
-          handlePrint={onPrint || handlePrint}
+          handlePrint={handlePrint}
           variables={variables}
-        /> */}
-           <RibbonWord editor={editorTemplate} handleSave={handleSave} handlePrint={handlePrint} variables={variables}/>
+        />
       </div>
-   
-  
+
       {children}
-     
+
       <div ref={documentoRef} className="print-content-wrapper">
         <DocumentEditor editor={editorTemplate} />
       </div>

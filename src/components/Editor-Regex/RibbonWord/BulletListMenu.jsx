@@ -14,15 +14,7 @@ const BulletListMenu = ({ editor, closeMenu }) => {
           key={bullet.type}
           className="px-3 py-2 hover:bg-gray-100 rounded text-left"
           onClick={() => {
-            editor
-              .chain()
-              .focus()
-              .toggleBulletList()
-              .updateAttributes("bulletList", {
-                listStyleType: bullet.type,
-              })
-              .run();
-
+            editor.chain().focus().setBulletStyle(bullet.type).run();
             closeMenu();
           }}
         >
